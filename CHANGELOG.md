@@ -4,6 +4,29 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.3.0] — Phase 2 — UI de combat jouable au doigt
+
+### Ajouté
+- Interface React de combat (`/src/ui`) : main de cartes jouable au tap et
+  au drag, PV/énergie/blocage, intentions ennemies visibles, infobulles de
+  statuts à l'appui long (nom + effet mécanique exact), animations de base,
+  écran de fin de combat avec relance.
+- Store Zustand (`combat-store.ts`) en couche de liaison strictement mince :
+  `engineState` comme unique source de vérité, aucune règle de jeu
+  dupliquée, toute évolution passe par `combatReducer`.
+- Stratégie d'animation par diff avant/après (`diffCombatStates`) : nombres
+  flottants (dégât/bloc/soin) via Framer Motion, jamais d'interpolation des
+  vraies valeurs ni de moteur de timeline générique. Tour ennemi présenté en
+  séquence étalée sans second appel au réducteur.
+- Détection de cible ennemie côté UI en réutilisant
+  `needsSingleEnemyTarget` exporté du moteur (`resolve-play-card.ts`) —
+  aucune logique de jeu dupliquée.
+- 9 nouvelles clés i18n statiques (menu, combat, issue).
+- 12 nouveaux tests Vitest (diff d'animation, store sans rendu React) et un
+  nouveau test e2e Playwright couvrant un combat joué au tap sur mobile.
+- Vérifié manuellement : tap, drag vers un ennemi, drag vers la zone de
+  jeu, infobulle à l'appui long, victoire/défaite et relance.
+
 ## [0.2.0] — Phase 1 — Moteur de combat + tranche verticale
 
 ### Ajouté

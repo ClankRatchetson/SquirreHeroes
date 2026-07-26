@@ -86,4 +86,18 @@ export const fr = {
   "cards.coup_de_semonce.name": "Coup de semonce",
   "cards.coup_de_semonce.nameUpgraded": "Coup de semonce+",
   "cards.coup_de_semonce.flavor": "Un avertissement que personne n'ignore deux fois.",
+
+  // UI — menu et écran de combat
+  "ui.menu.newCombat": "Nouveau combat",
+  "ui.menu.subtitle": "Un combat de démonstration — Casse-Noix contre les 3 ennemis du Potager.",
+  "ui.combat.endTurn": "Fin de tour",
+  "ui.combat.energyLabel": "Énergie",
+  "ui.combat.hpLabel": "PV",
+  "ui.combat.blockLabel": "Bloc",
+  "ui.combat.turnLabel": "Tour",
+  "ui.combat.enemyTurnResolving": "Tour ennemi…",
+  "ui.combat.selectTargetHint": "Choisis une cible",
+  "ui.outcome.victory": "Victoire !",
+  "ui.outcome.defeat": "Défaite",
+  "ui.outcome.replay": "Rejouer",
 } as const;

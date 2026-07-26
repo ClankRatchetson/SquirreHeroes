@@ -1,13 +1,22 @@
-import { t } from "./content/i18n/t";
+import { useState } from "react";
+import { MenuScreen } from "./ui/screens/MenuScreen";
+import { CombatScreen } from "./ui/screens/CombatScreen";
+
+type Screen = "menu" | "combat";
 
 function App() {
-  return (
-    <main className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-stone-900 px-6 text-center text-stone-100">
-      <h1 className="text-3xl font-bold">{t("app.title")}</h1>
-      <p className="text-lg text-amber-400">{t("app.subtitle")}</p>
-      <p className="text-sm text-stone-400">{t("app.tagline")}</p>
-    </main>
-  );
+  const [screen, setScreen] = useState<Screen>("menu");
+
+  if (screen === "menu") {
+    return (
+      <MenuScreen
+        onStart={() => {
+          setScreen("combat");
+        }}
+      />
+    );
+  }
+  return <CombatScreen />;
 }
 
 export default App;

@@ -20,7 +20,7 @@ function effectsOf(state: CombatState, cardInstanceId: string): readonly EffectS
  * unique — suffisant pour le contenu de test, aucune carte n'a de cible
  * ennemie cachée dans une branche conditionnelle.
  */
-function needsSingleEnemyTarget(effects: readonly EffectSpec[]): boolean {
+export function needsSingleEnemyTarget(effects: readonly EffectSpec[]): boolean {
   return effects.some((effect) => "target" in effect && effect.target === "enemy");
 }
 
