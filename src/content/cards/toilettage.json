@@ -1,0 +1,20 @@
+{
+  "id": "toilettage",
+  "nameKey": "cards.toilettage.name",
+  "hero": "neutre",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "removeStatus", "target": "self", "status": "a_decouvert" },
+    { "kind": "heal", "target": "self", "amount": 3 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.toilettage.nameUpgraded",
+    "effects": [
+      { "kind": "removeStatus", "target": "self", "status": "a_decouvert" },
+      { "kind": "heal", "target": "self", "amount": 6 }
+    ]
+  },
+  "flavorKey": "cards.toilettage.flavor"
+}

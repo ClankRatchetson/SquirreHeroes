@@ -1,0 +1,14 @@
+{
+  "id": "carapace_de_granit",
+  "nameKey": "cards.carapace_de_granit.name",
+  "hero": "casse_noix",
+  "type": "pouvoir",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [{ "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 2 }],
+  "upgraded": {
+    "nameKey": "cards.carapace_de_granit.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 3 }]
+  },
+  "flavorKey": "cards.carapace_de_granit.flavor"
+}

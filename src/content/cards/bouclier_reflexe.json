@@ -1,0 +1,20 @@
+{
+  "id": "bouclier_reflexe",
+  "nameKey": "cards.bouclier_reflexe.name",
+  "hero": "neutre",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "block", "target": "self", "amount": 6 },
+    { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 3 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.bouclier_reflexe.nameUpgraded",
+    "effects": [
+      { "kind": "block", "target": "self", "amount": 8 },
+      { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 4 }
+    ]
+  },
+  "flavorKey": "cards.bouclier_reflexe.flavor"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "second_souffle",
+  "nameKey": "cards.second_souffle.name",
+  "hero": "neutre",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "gainEnergy", "amount": 1 },
+    { "kind": "draw", "amount": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.second_souffle.nameUpgraded",
+    "effects": [
+      { "kind": "gainEnergy", "amount": 1 },
+      { "kind": "draw", "amount": 2 }
+    ]
+  },
+  "flavorKey": "cards.second_souffle.flavor"
+}

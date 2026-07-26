@@ -1,0 +1,20 @@
+{
+  "id": "rage_du_terrier",
+  "nameKey": "cards.rage_du_terrier.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "discard", "amount": 1 },
+    { "kind": "damage", "target": "enemy", "amount": 10 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.rage_du_terrier.nameUpgraded",
+    "effects": [
+      { "kind": "discard", "amount": 1 },
+      { "kind": "damage", "target": "enemy", "amount": 14 }
+    ]
+  },
+  "flavorKey": "cards.rage_du_terrier.flavor"
+}

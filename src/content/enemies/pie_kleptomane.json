@@ -1,0 +1,29 @@
+{
+  "id": "pie_kleptomane",
+  "nameKey": "enemies.pie_kleptomane.name",
+  "maxHp": 34,
+  "moves": [
+    {
+      "id": "bec_vif",
+      "nameKey": "enemies.pie_kleptomane.moves.bec_vif.name",
+      "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 2, "amountPerHit": 4 }]
+    },
+    {
+      "id": "vol_eclair",
+      "nameKey": "enemies.pie_kleptomane.moves.vol_eclair.name",
+      "effects": [
+        { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 1 },
+        { "kind": "heal", "target": "self", "amount": 4 }
+      ]
+    },
+    {
+      "id": "repli_furtif",
+      "nameKey": "enemies.pie_kleptomane.moves.repli_furtif.name",
+      "effects": [
+        { "kind": "applyStatus", "target": "self", "status": "repousse", "stacks": 3 },
+        { "kind": "block", "target": "self", "amount": 5 }
+      ]
+    }
+  ],
+  "pattern": ["bec_vif", "vol_eclair", "repli_furtif"]
+}

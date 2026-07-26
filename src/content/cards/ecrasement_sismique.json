@@ -1,0 +1,22 @@
+{
+  "id": "ecrasement_sismique",
+  "nameKey": "cards.ecrasement_sismique.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "legendaire",
+  "cost": 3,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 20 },
+    { "kind": "block", "target": "self", "amount": 10 },
+    { "kind": "exhaust" }
+  ],
+  "upgraded": {
+    "nameKey": "cards.ecrasement_sismique.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 26 },
+      { "kind": "block", "target": "self", "amount": 14 },
+      { "kind": "exhaust" }
+    ]
+  },
+  "flavorKey": "cards.ecrasement_sismique.flavor"
+}

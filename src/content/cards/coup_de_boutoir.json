@@ -1,0 +1,14 @@
+{
+  "id": "coup_de_boutoir",
+  "nameKey": "cards.coup_de_boutoir.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 2,
+  "effects": [{ "kind": "damage", "target": "enemy", "amount": 12 }],
+  "upgraded": {
+    "nameKey": "cards.coup_de_boutoir.nameUpgraded",
+    "effects": [{ "kind": "damage", "target": "enemy", "amount": 16 }]
+  },
+  "flavorKey": "cards.coup_de_boutoir.flavor"
+}

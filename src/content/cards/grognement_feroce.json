@@ -1,0 +1,14 @@
+{
+  "id": "grognement_feroce",
+  "nameKey": "cards.grognement_feroce.name",
+  "hero": "casse_noix",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "self", "status": "force", "stacks": 2 }],
+  "upgraded": {
+    "nameKey": "cards.grognement_feroce.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "self", "status": "force", "stacks": 3 }]
+  },
+  "flavorKey": "cards.grognement_feroce.flavor"
+}

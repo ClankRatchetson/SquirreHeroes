@@ -1,0 +1,21 @@
+{
+  "id": "mulot_masque",
+  "nameKey": "enemies.mulot_masque.name",
+  "maxHp": 42,
+  "moves": [
+    {
+      "id": "griffade",
+      "nameKey": "enemies.mulot_masque.moves.griffade.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 7 }]
+    },
+    {
+      "id": "posture_voleuse",
+      "nameKey": "enemies.mulot_masque.moves.posture_voleuse.name",
+      "effects": [
+        { "kind": "block", "target": "self", "amount": 6 },
+        { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }
+      ]
+    }
+  ],
+  "pattern": ["griffade", "griffade", "posture_voleuse"]
+}

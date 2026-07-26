@@ -1,0 +1,17 @@
+{
+  "id": "casse_noix",
+  "nameKey": "heroes.casse_noix.name",
+  "maxHp": 80,
+  "startingDeck": [
+    "noisette_explosive",
+    "noisette_explosive",
+    "noisette_explosive",
+    "noisette_explosive",
+    "mur_de_ronces",
+    "mur_de_ronces",
+    "mur_de_ronces",
+    "mur_de_ronces",
+    "grognement_feroce",
+    "carapace_de_granit"
+  ]
+}

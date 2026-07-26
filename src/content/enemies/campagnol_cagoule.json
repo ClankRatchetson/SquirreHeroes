@@ -1,0 +1,21 @@
+{
+  "id": "campagnol_cagoule",
+  "nameKey": "enemies.campagnol_cagoule.name",
+  "maxHp": 38,
+  "moves": [
+    {
+      "id": "morsure_toxique",
+      "nameKey": "enemies.campagnol_cagoule.moves.morsure_toxique.name",
+      "effects": [
+        { "kind": "damage", "target": "enemy", "amount": 5 },
+        { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 3 }
+      ]
+    },
+    {
+      "id": "fouissement",
+      "nameKey": "enemies.campagnol_cagoule.moves.fouissement.name",
+      "effects": [{ "kind": "block", "target": "self", "amount": 8 }]
+    }
+  ],
+  "pattern": ["morsure_toxique", "fouissement", "morsure_toxique"]
+}

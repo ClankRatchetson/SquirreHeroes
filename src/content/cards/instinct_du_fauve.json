@@ -1,0 +1,17 @@
+{
+  "id": "instinct_du_fauve",
+  "nameKey": "cards.instinct_du_fauve.name",
+  "hero": "casse_noix",
+  "type": "competence",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [{ "kind": "doubleStatus", "target": "self", "status": "force" }],
+  "upgraded": {
+    "nameKey": "cards.instinct_du_fauve.nameUpgraded",
+    "effects": [
+      { "kind": "doubleStatus", "target": "self", "status": "force" },
+      { "kind": "applyStatus", "target": "self", "status": "force", "stacks": 1 }
+    ]
+  },
+  "flavorKey": "cards.instinct_du_fauve.flavor"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "coup_de_grace",
+  "nameKey": "cards.coup_de_grace.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [
+    {
+      "kind": "conditional",
+      "target": "enemy",
+      "status": "a_decouvert",
+      "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 15 }],
+      "whenFalse": [{ "kind": "damage", "target": "enemy", "amount": 9 }]
+    }
+  ],
+  "upgraded": {
+    "nameKey": "cards.coup_de_grace.nameUpgraded",
+    "effects": [
+      {
+        "kind": "conditional",
+        "target": "enemy",
+        "status": "a_decouvert",
+        "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 19 }],
+        "whenFalse": [{ "kind": "damage", "target": "enemy", "amount": 12 }]
+      }
+    ]
+  },
+  "flavorKey": "cards.coup_de_grace.flavor"
+}

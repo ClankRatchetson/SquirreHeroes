@@ -1,0 +1,14 @@
+{
+  "id": "griffure_croisee",
+  "nameKey": "cards.griffure_croisee.name",
+  "hero": "neutre",
+  "type": "attaque",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 3, "amountPerHit": 4 }],
+  "upgraded": {
+    "nameKey": "cards.griffure_croisee.nameUpgraded",
+    "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 3, "amountPerHit": 5 }]
+  },
+  "flavorKey": "cards.griffure_croisee.flavor"
+}

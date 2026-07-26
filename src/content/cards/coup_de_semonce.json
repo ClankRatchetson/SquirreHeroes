@@ -1,0 +1,20 @@
+{
+  "id": "coup_de_semonce",
+  "nameKey": "cards.coup_de_semonce.name",
+  "hero": "neutre",
+  "type": "attaque",
+  "rarity": "legendaire",
+  "cost": 2,
+  "effects": [
+    { "kind": "damageAll", "amount": 8 },
+    { "kind": "applyStatus", "target": "all_enemies", "status": "etourdi", "stacks": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.coup_de_semonce.nameUpgraded",
+    "effects": [
+      { "kind": "damageAll", "amount": 11 },
+      { "kind": "applyStatus", "target": "all_enemies", "status": "etourdi", "stacks": 1 }
+    ]
+  },
+  "flavorKey": "cards.coup_de_semonce.flavor"
+}

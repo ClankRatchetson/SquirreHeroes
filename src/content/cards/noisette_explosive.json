@@ -1,0 +1,20 @@
+{
+  "id": "noisette_explosive",
+  "nameKey": "cards.noisette_explosive.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 8 },
+    { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.noisette_explosive.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 11 },
+      { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 2 }
+    ]
+  },
+  "flavorKey": "cards.noisette_explosive.flavor"
+}

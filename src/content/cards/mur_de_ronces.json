@@ -1,0 +1,14 @@
+{
+  "id": "mur_de_ronces",
+  "nameKey": "cards.mur_de_ronces.name",
+  "hero": "casse_noix",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "block", "target": "self", "amount": 8 }],
+  "upgraded": {
+    "nameKey": "cards.mur_de_ronces.nameUpgraded",
+    "effects": [{ "kind": "block", "target": "self", "amount": 11 }]
+  },
+  "flavorKey": "cards.mur_de_ronces.flavor"
+}

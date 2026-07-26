@@ -1,0 +1,14 @@
+{
+  "id": "flair_du_fourre",
+  "nameKey": "cards.flair_du_fourre.name",
+  "hero": "neutre",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "draw", "amount": 2 }],
+  "upgraded": {
+    "nameKey": "cards.flair_du_fourre.nameUpgraded",
+    "effects": [{ "kind": "draw", "amount": 3 }]
+  },
+  "flavorKey": "cards.flair_du_fourre.flavor"
+}
