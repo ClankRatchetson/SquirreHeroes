@@ -1,7 +1,8 @@
 import type { Card, CardId, CombatState, EnemyDefinition, EnemyId, EventDefinition, RunState } from "../engine/types";
+import type { MetaProgression } from "../engine/meta";
 
 /** Gouverne la forme du JSON stocké — orthogonal à la structure IndexedDB (cf. `dexie-adapter.ts`). */
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 export type PersistedCombatState = Omit<CombatState, "cardCatalog">;
 
@@ -16,15 +17,15 @@ export interface PersistedRunState
 }
 
 /**
- * Sans `meta`/`settings` (§7 des specs) : ni `MetaProgression` ni un écran
- * de réglages n'existent encore (Phase 5 pour la première, aucune phase
- * prévue pour la seconde avant la v1.0) — les ajouter maintenant serait de
- * l'anticipation prématurée. La Phase 5 fera passer `schemaVersion` à 2 et
- * ajoutera `meta` via une vraie migration.
+ * `meta` (Phase 5) : pas de variante "Persisted" nécessaire —
+ * `MetaProgression` ne contient aucun catalogue de contenu injecté, elle se
+ * sérialise telle quelle. Sans `settings` : aucun écran de réglages
+ * n'existe, l'ajouter maintenant serait de l'anticipation prématurée.
  */
 export interface SaveFile {
   readonly schemaVersion: number;
   readonly currentRun: PersistedRunState | null;
+  readonly meta: MetaProgression;
 }
 
 /** Catalogues de contenu vivants, à réinjecter dans un `PersistedRunState` chargé — jamais stockés tels quels. */

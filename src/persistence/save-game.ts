@@ -1,16 +1,21 @@
+import { INITIAL_META_PROGRESSION } from "../engine/meta";
 import type { StorageAdapter } from "./storage-adapter";
 import { CURRENT_SCHEMA_VERSION, type SaveFile } from "./save-file";
-import { looksLikePersistedRunState, parseEnvelope } from "./validate";
+import { looksLikeMetaProgression, looksLikePersistedRunState, parseEnvelope } from "./validate";
 import { runMigrations } from "./migrations";
 
-const EMPTY_SAVE: SaveFile = { schemaVersion: CURRENT_SCHEMA_VERSION, currentRun: null };
+const EMPTY_SAVE: SaveFile = {
+  schemaVersion: CURRENT_SCHEMA_VERSION,
+  currentRun: null,
+  meta: INITIAL_META_PROGRESSION,
+};
 
 /**
- * Repli sur `EMPTY_SAVE` à la moindre anomalie (pas de préservation
- * partielle : rien d'autre à sauver dans l'enveloppe tant que `meta`
- * n'existe pas, cf. Phase 5) — démarrage à froid, enveloppe corrompue,
- * `schemaVersion` sans chemin de migration, ou `currentRun` dont la forme
- * ne correspond pas à ce qu'on attend produisent tous le même résultat sûr.
+ * Repli sûr à la moindre anomalie : démarrage à froid, enveloppe corrompue,
+ * `schemaVersion` sans chemin de migration retombent sur `EMPTY_SAVE`. Un
+ * `currentRun` corrompu (après migration) retombe sur `currentRun: null`
+ * SANS jeter la `meta` déjà validement migrée — deux états indépendants
+ * depuis la Phase 5, inutile de perdre l'un parce que l'autre est malformé.
  */
 export async function loadSaveFile(adapter: StorageAdapter): Promise<SaveFile> {
   try {
@@ -23,13 +28,14 @@ export async function loadSaveFile(adapter: StorageAdapter): Promise<SaveFile> {
       return EMPTY_SAVE;
     }
     const migrated = runMigrations(envelope.data);
+    const meta = looksLikeMetaProgression(migrated.meta) ? migrated.meta : INITIAL_META_PROGRESSION;
     if (migrated.currentRun === null) {
-      return { schemaVersion: migrated.schemaVersion, currentRun: null };
+      return { schemaVersion: migrated.schemaVersion, currentRun: null, meta };
     }
     if (!looksLikePersistedRunState(migrated.currentRun)) {
-      return EMPTY_SAVE;
+      return { schemaVersion: migrated.schemaVersion, currentRun: null, meta };
     }
-    return { schemaVersion: migrated.schemaVersion, currentRun: migrated.currentRun };
+    return { schemaVersion: migrated.schemaVersion, currentRun: migrated.currentRun, meta };
   } catch {
     return EMPTY_SAVE;
   }

@@ -19,6 +19,7 @@ test("une run est jouable au tap : carte -> nœud -> combat -> retour à un écr
   test.setTimeout(60000);
   await page.goto("/");
   await page.getByRole("button", { name: "Nouvelle run" }).click();
+  await page.getByRole("button", { name: "Commencer" }).click();
 
   const availableNode = page.locator('[data-testid="run-node"][data-status="disponible"]').first();
   await expect(availableNode).toBeVisible();

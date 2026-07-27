@@ -5,6 +5,7 @@ import { CARD_CATALOG } from "../../src/content/cards";
 import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { HERO_CATALOG } from "../../src/content/heroes";
 import { EVENT_CATALOG } from "../../src/content/events";
+import { META_TREE } from "../../src/content/meta-tree";
 
 describe("i18n dictionary", () => {
   it("resolves every declared key to a non-empty string", () => {
@@ -50,6 +51,13 @@ describe("clés i18n référencées par le contenu", () => {
       for (const choice of event.choices) {
         expect(tFromContent(choice.labelKey).length).toBeGreaterThan(0);
       }
+    }
+  });
+
+  it("chaque nameKey/descriptionKey de nœud de l'arbre de Glands d'Or résout vers une chaîne non vide", () => {
+    for (const node of META_TREE) {
+      expect(tFromContent(node.nameKey).length).toBeGreaterThan(0);
+      expect(tFromContent(node.descriptionKey).length).toBeGreaterThan(0);
     }
   });
 });

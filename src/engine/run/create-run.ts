@@ -11,6 +11,10 @@ export interface CreateRunParams {
   readonly eliteEnemyIds: readonly EnemyId[];
   readonly bossEnemyIds: readonly EnemyId[];
   readonly seed: number;
+  /** Bonus de méta-progression (Canal B), additifs et rétro-compatibles — mêmes discipline que deckOverride/heroHpOverride de createCombat. */
+  readonly bonusMaxHp?: number | undefined;
+  readonly upgradedStartingCardIds?: readonly CardId[] | undefined;
+  readonly noisettesBonusPerCombat?: number | undefined;
 }
 
 export function createRun(params: CreateRunParams): RunState {
@@ -23,17 +27,24 @@ export function createRun(params: CreateRunParams): RunState {
   };
   const [map, rng1] = generateMap(rng0, pools);
 
+  const upgradedIds = new Set(params.upgradedStartingCardIds ?? []);
   let nextRunCardSeq = 0;
   const deck: RunDeckEntry[] = params.hero.startingDeck.map((cardId) => {
-    const entry: RunDeckEntry = { runCardId: `run-card-${String(nextRunCardSeq)}`, cardId, upgraded: false };
+    const entry: RunDeckEntry = {
+      runCardId: `run-card-${String(nextRunCardSeq)}`,
+      cardId,
+      upgraded: upgradedIds.has(cardId),
+    };
     nextRunCardSeq += 1;
     return entry;
   });
 
+  const heroMaxHp = params.hero.maxHp + (params.bonusMaxHp ?? 0);
+
   return {
     heroId: params.hero.id,
-    heroMaxHp: params.hero.maxHp,
-    heroHp: params.hero.maxHp,
+    heroMaxHp,
+    heroHp: heroMaxHp,
     deck,
     noisettes: 0,
     map,
@@ -50,5 +61,6 @@ export function createRun(params: CreateRunParams): RunState {
     enemyCatalog: params.enemyCatalog,
     eventCatalog: params.eventCatalog,
     nextRunCardSeq,
+    noisettesBonusPerCombat: params.noisettesBonusPerCombat ?? 0,
   };
 }

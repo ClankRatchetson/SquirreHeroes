@@ -7,8 +7,13 @@ import { CampfireScreen } from "./CampfireScreen";
 import { EventScreen } from "./EventScreen";
 import { RunOutcomeOverlay } from "../components/feedback/RunOutcomeOverlay";
 
+export interface RunScreenProps {
+  /** Fin de run (victoire/défaite) : retour à la sélection de héros pour qu'une nouvelle run recalcule ses bonus. */
+  readonly onRunEnded: () => void;
+}
+
 /** Switch pur sur `runState.phase` — mapping 1:1 avec la machine à états du moteur, pas de librairie de routing. */
-export function RunScreen() {
+export function RunScreen({ onRunEnded }: RunScreenProps) {
   const phase = useRunStore((s) => s.runState?.phase);
 
   if (!phase) {
@@ -29,6 +34,6 @@ export function RunScreen() {
     case "evenement":
       return <EventScreen />;
     case "run_over":
-      return <RunOutcomeOverlay />;
+      return <RunOutcomeOverlay onNewRun={onRunEnded} />;
   }
 }

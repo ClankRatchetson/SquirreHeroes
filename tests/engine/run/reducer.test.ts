@@ -17,7 +17,7 @@ const weakEnemy: EnemyDefinition = {
   pattern: ["hit"],
 };
 
-function stateWithPendingCombat(nodeType: "combat" | "elite" | "boss" = "combat") {
+function stateWithPendingCombat(nodeType: "combat" | "elite" | "boss" = "combat", noisettesBonusPerCombat = 0) {
   const combat = createCombat({ hero, enemies: [weakEnemy], cardCatalog: CATALOG, seed: 1 });
   return makeRunState({
     phase: "combat",
@@ -26,6 +26,7 @@ function stateWithPendingCombat(nodeType: "combat" | "elite" | "boss" = "combat"
     heroMaxHp: 80,
     cardCatalog: CATALOG,
     pendingCombat: combat,
+    noisettesBonusPerCombat,
     map: {
       actId: "acte_1",
       floorCount: 1,
@@ -66,6 +67,37 @@ describe("runReducer — forwardToCombat", () => {
     expect(next.phase).toBe("run_over");
     expect(next.outcome).toBe("victoire");
     expect(next.pendingReward).toBeNull();
+  });
+
+  it("noisettesBonusPerCombat s'ajoute aux Noisettes de récompense sur victoire combat", () => {
+    const withoutBonus = stateWithPendingCombat("combat", 0);
+    const cardInstanceIdA = withoutBonus.pendingCombat?.hand[0]?.instanceId as string;
+    const nextWithoutBonus = runReducer(withoutBonus, { type: "PLAY_CARD", cardInstanceId: cardInstanceIdA, targetEnemyId: "weak-0" });
+
+    const withBonus = stateWithPendingCombat("combat", 7);
+    const cardInstanceIdB = withBonus.pendingCombat?.hand[0]?.instanceId as string;
+    const nextWithBonus = runReducer(withBonus, { type: "PLAY_CARD", cardInstanceId: cardInstanceIdB, targetEnemyId: "weak-0" });
+
+    expect(nextWithBonus.noisettes).toBe(nextWithoutBonus.noisettes + 7);
+  });
+
+  it("noisettesBonusPerCombat s'ajoute aussi sur victoire élite", () => {
+    const withoutBonus = stateWithPendingCombat("elite", 0);
+    const cardInstanceIdA = withoutBonus.pendingCombat?.hand[0]?.instanceId as string;
+    const nextWithoutBonus = runReducer(withoutBonus, { type: "PLAY_CARD", cardInstanceId: cardInstanceIdA, targetEnemyId: "weak-0" });
+
+    const withBonus = stateWithPendingCombat("elite", 7);
+    const cardInstanceIdB = withBonus.pendingCombat?.hand[0]?.instanceId as string;
+    const nextWithBonus = runReducer(withBonus, { type: "PLAY_CARD", cardInstanceId: cardInstanceIdB, targetEnemyId: "weak-0" });
+
+    expect(nextWithBonus.noisettes).toBe(nextWithoutBonus.noisettes + 7);
+  });
+
+  it("noisettesBonusPerCombat n'est PAS crédité sur victoire boss (exempté)", () => {
+    const state = stateWithPendingCombat("boss", 7);
+    const cardInstanceId = state.pendingCombat?.hand[0]?.instanceId as string;
+    const next = runReducer(state, { type: "PLAY_CARD", cardInstanceId, targetEnemyId: "weak-0" });
+    expect(next.noisettes).toBe(0);
   });
 
   it("harvest HP : les PV du héros après combat sont reportés sur heroHp", () => {

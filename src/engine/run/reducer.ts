@@ -27,7 +27,8 @@ function resolveReward(state: RunState, finishedCombat: CombatState): RunState {
     ...state,
     pendingCombat: null,
     heroHp,
-    noisettes: state.noisettes + offer.noisettes,
+    // Bonus de méta-progression (Canal B) — jamais appliqué sur la branche boss ci-dessus, qui retourne avant ce calcul.
+    noisettes: state.noisettes + offer.noisettes + state.noisettesBonusPerCombat,
     pendingReward: offer,
     phase: "recompense",
     rng: nextRng,

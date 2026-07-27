@@ -1,0 +1,8 @@
+{
+  "id": "pv_max_2",
+  "nameKey": "meta.tree.pv_max_2.name",
+  "descriptionKey": "meta.tree.pv_max_2.description",
+  "cost": 60,
+  "prerequisiteId": "pv_max_1",
+  "effect": { "kind": "bonusMaxHp", "amount": 3 }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "noisettes_bonus_2",
+  "nameKey": "meta.tree.noisettes_bonus_2.name",
+  "descriptionKey": "meta.tree.noisettes_bonus_2.description",
+  "cost": 55,
+  "prerequisiteId": "noisettes_bonus_1",
+  "effect": { "kind": "noisettesBonusPerCombat", "amount": 1 }
+}

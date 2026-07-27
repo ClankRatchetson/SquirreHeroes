@@ -8,6 +8,7 @@ export * from "./enemy.schema";
 export * from "./hero.schema";
 export * from "./run-effect.schema";
 export * from "./event.schema";
+export * from "./meta-tree.schema";
 
 /**
  * Parse chaque entrée brute avec le schéma fourni (lève si un contenu est

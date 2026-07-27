@@ -1,3 +1,4 @@
+import { INITIAL_META_PROGRESSION } from "../engine/meta";
 import { CURRENT_SCHEMA_VERSION } from "./save-file";
 
 export interface Migration {
@@ -6,18 +7,30 @@ export interface Migration {
 }
 
 /**
- * Vide en Phase 4 : `schemaVersion=1` est littéralement la toute première
- * version jamais persistée par ce projet — il n'existe logiquement encore
- * aucune version antérieure à migrer depuis. Cette machinerie (ce tableau +
- * `runMigrations`) est prête à recevoir sa première entrée réelle en
- * Phase 5 (ajout de `meta`), avec son vrai test de chargement d'une
- * sauvegarde v1 authentique.
+ * Première vraie migration du projet : v1 (Phase 4, pas de `meta`, pas de
+ * `noisettesBonusPerCombat` sur `currentRun`) → v2 (Phase 5). Une run en
+ * cours reçoit `noisettesBonusPerCombat: 0` (comportement inchangé pour une
+ * sauvegarde antérieure à l'existence du bonus) ; `meta` est initialisée à
+ * `INITIAL_META_PROGRESSION`.
  */
-export const MIGRATIONS: readonly Migration[] = [];
+export const MIGRATIONS: readonly Migration[] = [
+  {
+    fromVersion: 1,
+    migrate: (data) => ({
+      schemaVersion: 2,
+      currentRun:
+        data.currentRun === null
+          ? null
+          : { ...(data.currentRun as Record<string, unknown>), noisettesBonusPerCombat: 0 },
+      meta: INITIAL_META_PROGRESSION,
+    }),
+  },
+];
 
 export interface MigratableEnvelope {
   readonly schemaVersion: number;
   readonly currentRun: unknown;
+  readonly meta?: unknown;
 }
 
 /**
@@ -38,8 +51,16 @@ export function runMigrations(envelope: MigratableEnvelope): MigratableEnvelope 
     if (!migration) {
       throw new Error(`Aucune migration depuis schemaVersion=${String(current.schemaVersion)}.`);
     }
-    const migrated = migration.migrate({ schemaVersion: current.schemaVersion, currentRun: current.currentRun });
-    current = { schemaVersion: migrated.schemaVersion as number, currentRun: migrated.currentRun };
+    const migrated = migration.migrate({
+      schemaVersion: current.schemaVersion,
+      currentRun: current.currentRun,
+      meta: current.meta,
+    });
+    current = {
+      schemaVersion: migrated.schemaVersion as number,
+      currentRun: migrated.currentRun,
+      meta: migrated.meta,
+    };
   }
   return current;
 }

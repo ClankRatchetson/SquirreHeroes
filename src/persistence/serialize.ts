@@ -50,6 +50,7 @@ export function stripRunState(run: RunState): PersistedRunState {
     pendingEventId: run.pendingEventId,
     rng: run.rng,
     nextRunCardSeq: run.nextRunCardSeq,
+    noisettesBonusPerCombat: run.noisettesBonusPerCombat,
   };
 }
 

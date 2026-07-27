@@ -67,4 +67,68 @@ describe("createRun", () => {
     };
     expect(createRun(params)).toEqual(createRun(params));
   });
+
+  it("sans les 3 bonus optionnels, le comportement est identique à avant la Phase 5 (non-régression)", () => {
+    const state = createRun({
+      hero,
+      cardCatalog: CATALOG,
+      enemyCatalog: ENEMY_CATALOG,
+      eventCatalog: EVENT_CATALOG,
+      commonEnemyIds: ["dummy"],
+      eliteEnemyIds: ["dummy"],
+      bossEnemyIds: ["dummy"],
+      seed: 1,
+    });
+    expect(state.heroMaxHp).toBe(hero.maxHp);
+    expect(state.heroHp).toBe(hero.maxHp);
+    expect(state.noisettesBonusPerCombat).toBe(0);
+    expect(state.deck.every((entry) => !entry.upgraded)).toBe(true);
+  });
+
+  it("bonusMaxHp s'ajoute à heroMaxHp et heroHp", () => {
+    const state = createRun({
+      hero,
+      cardCatalog: CATALOG,
+      enemyCatalog: ENEMY_CATALOG,
+      eventCatalog: EVENT_CATALOG,
+      commonEnemyIds: ["dummy"],
+      eliteEnemyIds: ["dummy"],
+      bossEnemyIds: ["dummy"],
+      seed: 1,
+      bonusMaxHp: 5,
+    });
+    expect(state.heroMaxHp).toBe(85);
+    expect(state.heroHp).toBe(85);
+  });
+
+  it("upgradedStartingCardIds marque les entrées de deck correspondantes comme améliorées", () => {
+    const state = createRun({
+      hero,
+      cardCatalog: CATALOG,
+      enemyCatalog: ENEMY_CATALOG,
+      eventCatalog: EVENT_CATALOG,
+      commonEnemyIds: ["dummy"],
+      eliteEnemyIds: ["dummy"],
+      bossEnemyIds: ["dummy"],
+      seed: 1,
+      upgradedStartingCardIds: ["strike"],
+    });
+    expect(state.deck).toHaveLength(2);
+    expect(state.deck.every((entry) => entry.upgraded)).toBe(true);
+  });
+
+  it("noisettesBonusPerCombat est reporté tel quel dans le RunState", () => {
+    const state = createRun({
+      hero,
+      cardCatalog: CATALOG,
+      enemyCatalog: ENEMY_CATALOG,
+      eventCatalog: EVENT_CATALOG,
+      commonEnemyIds: ["dummy"],
+      eliteEnemyIds: ["dummy"],
+      bossEnemyIds: ["dummy"],
+      seed: 1,
+      noisettesBonusPerCombat: 2,
+    });
+    expect(state.noisettesBonusPerCombat).toBe(2);
+  });
 });

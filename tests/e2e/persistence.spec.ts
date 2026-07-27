@@ -12,6 +12,7 @@ test("fermer l'application en plein combat et retrouver l'état exact au relance
   await page.goto("/");
 
   await page.getByRole("button", { name: "Nouvelle run" }).click();
+  await page.getByRole("button", { name: "Commencer" }).click();
   await page.locator('[data-testid="run-node"][data-status="disponible"]').first().click();
   await expect(page.getByTestId("hero-panel")).toBeVisible();
 
@@ -36,6 +37,7 @@ test("fermer l'application en plein combat et retrouver l'état exact au relance
 test("démarrer une nouvelle run alors qu'une run est en cours demande confirmation", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Nouvelle run" }).click();
+  await page.getByRole("button", { name: "Commencer" }).click();
   await expect(page.locator('[data-testid="run-node"]').first()).toBeVisible();
 
   await page.reload();
@@ -49,8 +51,9 @@ test("démarrer une nouvelle run alors qu'une run est en cours demande confirmat
   await expect(page.getByTestId("confirm-overwrite")).not.toBeVisible();
   await expect(page.getByRole("button", { name: "Reprendre la run" })).toBeVisible();
 
-  // Confirmer écrase et démarre une run neuve.
+  // Confirmer navigue vers la sélection de héros ; démarrer la run écrase l'ancienne.
   await page.getByRole("button", { name: "Nouvelle run" }).click();
   await page.getByRole("button", { name: "Écraser et recommencer" }).click();
+  await page.getByRole("button", { name: "Commencer" }).click();
   await expect(page.locator('[data-testid="run-node"]').first()).toBeVisible();
 });

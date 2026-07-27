@@ -12,6 +12,7 @@ import type {
   HeroState,
 } from "../../src/engine/types";
 import type { EffectResolutionContext } from "../../src/engine/effects";
+import { INITIAL_META_PROGRESSION, type MetaProgression } from "../../src/engine/meta";
 
 export function makeHero(overrides: Partial<HeroState> = {}): HeroState {
   return {
@@ -120,6 +121,11 @@ export function makeRunState(overrides: Partial<RunState> = {}): RunState {
     enemyCatalog: {},
     eventCatalog: {},
     nextRunCardSeq: 0,
+    noisettesBonusPerCombat: 0,
     ...overrides,
   };
+}
+
+export function makeMetaProgression(overrides: Partial<MetaProgression> = {}): MetaProgression {
+  return { ...INITIAL_META_PROGRESSION, ...overrides };
 }

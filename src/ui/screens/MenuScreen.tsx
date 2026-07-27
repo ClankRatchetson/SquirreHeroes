@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { t } from "../../content/i18n/t";
 import { useCombatStore } from "../store/combat-store";
-import { useRunStore } from "../store/run-store";
 import { ConfirmOverwriteDialog } from "../components/feedback/ConfirmOverwriteDialog";
 
 export interface MenuScreenProps {
   readonly onStartCombat: () => void;
-  readonly onStartRun: () => void;
+  /** Navigue vers l'écran de sélection de héros — c'est CET écran qui appelle `startNewRun`. */
+  readonly onStartHeroSelect: () => void;
   readonly onResumeRun: () => void;
+  readonly onOpenCollection: () => void;
   /** Une run en cours (non terminée) existe en base — cf. décision Phase 4 : gate aussi la confirmation d'écrasement. */
   readonly canResume: boolean;
 }
 
-export function MenuScreen({ onStartCombat, onStartRun, onResumeRun, canResume }: MenuScreenProps) {
+export function MenuScreen({ onStartCombat, onStartHeroSelect, onResumeRun, onOpenCollection, canResume }: MenuScreenProps) {
   const startNewCombat = useCombatStore((s) => s.startNewCombat);
-  const startNewRun = useRunStore((s) => s.startNewRun);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleStartCombat = () => {
@@ -27,8 +27,7 @@ export function MenuScreen({ onStartCombat, onStartRun, onResumeRun, canResume }
       setShowConfirm(true);
       return;
     }
-    startNewRun(Date.now());
-    onStartRun();
+    onStartHeroSelect();
   };
 
   return (
@@ -60,14 +59,20 @@ export function MenuScreen({ onStartCombat, onStartRun, onResumeRun, canResume }
         >
           {t("ui.menu.newCombat")}
         </button>
+        <button
+          type="button"
+          onClick={onOpenCollection}
+          className="rounded-md bg-stone-700 px-6 py-3 font-semibold text-stone-100"
+        >
+          {t("ui.menu.collection")}
+        </button>
       </div>
 
       {showConfirm && (
         <ConfirmOverwriteDialog
           onConfirm={() => {
             setShowConfirm(false);
-            startNewRun(Date.now());
-            onStartRun();
+            onStartHeroSelect();
           }}
           onCancel={() => {
             setShowConfirm(false);

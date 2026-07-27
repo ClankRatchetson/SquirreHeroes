@@ -1,9 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { isCardPlayable } from "../../src/engine/core";
+import { createCombat, isCardPlayable } from "../../src/engine/core";
 import { CARD_CATALOG } from "../../src/content/cards";
+import { CASSE_NOIX } from "../../src/content/heroes";
 import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { EVENT_CATALOG } from "../../src/content/events";
 import { stripRunState } from "../../src/persistence/serialize";
+import { makeCard, makeRunNode, makeRunState } from "../engine/helpers";
+import type { Card, EnemyDefinition, HeroDefinition } from "../../src/engine/types";
 
 const { fakeAdapter } = vi.hoisted(() => {
   let stored: unknown;
@@ -25,6 +28,7 @@ const { fakeAdapter } = vi.hoisted(() => {
 vi.mock("../../src/ui/persistence/storage", () => ({ storageAdapter: fakeAdapter }));
 
 const { useRunStore } = await import("../../src/ui/store/run-store");
+const { useMetaStore } = await import("../../src/ui/store/meta-store");
 
 const EMPTY_TARGETING = { selectedCardInstanceId: null, hoveredEnemyInstanceId: null };
 
@@ -158,5 +162,58 @@ describe("useRunStore", () => {
     expect(after.targeting).toEqual(EMPTY_TARGETING);
     expect(after.pendingEvents).toEqual([]);
     expect(after.isResolvingEnemyTurn).toBe(false);
+  });
+
+  it("startNewRun(seed, bonuses) applique les bonus de l'arbre de Glands d'Or à la run créée", () => {
+    useRunStore.getState().startNewRun(2, {
+      bonusMaxHp: 5,
+      upgradedStartingCardIds: [],
+      noisettesBonusPerCombat: 3,
+    });
+    const runState = useRunStore.getState().runState;
+    expect(runState?.heroMaxHp).toBe(CASSE_NOIX.maxHp + 5);
+    expect(runState?.heroHp).toBe(CASSE_NOIX.maxHp + 5);
+    expect(runState?.noisettesBonusPerCombat).toBe(3);
+  });
+
+  describe("transition vers run_over", () => {
+    it("délègue à useMetaStore.recordRunCompletion au lieu de persister séparément (un seul appel save)", () => {
+      const totalDefeatsBefore = useMetaStore.getState().meta.totalDefeats;
+
+      const strike: Card = makeCard({ id: "strike", cost: 1, effects: [] });
+      const CATALOG: Readonly<Record<string, Card>> = { strike };
+      const dyingHero: HeroDefinition = { id: "casse_noix", nameKey: "test.hero", maxHp: 1, startingDeck: ["strike"] };
+      const strongEnemy: EnemyDefinition = {
+        id: "strong",
+        nameKey: "test.enemy",
+        maxHp: 50,
+        moves: [{ id: "hit", nameKey: "test.hit", effects: [{ kind: "damage", target: "enemy", amount: 99 }] }],
+        pattern: ["hit"],
+      };
+      const combat = createCombat({ hero: dyingHero, enemies: [strongEnemy], cardCatalog: CATALOG, seed: 1 });
+      const customRun = makeRunState({
+        phase: "combat",
+        currentNodeId: "node0",
+        heroHp: 1,
+        heroMaxHp: 1,
+        cardCatalog: CATALOG,
+        pendingCombat: combat,
+        map: {
+          actId: "acte_1",
+          floorCount: 1,
+          nodes: [makeRunNode({ id: "node0", type: "combat", floor: 0, enemyIds: ["strong"] })],
+        },
+      });
+      useRunStore.setState({ runState: customRun });
+      fakeAdapter.save.mockClear();
+
+      useRunStore.getState().dispatch({ type: "END_TURN" });
+
+      const after = useRunStore.getState().runState;
+      expect(after?.phase).toBe("run_over");
+      expect(after?.outcome).toBe("defaite");
+      expect(useMetaStore.getState().meta.totalDefeats).toBe(totalDefeatsBefore + 1);
+      expect(fakeAdapter.save).toHaveBeenCalledTimes(1);
+    });
   });
 });

@@ -1,0 +1,7 @@
+{
+  "id": "carte_amelioree_carapace",
+  "nameKey": "meta.tree.carte_amelioree_carapace.name",
+  "descriptionKey": "meta.tree.carte_amelioree_carapace.description",
+  "cost": 50,
+  "effect": { "kind": "upgradeStartingCard", "cardId": "carapace_de_granit" }
+}

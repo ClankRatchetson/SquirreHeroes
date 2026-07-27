@@ -4,6 +4,52 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.6.0] — Phase 5 — Méta-progression
+
+### Ajouté
+- Deux canaux de progression persistante entre runs (`/src/engine/meta`,
+  pur, zéro dépendance UI) : Canal A (jalons — victoires/défaites, Acte I
+  terminé, boss vaincus dédupliqués — mis à jour après chaque run via
+  `applyRunCompletion`) et Canal B (arbre de Glands d'Or, 5 nœuds
+  provisoires : +6 PV max cumulés, une amélioration de carte de départ
+  ciblée, +2 Noisettes/combat cumulées — délibérément bien en-deçà du
+  plafond de +20 % de puissance de départ en attendant la simulation de la
+  Phase 6). `purchaseTreeNode`/`isNodePurchasable` suivent le même patron
+  défensif (no-op par égalité de référence) que le reste du moteur.
+- `createRun` gagne 3 paramètres additifs optionnels et rétro-compatibles
+  (`bonusMaxHp`, `upgradedStartingCardIds`, `noisettesBonusPerCombat`) ;
+  `RunState` gagne `noisettesBonusPerCombat` (seul champ nécessitant une
+  vraie migration, cf. ci-dessous — les deux autres bonus sont absorbés une
+  fois à la création de la run).
+- Première vraie migration de sauvegarde du projet : `SaveFile` v1 → v2
+  (ajout de `meta`, `noisettesBonusPerCombat: 0` sur une run en cours),
+  avec un test chargeant une enveloppe v1 authentique construite à la
+  main. Corrige au passage un bug latent de `runMigrations` qui aurait
+  silencieusement perdu tout champ ajouté par une migration autre que
+  `schemaVersion`/`currentRun`.
+- Nouveaux écrans « Sélection de héros » (Casse-Noix jouable, 2ᵉ
+  emplacement visiblement verrouillé jusqu'à l'Acte I terminé — aucun
+  contenu de héros/familier fabriqué, entièrement reporté à la Phase 7 par
+  décision explicite) et « Collection » (solde de Glands d'Or, jalons du
+  Canal A avec note « Phase 7 » pour ceux sans récompense encore existante,
+  arbre du Canal B achetable). Le menu route désormais « Nouvelle run »
+  (et l'écran de fin de run) via la sélection de héros, qui calcule les
+  bonus courants (`aggregateTreeBonuses`) avant `startNewRun`.
+- `useMetaStore` (Zustand) + `persistCurrentSaveFile`, point d'écriture
+  partagé unique entre `useRunStore` et `useMetaStore` sans import
+  croisé au niveau module ; la transition d'une run vers `run_over`
+  délègue à `recordRunCompletion` (qui persiste run + méta ensemble) au
+  lieu d'un `persist` séparé et redondant.
+- ~20 nouvelles clés i18n (sélection de héros, collection, nœuds de
+  l'arbre). 49 nouveaux tests unitaires (moteur, contenu, persistance, UI)
+  et 2 nouveaux tests e2e `meta-progression.spec.ts` (solde de Glands d'Or
+  persistant réellement en IndexedDB à travers un rechargement ; achat
+  d'un nœud depuis la Collection reflété sur les PV max d'une run
+  suivante). Couverture maintenue à 96.73 % sur `/src/engine`.
+- Vérifié manuellement (build de production servi localement) : écran de
+  sélection de héros et écran Collection s'affichent sans erreur avec
+  l'état attendu avant tout achat/toute victoire d'Acte I.
+
 ## [0.5.0] — Phase 4 — Persistance
 
 ### Ajouté

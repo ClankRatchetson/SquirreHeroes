@@ -1,10 +1,21 @@
 import { describe, expect, it } from "vitest";
-import { looksLikePersistedRunState, parseEnvelope } from "../../src/persistence/validate";
+import { looksLikeMetaProgression, looksLikePersistedRunState, parseEnvelope } from "../../src/persistence/validate";
 import { stripRunState } from "../../src/persistence/serialize";
-import { makeRunState } from "../engine/helpers";
+import { makeMetaProgression, makeRunState } from "../engine/helpers";
 
 describe("parseEnvelope", () => {
   it("accepte une enveloppe valide avec currentRun: null", () => {
+    expect(parseEnvelope({ schemaVersion: 1, currentRun: null }).success).toBe(true);
+  });
+
+  it("accepte et conserve un champ meta (nécessaire pour que runMigrations le voie)", () => {
+    const meta = makeMetaProgression({ glandsDor: 5 });
+    const result = parseEnvelope({ schemaVersion: 2, currentRun: null, meta });
+    expect(result.success).toBe(true);
+    expect(result.success && result.data.meta).toEqual(meta);
+  });
+
+  it("accepte une enveloppe sans meta (sauvegarde v1 authentique)", () => {
     expect(parseEnvelope({ schemaVersion: 1, currentRun: null }).success).toBe(true);
   });
 
@@ -49,5 +60,19 @@ describe("looksLikePersistedRunState", () => {
   it("rejette un rng de forme invalide", () => {
     const persisted = stripRunState(makeRunState());
     expect(looksLikePersistedRunState({ ...persisted, rng: "nope" })).toBe(false);
+  });
+});
+
+describe("looksLikeMetaProgression", () => {
+  it("accepte une vraie MetaProgression", () => {
+    expect(looksLikeMetaProgression(makeMetaProgression({ glandsDor: 20 }))).toBe(true);
+  });
+
+  it("rejette un objet vide, null ou incomplet", () => {
+    expect(looksLikeMetaProgression({})).toBe(false);
+    expect(looksLikeMetaProgression(null)).toBe(false);
+    const incomplete = makeMetaProgression() as unknown as Record<string, unknown>;
+    delete incomplete.glandsDor;
+    expect(looksLikeMetaProgression(incomplete)).toBe(false);
   });
 });

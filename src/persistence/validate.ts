@@ -1,9 +1,17 @@
 import { z } from "zod";
+import type { MetaProgression } from "../engine/meta";
 import type { PersistedRunState } from "./save-file";
 
+/**
+ * `meta` élargi explicitement : `z.object` (non-strict) de Zod supprime par
+ * défaut toute clé non déclarée — sans cette entrée, `meta` serait
+ * silencieusement effacé avant même que `runMigrations` ne le voie
+ * (vérifié empiriquement).
+ */
 const saveEnvelopeSchema = z.object({
   schemaVersion: z.number().int().positive(),
   currentRun: z.unknown().nullable(),
+  meta: z.unknown().optional(),
 });
 
 /**
@@ -39,10 +47,26 @@ const persistedRunShapeSchema = z.object({
   nextRunCardSeq: z.number(),
 });
 
-export function parseEnvelope(raw: unknown): z.ZodSafeParseResult<{ schemaVersion: number; currentRun: unknown }> {
+export function parseEnvelope(
+  raw: unknown,
+): z.ZodSafeParseResult<{ schemaVersion: number; currentRun: unknown; meta?: unknown }> {
   return saveEnvelopeSchema.safeParse(raw);
 }
 
 export function looksLikePersistedRunState(raw: unknown): raw is PersistedRunState {
   return persistedRunShapeSchema.safeParse(raw).success;
+}
+
+const metaProgressionShapeSchema = z.object({
+  totalRunsStarted: z.number(),
+  totalVictories: z.number(),
+  totalDefeats: z.number(),
+  actICompleted: z.boolean(),
+  bossesDefeated: z.array(z.unknown()),
+  glandsDor: z.number(),
+  unlockedTreeNodeIds: z.array(z.unknown()),
+});
+
+export function looksLikeMetaProgression(raw: unknown): raw is MetaProgression {
+  return metaProgressionShapeSchema.safeParse(raw).success;
 }

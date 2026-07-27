@@ -69,4 +69,6 @@ export interface RunState {
   readonly enemyCatalog: Readonly<Record<EnemyId, EnemyDefinition>>;
   readonly eventCatalog: Readonly<Record<string, EventDefinition>>;
   readonly nextRunCardSeq: number;
+  /** Figé une fois à la création de la run (jamais relu en direct depuis la méta-progression en cours de run). */
+  readonly noisettesBonusPerCombat: number;
 }
