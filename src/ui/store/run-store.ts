@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import { runReducer } from "../../engine/run/reducer";
 import { createRun } from "../../engine/run/create-run";
-import type { CombatAction, RunAction } from "../../engine/types";
+import type { CombatAction, RunAction, RunState } from "../../engine/types";
 import { CARD_CATALOG } from "../../content/cards";
 import { CASSE_NOIX } from "../../content/heroes";
 import { ENEMY_CATALOG } from "../../content/enemies";
 import { EVENT_CATALOG } from "../../content/events";
+import { CURRENT_SCHEMA_VERSION, hydrateRunState, saveSaveFile, stripRunState, type SaveFile } from "../../persistence";
+import { storageAdapter } from "../persistence/storage";
 import { diffCombatStates } from "../animation/diff-events";
 import { staggerEnemyTurnPresentation } from "../animation/stagger-enemy-turn";
 import type { TargetingState } from "./combat-store.types";
@@ -15,6 +17,12 @@ const EMPTY_TARGETING: TargetingState = { selectedCardInstanceId: null, hoveredE
 
 function isCombatAction(action: RunAction): action is CombatAction {
   return action.type === "PLAY_CARD" || action.type === "END_TURN";
+}
+
+/** Sauvegarde automatique — après toute action de run effective (cf. §6 du plan Phase 4), jamais bloquant. */
+function persist(nextRun: RunState): void {
+  const saveFile: SaveFile = { schemaVersion: CURRENT_SCHEMA_VERSION, currentRun: stripRunState(nextRun) };
+  void saveSaveFile(storageAdapter, saveFile);
 }
 
 /**
@@ -44,6 +52,16 @@ export const useRunStore = create<RunStoreState>((set, get) => ({
       seed,
     });
     set({ runState, targeting: EMPTY_TARGETING, pendingEvents: [], isResolvingEnemyTurn: false });
+    persist(runState);
+  },
+
+  hydrateRun: (persisted) => {
+    const runState = hydrateRunState(persisted, {
+      cardCatalog: CARD_CATALOG,
+      enemyCatalog: ENEMY_CATALOG,
+      eventCatalog: EVENT_CATALOG,
+    });
+    set({ runState, targeting: EMPTY_TARGETING, pendingEvents: [], isResolvingEnemyTurn: false });
   },
 
   dispatch: (action) => {
@@ -58,6 +76,7 @@ export const useRunStore = create<RunStoreState>((set, get) => ({
       if (nextRun === prevRun) {
         return;
       }
+      persist(nextRun);
 
       if (nextRun.phase === "combat" && nextRun.pendingCombat) {
         const nextCombat = nextRun.pendingCombat;
@@ -88,6 +107,7 @@ export const useRunStore = create<RunStoreState>((set, get) => ({
     if (nextRun === prevRun) {
       return;
     }
+    persist(nextRun);
     set({ runState: nextRun, targeting: EMPTY_TARGETING });
   },
 

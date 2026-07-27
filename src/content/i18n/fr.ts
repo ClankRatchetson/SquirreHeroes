@@ -152,4 +152,12 @@ export const fr = {
   "ui.run.outcome.victory": "Acte I terminé — Victoire !",
   "ui.run.outcome.defeat": "Défaite — la run s'arrête ici",
   "ui.run.outcome.newRun": "Nouvelle run",
+
+  // UI — persistance (Phase 4)
+  "ui.app.loading": "Chargement…",
+  "ui.menu.resumeRun": "Reprendre la run",
+  "ui.menu.confirmOverwrite.title": "Une run est en cours",
+  "ui.menu.confirmOverwrite.body": "Démarrer une nouvelle run effacera la run en cours. Continuer ?",
+  "ui.menu.confirmOverwrite.confirm": "Écraser et recommencer",
+  "ui.menu.confirmOverwrite.cancel": "Annuler",
 } as const;

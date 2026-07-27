@@ -4,6 +4,43 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.5.0] — Phase 4 — Persistance
+
+### Ajouté
+- Persistance de la run via IndexedDB (Dexie.js) : `/src/persistence`
+  expose un `SaveFile { schemaVersion, currentRun }` versionné, une
+  machinerie de migrations ordonnées (`runMigrations`) prête à recevoir sa
+  première entrée réelle en Phase 5, et un `StorageAdapter` injecté
+  (jamais Dexie importé en dehors de `dexie-adapter.ts`) — même discipline
+  « injecter, pas importer » que le moteur pour les catalogues de contenu.
+- Sauvegarde automatique après chaque action de run effective (nœud
+  choisi, carte jouée, fin de tour, boutique/feu de camp/récompense/
+  événement résolus) et dès la création d'une run — aucun cas particulier
+  par type d'action, un no-op ne déclenche jamais d'écriture.
+- Reprise au redémarrage : bouton « Reprendre la run » sur le menu si une
+  run en cours existe en base ; « Nouvelle run » demande confirmation
+  avant d'écraser une run existante (`ConfirmOverwriteDialog`).
+- Les catalogues de contenu (cartes/ennemis/événements) ne sont jamais
+  sérialisés : dépouillés avant écriture (`stripRunState`), ré-injectés
+  depuis `/src/content` au chargement (`hydrateRunState`, appelé depuis
+  `run-store.ts`) — la sauvegarde ne fige jamais une version du contenu.
+- Validation légère (Zod) de l'enveloppe et de la forme de premier niveau
+  de la sauvegarde au chargement : une donnée corrompue, une version
+  future inconnue ou un contenu inattendu retombent proprement sur
+  « aucune sauvegarde » plutôt que de faire planter l'app.
+- 6 nouvelles clés i18n (écran de chargement, reprise, confirmation).
+- 29 nouveaux tests unitaires (`tests/persistence/*`, extension de
+  `tests/ui/run-store.test.ts`) couvrant démarrage à froid, aller-retour,
+  données corrompues, version future inconnue, autosave et réhydratation
+  des catalogues ; nouveau test e2e `persistence.spec.ts` reproduisant le
+  livrable littéral de la phase (fermer l'application en plein combat et
+  retrouver l'état exact au relancement) et le flux de confirmation
+  d'écrasement. Couverture maintenue à 96.51 % sur `/src/engine`.
+- Vérifié manuellement : fermeture/relance en plein combat, corruption
+  manuelle d'IndexedDB (payload remplacé) suivie d'un démarrage propre
+  sans crash, mode combat de démonstration (`useCombatStore`) confirmé
+  non affecté par la persistance.
+
 ## [0.4.0] — Phase 3 — Structure de run
 
 ### Ajouté

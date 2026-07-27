@@ -1,4 +1,5 @@
 import type { RunAction, RunState } from "../../engine/types";
+import type { PersistedRunState } from "../../persistence";
 import type { CombatDisplayEvent, TargetingState } from "./combat-store.types";
 
 export interface RunStoreState {
@@ -8,6 +9,8 @@ export interface RunStoreState {
   readonly isResolvingEnemyTurn: boolean;
 
   readonly startNewRun: (seed: number) => void;
+  /** Reprend une run sauvegardée : réattache les catalogues vivants, remet à zéro l'état UI éphémère. */
+  readonly hydrateRun: (persisted: PersistedRunState) => void;
   /** Actions génériques du run (carte, boutique, récompense, feu de camp, événement). */
   readonly dispatch: (action: RunAction) => void;
   /** Miroir de `CombatStoreState` pour permettre le partage des composants de combat via `CombatController`. */
