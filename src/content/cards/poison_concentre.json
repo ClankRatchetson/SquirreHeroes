@@ -1,0 +1,17 @@
+{
+  "id": "poison_concentre",
+  "nameKey": "cards.poison_concentre.name",
+  "hero": "docteur_bogue",
+  "type": "competence",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [{ "kind": "doubleStatus", "target": "enemy", "status": "seve_empoisonnee" }],
+  "upgraded": {
+    "nameKey": "cards.poison_concentre.nameUpgraded",
+    "effects": [
+      { "kind": "doubleStatus", "target": "enemy", "status": "seve_empoisonnee" },
+      { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 1 }
+    ]
+  },
+  "flavorKey": "cards.poison_concentre.flavor"
+}

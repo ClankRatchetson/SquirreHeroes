@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createCombat, isCardPlayable } from "../../src/engine/core";
 import { CARD_CATALOG } from "../../src/content/cards";
-import { CAPTAIN_CABRIOLE, CASSE_NOIX } from "../../src/content/heroes";
+import { CAPTAIN_CABRIOLE, CASSE_NOIX, DOCTEUR_BOGUE } from "../../src/content/heroes";
 import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { EVENT_CATALOG } from "../../src/content/events";
 import { stripRunState } from "../../src/persistence/serialize";
@@ -188,6 +188,14 @@ describe("useRunStore", () => {
     useRunStore.getState().startNewRun(4);
     const runState = useRunStore.getState().runState;
     expect(runState?.heroId).toBe("casse_noix");
+  });
+
+  it("startNewRun(seed, bonuses, hero) démarre une run avec Docteur Bogue (Phase 7 lot 2)", () => {
+    useRunStore.getState().startNewRun(5, undefined, DOCTEUR_BOGUE);
+    const runState = useRunStore.getState().runState;
+    expect(runState?.heroId).toBe("docteur_bogue");
+    expect(runState?.heroMaxHp).toBe(DOCTEUR_BOGUE.maxHp);
+    expect(runState?.heroHp).toBe(DOCTEUR_BOGUE.maxHp);
   });
 
   describe("transition vers run_over", () => {

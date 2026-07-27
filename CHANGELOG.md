@@ -4,6 +4,50 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.9.0] — Phase 7 (lot 2) — Docteur Bogue, 3ᵉ héros jouable
+
+### Ajouté
+- 3ᵉ héros jouable : **Docteur Bogue** (archétype ruse/poison — Sève
+  empoisonnée cumulative, altérations d'état, dégâts différés), 16 cartes
+  signature + deck de départ de 10 cartes (`maxHp: 78`). Complète le
+  roster des 3 héros de la v1.0 — familiers, Actes II/III et cartes
+  neutres restantes demeurent des lots futurs distincts.
+- Kit conçu délibérément autour de l'empilement de poison (`doubleStatus`
+  comme payoff signature, ex. `poison_concentre`/`overdose`) plutôt que de
+  combos `conditional` intra-tour, pour tirer la leçon du lot 1
+  (cf. « Constaté » v0.8.0) : le poison persiste et s'accumule entre les
+  tours, donc contrairement à Étourdi il n'exige pas que le bot du harnais
+  séquence correctement une carte de mise en place avant sa carte de
+  paiement dans le même tour.
+- `HeroId`/`CardOwner` élargis à 3 membres (`docteur_bogue` ajouté).
+  `HeroSelectScreen`/`scripts/sim.ts` étaient déjà génériques depuis le
+  lot 1 — seule `HERO_DISPLAY_ORDER` a dû être étendue. Déblocage via le
+  même jalon Canal A que Captain Cabriole (`meta.actICompleted`) : aucun
+  autre jalon de contenu réel n'existe aujourd'hui pour distinguer un 3ᵉ
+  héros.
+- ~50 nouvelles clés i18n (héros + 16 cartes). 6 nouveaux/étendus tests
+  unitaires (catalogues héros/cartes, `run-store`) + 2 nouveaux tests e2e
+  (`hero-select.spec.ts`). Couverture maintenue à 96.74 % sur `/src/engine`
+  (356 tests unitaires, 11 tests e2e, tous verts).
+
+### Constaté (à surveiller)
+- Sous le bot de simulation actuel, le taux de victoire de Docteur Bogue
+  (1.2 % sans bonus, n=1500) reste en-dessous de celui de Casse-Noix
+  (2.7 %) mais nettement au-dessus de celui de Captain Cabriole (0.3 %) —
+  corrobore l'hypothèse de conception : un kit centré sur l'accumulation
+  de poison, insensible à l'ordre de jeu intra-tour, est significativement
+  plus robuste face aux limites de séquencement du bot qu'un kit à combos
+  `conditional`. Un ajustement mesuré a été appliqué (`maxHp` 74→78,
+  `blouse_renforcee` alignée sur `mur_de_ronces`/`esquive_feline` à 8→11),
+  faisant passer le taux sans-bonus de 0.7 % à 1.2 % — l'écart résiduel
+  avec Casse-Noix reste probablement une limite du bot (choix de
+  récompense/boutique aléatoire uniforme, non synergique) plutôt qu'un
+  défaut du kit, à revalider si un lot futur fait évoluer la politique de
+  combat du harnais.
+- Vérifié manuellement (build de production servi localement) : les 3
+  héros s'affichent en sélection, Docteur Bogue verrouillé/déverrouillé
+  selon `meta.actICompleted`, une run Bogue affiche bien ses PV (78/78).
+
 ## [0.8.0] — Phase 7 (lot 1) — Captain Cabriole, 2ᵉ héros jouable
 
 ### Ajouté

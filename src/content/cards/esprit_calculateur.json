@@ -1,0 +1,14 @@
+{
+  "id": "esprit_calculateur",
+  "nameKey": "cards.esprit_calculateur.name",
+  "hero": "docteur_bogue",
+  "type": "pouvoir",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "self", "status": "force", "stacks": 2 }],
+  "upgraded": {
+    "nameKey": "cards.esprit_calculateur.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "self", "status": "force", "stacks": 3 }]
+  },
+  "flavorKey": "cards.esprit_calculateur.flavor"
+}

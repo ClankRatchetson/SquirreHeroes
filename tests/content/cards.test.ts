@@ -3,8 +3,8 @@ import { CARD_CATALOG } from "../../src/content/cards";
 import { cardSchema } from "../../src/content/schemas";
 
 describe("catalogue de cartes", () => {
-  it("contient exactement les 31 cartes (15 tranche verticale + 16 Captain Cabriole)", () => {
-    expect(Object.keys(CARD_CATALOG)).toHaveLength(31);
+  it("contient exactement les 47 cartes (15 tranche verticale + 16 Captain Cabriole + 16 Docteur Bogue)", () => {
+    expect(Object.keys(CARD_CATALOG)).toHaveLength(47);
   });
 
   it("chaque carte passe la validation Zod", () => {
@@ -27,13 +27,18 @@ describe("catalogue de cartes", () => {
 
   it("hero est toujours un héros connu ou neutre", () => {
     for (const card of Object.values(CARD_CATALOG)) {
-      expect(["casse_noix", "captain_cabriole", "neutre"]).toContain(card.hero);
+      expect(["casse_noix", "captain_cabriole", "docteur_bogue", "neutre"]).toContain(card.hero);
     }
   });
 
   it("exactement 16 cartes signature Captain Cabriole", () => {
     const cabrioleCards = Object.values(CARD_CATALOG).filter((c) => c.hero === "captain_cabriole");
     expect(cabrioleCards).toHaveLength(16);
+  });
+
+  it("exactement 16 cartes signature Docteur Bogue", () => {
+    const bogueCards = Object.values(CARD_CATALOG).filter((c) => c.hero === "docteur_bogue");
+    expect(bogueCards).toHaveLength(16);
   });
 
   it("aucune carte de type malédiction dans le contenu de test (volontaire)", () => {

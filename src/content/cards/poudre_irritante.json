@@ -1,0 +1,14 @@
+{
+  "id": "poudre_irritante",
+  "nameKey": "cards.poudre_irritante.name",
+  "hero": "docteur_bogue",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 1 }],
+  "upgraded": {
+    "nameKey": "cards.poudre_irritante.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 2 }]
+  },
+  "flavorKey": "cards.poudre_irritante.flavor"
+}

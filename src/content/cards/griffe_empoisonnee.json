@@ -1,0 +1,20 @@
+{
+  "id": "griffe_empoisonnee",
+  "nameKey": "cards.griffe_empoisonnee.name",
+  "hero": "docteur_bogue",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 6 },
+    { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.griffe_empoisonnee.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 8 },
+      { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 2 }
+    ]
+  },
+  "flavorKey": "cards.griffe_empoisonnee.flavor"
+}

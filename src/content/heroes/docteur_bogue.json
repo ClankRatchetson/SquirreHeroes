@@ -1,0 +1,17 @@
+{
+  "id": "docteur_bogue",
+  "nameKey": "heroes.docteur_bogue.name",
+  "maxHp": 78,
+  "startingDeck": [
+    "piqure_toxique",
+    "piqure_toxique",
+    "piqure_toxique",
+    "piqure_toxique",
+    "blouse_renforcee",
+    "blouse_renforcee",
+    "blouse_renforcee",
+    "blouse_renforcee",
+    "diagnostic",
+    "esprit_calculateur"
+  ]
+}

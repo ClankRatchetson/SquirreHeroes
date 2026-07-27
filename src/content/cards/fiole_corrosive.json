@@ -1,0 +1,14 @@
+{
+  "id": "fiole_corrosive",
+  "nameKey": "cards.fiole_corrosive.name",
+  "hero": "docteur_bogue",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 3 }],
+  "upgraded": {
+    "nameKey": "cards.fiole_corrosive.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 4 }]
+  },
+  "flavorKey": "cards.fiole_corrosive.flavor"
+}

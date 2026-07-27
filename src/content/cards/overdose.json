@@ -1,0 +1,22 @@
+{
+  "id": "overdose",
+  "nameKey": "cards.overdose.name",
+  "hero": "docteur_bogue",
+  "type": "attaque",
+  "rarity": "legendaire",
+  "cost": 2,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 8 },
+    { "kind": "doubleStatus", "target": "enemy", "status": "seve_empoisonnee" },
+    { "kind": "exhaust" }
+  ],
+  "upgraded": {
+    "nameKey": "cards.overdose.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 11 },
+      { "kind": "doubleStatus", "target": "enemy", "status": "seve_empoisonnee" },
+      { "kind": "exhaust" }
+    ]
+  },
+  "flavorKey": "cards.overdose.flavor"
+}

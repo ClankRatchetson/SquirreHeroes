@@ -1,0 +1,20 @@
+{
+  "id": "piege_a_bogues",
+  "nameKey": "cards.piege_a_bogues.name",
+  "hero": "docteur_bogue",
+  "type": "competence",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [
+    { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 2 },
+    { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 2 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.piege_a_bogues.nameUpgraded",
+    "effects": [
+      { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 2 },
+      { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 3 }
+    ]
+  },
+  "flavorKey": "cards.piege_a_bogues.flavor"
+}

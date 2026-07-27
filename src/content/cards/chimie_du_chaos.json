@@ -1,0 +1,20 @@
+{
+  "id": "chimie_du_chaos",
+  "nameKey": "cards.chimie_du_chaos.name",
+  "hero": "docteur_bogue",
+  "type": "attaque",
+  "rarity": "legendaire",
+  "cost": 2,
+  "effects": [
+    { "kind": "damageAll", "amount": 6 },
+    { "kind": "applyStatus", "target": "all_enemies", "status": "seve_empoisonnee", "stacks": 3 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.chimie_du_chaos.nameUpgraded",
+    "effects": [
+      { "kind": "damageAll", "amount": 8 },
+      { "kind": "applyStatus", "target": "all_enemies", "status": "seve_empoisonnee", "stacks": 4 }
+    ]
+  },
+  "flavorKey": "cards.chimie_du_chaos.flavor"
+}

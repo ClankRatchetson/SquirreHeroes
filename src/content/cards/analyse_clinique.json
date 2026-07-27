@@ -1,0 +1,14 @@
+{
+  "id": "analyse_clinique",
+  "nameKey": "cards.analyse_clinique.name",
+  "hero": "docteur_bogue",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 0,
+  "effects": [{ "kind": "draw", "amount": 1 }],
+  "upgraded": {
+    "nameKey": "cards.analyse_clinique.nameUpgraded",
+    "effects": [{ "kind": "draw", "amount": 2 }]
+  },
+  "flavorKey": "cards.analyse_clinique.flavor"
+}

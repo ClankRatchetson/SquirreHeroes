@@ -1,0 +1,20 @@
+{
+  "id": "piqure_toxique",
+  "nameKey": "cards.piqure_toxique.name",
+  "hero": "docteur_bogue",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 4 },
+    { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 2 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.piqure_toxique.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 6 },
+      { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 3 }
+    ]
+  },
+  "flavorKey": "cards.piqure_toxique.flavor"
+}

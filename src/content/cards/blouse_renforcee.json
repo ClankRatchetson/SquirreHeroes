@@ -1,0 +1,14 @@
+{
+  "id": "blouse_renforcee",
+  "nameKey": "cards.blouse_renforcee.name",
+  "hero": "docteur_bogue",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "block", "target": "self", "amount": 8 }],
+  "upgraded": {
+    "nameKey": "cards.blouse_renforcee.nameUpgraded",
+    "effects": [{ "kind": "block", "target": "self", "amount": 11 }]
+  },
+  "flavorKey": "cards.blouse_renforcee.flavor"
+}

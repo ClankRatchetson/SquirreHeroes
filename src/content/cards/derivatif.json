@@ -1,0 +1,20 @@
+{
+  "id": "derivatif",
+  "nameKey": "cards.derivatif.name",
+  "hero": "docteur_bogue",
+  "type": "competence",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [
+    { "kind": "gainEnergy", "amount": 1 },
+    { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.derivatif.nameUpgraded",
+    "effects": [
+      { "kind": "gainEnergy", "amount": 1 },
+      { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 2 }
+    ]
+  },
+  "flavorKey": "cards.derivatif.flavor"
+}

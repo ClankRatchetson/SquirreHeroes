@@ -62,3 +62,28 @@ test("démarrer une run avec Captain Cabriole reflète ses PV max, pas ceux de C
 
   await expect(page.getByTestId("run-hero-hp")).toContainText("76/76");
 });
+
+test("Docteur Bogue est verrouillé avant l'Acte I, sélectionnable après", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Nouvelle run" }).click();
+  await expect(page.getByTestId("hero-select-card-docteur_bogue")).toBeDisabled();
+
+  await page.getByRole("button", { name: "Retour" }).click();
+  await seedActICompleted(page);
+  await page.reload();
+
+  await page.getByRole("button", { name: "Nouvelle run" }).click();
+  await expect(page.getByTestId("hero-select-card-docteur_bogue")).toBeEnabled();
+});
+
+test("démarrer une run avec Docteur Bogue reflète ses PV max, pas ceux de Casse-Noix", async ({ page }) => {
+  await page.goto("/");
+  await seedActICompleted(page);
+  await page.reload();
+
+  await page.getByRole("button", { name: "Nouvelle run" }).click();
+  await page.getByTestId("hero-select-card-docteur_bogue").click();
+  await page.getByRole("button", { name: "Commencer" }).click();
+
+  await expect(page.getByTestId("run-hero-hp")).toContainText("78/78");
+});

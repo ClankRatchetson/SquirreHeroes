@@ -29,6 +29,22 @@ import sacAMalices from "./sac_a_malices.json";
 import diversion from "./diversion.json";
 import grandFinalDuCapitaine from "./grand_final_du_capitaine.json";
 import tourbillonAcrobatique from "./tourbillon_acrobatique.json";
+import piqureToxique from "./piqure_toxique.json";
+import blouseRenforcee from "./blouse_renforcee.json";
+import diagnostic from "./diagnostic.json";
+import fioleCorrosive from "./fiole_corrosive.json";
+import poudreIrritante from "./poudre_irritante.json";
+import griffeEmpoisonnee from "./griffe_empoisonnee.json";
+import boguePiquante from "./bogue_piquante.json";
+import remedeDeFortune from "./remede_de_fortune.json";
+import analyseClinique from "./analyse_clinique.json";
+import espritCalculateur from "./esprit_calculateur.json";
+import poisonConcentre from "./poison_concentre.json";
+import bogueExplosive from "./bogue_explosive.json";
+import piegeABogues from "./piege_a_bogues.json";
+import derivatif from "./derivatif.json";
+import overdose from "./overdose.json";
+import chimieDuChaos from "./chimie_du_chaos.json";
 import type { Card } from "../../engine/types";
 import { cardSchema } from "../schemas";
 import { loadCatalog } from "../schemas";
@@ -65,6 +81,22 @@ const RAW_CARDS: readonly unknown[] = [
   diversion,
   grandFinalDuCapitaine,
   tourbillonAcrobatique,
+  piqureToxique,
+  blouseRenforcee,
+  diagnostic,
+  fioleCorrosive,
+  poudreIrritante,
+  griffeEmpoisonnee,
+  boguePiquante,
+  remedeDeFortune,
+  analyseClinique,
+  espritCalculateur,
+  poisonConcentre,
+  bogueExplosive,
+  piegeABogues,
+  derivatif,
+  overdose,
+  chimieDuChaos,
 ];
 
 export const CARD_CATALOG: Readonly<Record<string, Card>> = loadCatalog(RAW_CARDS, cardSchema);

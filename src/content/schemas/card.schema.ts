@@ -3,7 +3,7 @@ import type { Card, CardUpgrade } from "../../engine/types";
 import { effectSpecSchema } from "./effect.schema";
 import { translationKeySchema } from "./i18n-key.schema";
 
-const cardOwnerSchema = z.enum(["casse_noix", "captain_cabriole", "neutre"]);
+const cardOwnerSchema = z.enum(["casse_noix", "captain_cabriole", "docteur_bogue", "neutre"]);
 const cardTypeSchema = z.enum(["attaque", "defense", "competence", "pouvoir", "malediction"]);
 const raritySchema = z.enum(["commune", "rare", "legendaire"]);
 

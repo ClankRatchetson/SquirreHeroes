@@ -1,0 +1,20 @@
+{
+  "id": "bogue_explosive",
+  "nameKey": "cards.bogue_explosive.name",
+  "hero": "docteur_bogue",
+  "type": "attaque",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 10 },
+    { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 4 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.bogue_explosive.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 13 },
+      { "kind": "applyStatus", "target": "enemy", "status": "seve_empoisonnee", "stacks": 5 }
+    ]
+  },
+  "flavorKey": "cards.bogue_explosive.flavor"
+}

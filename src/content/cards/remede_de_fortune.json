@@ -1,0 +1,14 @@
+{
+  "id": "remede_de_fortune",
+  "nameKey": "cards.remede_de_fortune.name",
+  "hero": "docteur_bogue",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "heal", "target": "self", "amount": 8 }],
+  "upgraded": {
+    "nameKey": "cards.remede_de_fortune.nameUpgraded",
+    "effects": [{ "kind": "heal", "target": "self", "amount": 12 }]
+  },
+  "flavorKey": "cards.remede_de_fortune.flavor"
+}

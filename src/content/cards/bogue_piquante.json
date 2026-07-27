@@ -1,0 +1,20 @@
+{
+  "id": "bogue_piquante",
+  "nameKey": "cards.bogue_piquante.name",
+  "hero": "docteur_bogue",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "block", "target": "self", "amount": 5 },
+    { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.bogue_piquante.nameUpgraded",
+    "effects": [
+      { "kind": "block", "target": "self", "amount": 7 },
+      { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }
+    ]
+  },
+  "flavorKey": "cards.bogue_piquante.flavor"
+}

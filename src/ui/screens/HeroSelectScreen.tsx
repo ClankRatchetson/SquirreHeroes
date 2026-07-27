@@ -17,7 +17,11 @@ export interface HeroSelectScreenProps {
  * `HERO_CATALOG`) — Casse-Noix toujours en premier (héros de départ,
  * déverrouillé par défaut).
  */
-const HERO_DISPLAY_ORDER: readonly HeroId[] = ["casse_noix", "captain_cabriole"];
+const HERO_DISPLAY_ORDER: readonly HeroId[] = [
+  "casse_noix",
+  "captain_cabriole",
+  "docteur_bogue",
+];
 
 /** Un héros est verrouillé s'il n'est pas Casse-Noix et que l'Acte I n'est pas encore terminé (Canal A, cf. Phase 5). */
 function isHeroLocked(heroId: HeroId, actICompleted: boolean): boolean {

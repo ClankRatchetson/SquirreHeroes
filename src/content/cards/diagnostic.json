@@ -1,0 +1,20 @@
+{
+  "id": "diagnostic",
+  "nameKey": "cards.diagnostic.name",
+  "hero": "docteur_bogue",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "draw", "amount": 1 },
+    { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.diagnostic.nameUpgraded",
+    "effects": [
+      { "kind": "draw", "amount": 1 },
+      { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 2 }
+    ]
+  },
+  "flavorKey": "cards.diagnostic.flavor"
+}
