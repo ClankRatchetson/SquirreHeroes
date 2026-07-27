@@ -4,6 +4,60 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.7.0] — Phase 6 — Harnais de simulation & équilibrage
+
+### Ajouté
+- Harnais de simulation headless (`/src/sim`) : un bot joue des milliers de
+  runs et produit un rapport d'équilibrage exploitable via
+  `npm run sim -- --runs=10000` (10 000 runs simulées en ~4 s). `/src/sim`
+  importe librement `/src/engine` et `/src/content` (comme `/src/ui`) — il
+  n'est ni soumis au seuil de couverture 90 % (`vitest.config.ts` inchangé)
+  ni à l'interdiction de dépendre du contenu, mais respecte l'esprit du
+  PRNG seedé : le bot utilise son propre flux `createRng`/`nextInt`
+  (distinct du `RunState.rng` interne au moteur), jamais `Math.random()`.
+- Politique du bot : combat inchangé (heuristique gloutonne déjà établie,
+  extraite dans `src/sim/policy/combat-policy.ts` et réutilisée par
+  `scripts/play-combat.ts`/`play-run.ts` — refactor pur, sortie strictement
+  identique avant/après, vérifié par diff). Nœud/récompense/boutique/feu de
+  camp/événement : choix **aléatoire uniforme** (jamais pondéré par
+  rareté/type) — laisser les données révéler la qualité d'une carte via sa
+  corrélation au taux de victoire exige un échantillonnage non biaisé.
+- `BalanceReport` : taux de victoire global et par héros (`byFamiliar`
+  vide, prêt pour la Phase 7 — aucun familier n'existe encore), par carte
+  (`pickRate`, `winRateWhenPresent`), détection des cartes sous-choisies
+  (< 5 %), sur-choisies (> 90 %) et dominantes (écart de taux de victoire
+  > 15 points sur un échantillon ≥ 30 runs) — seuils en constantes nommées,
+  documentés comme réglables.
+- Validation du plafond de +20 % du Canal B (garde-fou d'équilibrage,
+  CLAUDE.md) : chaque invocation lance 2 lots à seeds appariées (sans bonus
+  / arbre de Glands d'Or complet — même carte/ennemis/événements générés
+  dans les 2 lots, seule la puissance de départ diffère). Le verdict porte
+  sur le bonus de PV max (`hpBonusPercent = totalBonusMaxHp / heroMaxHp`,
+  seule composante directement mesurable comme "puissance de départ") ;
+  l'écart de taux de victoire empirique entre les 2 lots corrobore l'impact
+  des bonus non-PV (carte améliorée, Noisette bonus) sans formule de
+  conversion arbitraire. Chiffres actuels (arbre à 5 nœuds) : +7.5 % de PV
+  max, bien sous le plafond.
+- **Correction d'un bug latent du moteur** découvert par le nouveau graphe
+  d'imports du harnais : `src/engine/effects/dispatch.ts` et
+  `conditional.ts` ont un import circulaire nécessaire (une carte peut
+  résoudre un effet `conditional` dont les branches contiennent n'importe
+  quelle primitive). Le registre de handlers était construit en constante
+  de module évaluée immédiatement, ce qui pouvait capturer
+  `applyConditionalEffect` à `undefined` selon l'ordre d'évaluation du
+  graphe de modules (jamais déclenché par les points d'entrée précédents,
+  mais réel — reproductible hors test). Corrigé en registre construit
+  paresseusement (mémoïsé au premier appel réel, après que tout le graphe
+  de modules a fini de s'évaluer) ; nouveau test de non-régression dans
+  `dispatch.test.ts` exerçant `conditional` via `resolveEffect` (jamais
+  testé par ce chemin auparavant, seulement par appel direct).
+- 32 nouveaux tests (`tests/sim/*` : policy/run-one/aggregate/cli, +1 dans
+  `dispatch.test.ts`). Couverture maintenue à 96.74 % sur `/src/engine`.
+- Vérifié manuellement : `npm run sim -- --runs=200` et
+  `--runs=10000` (livrable littéral du planning) se terminent sans crash
+  avec un rapport JSON plausible ; `npm run cli:combat`/`cli:run`
+  toujours identiques après le refactor de la politique de combat.
+
 ## [0.6.0] — Phase 5 — Méta-progression
 
 ### Ajouté

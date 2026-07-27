@@ -1,13 +1,13 @@
 import { runReducer } from "../src/engine/run/reducer";
 import { createRun } from "../src/engine/run/create-run";
 import { getReachableNodeIds } from "../src/engine/run/selectors";
-import { isCardPlayable } from "../src/engine/core";
-import type { Card, CombatAction, CombatState, RunAction, RunState } from "../src/engine/types";
+import type { RunAction, RunState } from "../src/engine/types";
 import { CARD_CATALOG } from "../src/content/cards";
 import { CASSE_NOIX } from "../src/content/heroes";
 import { ENEMY_CATALOG } from "../src/content/enemies";
 import { EVENT_CATALOG } from "../src/content/events";
 import { tFromContent } from "../src/content/i18n/t";
+import { chooseCombatAction } from "../src/sim/policy/combat-policy";
 
 /**
  * Démo CLI déterministe de l'Acte I de bout en bout (miroir de
@@ -20,44 +20,10 @@ import { tFromContent } from "../src/content/i18n/t";
 const SEED = 42;
 const SAFETY_CAP = 2000;
 
-function cardOf(combat: CombatState, cardInstanceId: string): Card | undefined {
-  const instance = combat.hand.find((c) => c.instanceId === cardInstanceId);
-  return instance ? CARD_CATALOG[instance.cardId] : undefined;
-}
-
-/** Même politique gloutonne que `play-combat.ts` : coût décroissant, attaque avant le reste à coût égal. */
-function chooseCombatAction(combat: CombatState): CombatAction {
-  const targetEnemyId = combat.enemies.find((e) => e.hp > 0)?.instanceId;
-  const playable = combat.hand.filter((c) => isCardPlayable(combat, c.instanceId, targetEnemyId));
-  if (playable.length === 0) {
-    return { type: "END_TURN" };
-  }
-  const sorted = [...playable].sort((a, b) => {
-    const cardA = cardOf(combat, a.instanceId);
-    const cardB = cardOf(combat, b.instanceId);
-    const costDiff = (cardB?.cost ?? 0) - (cardA?.cost ?? 0);
-    if (costDiff !== 0) {
-      return costDiff;
-    }
-    const attackA = cardA?.type === "attaque" ? 1 : 0;
-    const attackB = cardB?.type === "attaque" ? 1 : 0;
-    return attackB - attackA;
-  });
-  const chosen = sorted[0];
-  if (!chosen) {
-    return { type: "END_TURN" };
-  }
-  return {
-    type: "PLAY_CARD",
-    cardInstanceId: chosen.instanceId,
-    ...(targetEnemyId !== undefined ? { targetEnemyId } : {}),
-  };
-}
-
 function chooseRunAction(state: RunState): RunAction {
   switch (state.phase) {
     case "combat":
-      return state.pendingCombat ? chooseCombatAction(state.pendingCombat) : { type: "END_TURN" };
+      return state.pendingCombat ? chooseCombatAction(state.pendingCombat, CARD_CATALOG) : { type: "END_TURN" };
     case "carte": {
       const nodeId = getReachableNodeIds(state)[0];
       return nodeId !== undefined ? { type: "CHOISIR_NOEUD", nodeId } : { type: "END_TURN" };

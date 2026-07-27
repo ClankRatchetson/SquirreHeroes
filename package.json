@@ -1,7 +1,7 @@
 {
   "name": "squirrel-heroes",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.7.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,6 +15,7 @@
     "test:e2e": "playwright test",
     "cli:combat": "tsx scripts/play-combat.ts",
     "cli:run": "tsx scripts/play-run.ts",
+    "sim": "tsx scripts/sim.ts",
     "cap:sync": "cap sync android",
     "cap:open": "cap open android"
   },

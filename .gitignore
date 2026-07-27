@@ -12,6 +12,9 @@ playwright-report/
 test-results/
 *.local
 
+# Rapports du harnais de simulation (Phase 6)
+sim-reports/
+
 # Capacitor / Android native build
 android/app/build/
 android/build/

@@ -9,6 +9,33 @@ describe("resolveEffect", () => {
     const next = resolveEffect(state, { kind: "gainEnergy", amount: 1 }, heroCtx());
     expect(next.energy).toBe(state.energy + 1);
   });
+
+  /**
+   * Garde-fou de non-régression : `conditional.ts` importe `resolveEffects`
+   * depuis ce module (import circulaire nécessaire), et `dispatch.test.ts`
+   * n'exerçait jusqu'ici `conditional` que via un appel direct à
+   * `applyConditionalEffect` (cf. `conditional.test.ts`), jamais via
+   * `resolveEffect`/le registre de handlers. Un registre construit en
+   * constante de module (plutôt que paresseusement) capturerait
+   * `applyConditionalEffect` à `undefined` selon l'ordre d'évaluation du
+   * graphe de modules — bug réel révélé par le harnais de simulation
+   * (Phase 6) important le moteur depuis un nouveau point d'entrée.
+   */
+  it("route \"conditional\" vers son handler (régression import circulaire avec conditional.ts)", () => {
+    const state = makeState({ enemies: [makeEnemy({ instanceId: "e", hp: 30, statuses: [{ id: "a_decouvert", stacks: 1 }] })] });
+    const next = resolveEffect(
+      state,
+      {
+        kind: "conditional",
+        target: "enemy",
+        status: "a_decouvert",
+        whenTrue: [{ kind: "damage", target: "enemy", amount: 15 }],
+        whenFalse: [{ kind: "damage", target: "enemy", amount: 9 }],
+      },
+      heroCtx(),
+    );
+    expect(next.enemies[0]?.hp).toBeLessThan(30);
+  });
 });
 
 describe("resolveEffects", () => {
