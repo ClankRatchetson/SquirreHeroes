@@ -6,11 +6,13 @@ import type {
   EnemyDefinition,
   EnemyInstance,
   EnemyMoveDef,
+  FamiliarPassive,
   HeroDefinition,
   HeroState,
   MoveId,
 } from "../types";
 import { createRng, shuffle } from "../rng";
+import { applyFirstTurnFamiliarBonus } from "../effects";
 import { BASE_MAX_ENERGY, HAND_SIZE } from "./constants";
 
 export interface CreateCombatParams {
@@ -22,6 +24,8 @@ export interface CreateCombatParams {
   readonly deckOverride?: readonly { readonly cardId: CardId; readonly upgraded: boolean }[] | undefined;
   /** PV de départ pour CE combat — par défaut `hero.maxHp` (comportement inchangé). */
   readonly heroHpOverride?: number | undefined;
+  /** Passif du familier de la run, s'il y en a un — figé pour tout le combat (§3.3 des specs). */
+  readonly familiarPassive?: FamiliarPassive | undefined;
 }
 
 function buildEnemyInstance(def: EnemyDefinition, index: number): EnemyInstance {
@@ -77,7 +81,7 @@ export function createCombat(params: CreateCombatParams): CombatState {
     retainsBlock: false,
   };
 
-  return {
+  const base: CombatState = {
     hero: heroState,
     enemies: params.enemies.map(buildEnemyInstance),
     drawPile,
@@ -92,5 +96,7 @@ export function createCombat(params: CreateCombatParams): CombatState {
     rng: rng1,
     cardCatalog: params.cardCatalog,
     nextInstanceSeq,
+    familiarPassive: params.familiarPassive ?? null,
   };
+  return applyFirstTurnFamiliarBonus(base);
 }

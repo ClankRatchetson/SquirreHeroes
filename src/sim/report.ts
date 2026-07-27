@@ -1,6 +1,6 @@
 import { aggregateTreeBonuses } from "../engine/meta";
 import type { MetaProgression, MetaTreeNode } from "../engine/meta";
-import type { CardId, HeroDefinition } from "../engine/types";
+import type { CardId, FamiliarDefinition, HeroDefinition } from "../engine/types";
 import type { CreateRunParams } from "../engine/run/create-run";
 import { simulateOneRun } from "./run-one";
 import { aggregateBatch, buildGlandsDorCapCheck } from "./aggregate";
@@ -8,6 +8,8 @@ import type { BalanceReport, SimRunRecord } from "./types";
 
 export interface RunSimulationConfig {
   readonly hero: HeroDefinition;
+  /** Familier de la run (§3.3) — optionnel pour rester rétrocompatible avec les rapports pré-lot 3. */
+  readonly familiar?: FamiliarDefinition | undefined;
   readonly cardCatalog: CreateRunParams["cardCatalog"];
   readonly enemyCatalog: CreateRunParams["enemyCatalog"];
   readonly eventCatalog: CreateRunParams["eventCatalog"];
@@ -29,6 +31,7 @@ function runBatch(config: RunSimulationConfig, perBatch: number, bonuses: BatchB
     records.push(
       simulateOneRun({
         hero: config.hero,
+        familiar: config.familiar,
         cardCatalog: config.cardCatalog,
         enemyCatalog: config.enemyCatalog,
         eventCatalog: config.eventCatalog,

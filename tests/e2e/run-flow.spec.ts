@@ -26,7 +26,8 @@ test("une run est jouable au tap : carte -> nœud -> combat -> retour à un écr
   await availableNode.click();
 
   await expect(page.getByTestId("hero-panel")).toBeVisible();
-  await expect(page.getByTestId("card-in-hand")).toHaveCount(5);
+  // 5 + 1 : Mésange Radar (familier de départ par défaut, Phase 7 lot 3) pioche 1 carte de plus au 1er tour.
+  await expect(page.getByTestId("card-in-hand")).toHaveCount(6);
 
   // Politique gloutonne bornée (même esprit que scripts/play-run.ts) : priorité à
   // l'attaque (cible requise) pour vraiment faire baisser les PV ennemis — une carte

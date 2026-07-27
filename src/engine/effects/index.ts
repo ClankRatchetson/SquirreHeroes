@@ -4,6 +4,7 @@ export * from "./status-list";
 export * from "./status-math";
 export * from "./status-ticks";
 export * from "./thorns";
+export * from "./familiar-passive";
 export * from "./targeting";
 export * from "./combat-effects";
 export * from "./resource-effects";

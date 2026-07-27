@@ -1,8 +1,9 @@
-import type { CardId, HeroId } from "../engine/types";
+import type { CardId, FamiliarId, HeroId } from "../engine/types";
 import type {
   BalanceBatchResult,
   CardBalanceFlags,
   CardStats,
+  FamiliarStats,
   GlandsDorCapCheck,
   HeroStats,
   SimRunRecord,
@@ -73,6 +74,28 @@ function aggregateByHero(records: readonly SimRunRecord[]): readonly HeroStats[]
   });
 }
 
+/** Miroir d'`aggregateByHero` : les runs sans familier (`familiarId: null`) ne sont pas comptées ici. */
+function aggregateByFamiliar(records: readonly SimRunRecord[]): readonly FamiliarStats[] {
+  const byFamiliarId = new Map<FamiliarId, SimRunRecord[]>();
+  for (const record of records) {
+    if (record.familiarId === null) {
+      continue;
+    }
+    const bucket = byFamiliarId.get(record.familiarId) ?? [];
+    bucket.push(record);
+    byFamiliarId.set(record.familiarId, bucket);
+  }
+  return [...byFamiliarId.entries()].map(([familiarId, familiarRecords]) => {
+    const victories = familiarRecords.filter((r) => r.victory).length;
+    return {
+      familiarId,
+      runsPlayed: familiarRecords.length,
+      victories,
+      winRate: familiarRecords.length > 0 ? victories / familiarRecords.length : 0,
+    };
+  });
+}
+
 /** Réduit un lot de `SimRunRecord` en `BalanceBatchResult` — fonction pure, aucune simulation ici. */
 export function aggregateBatch(records: readonly SimRunRecord[], cardIds: readonly CardId[]): BalanceBatchResult {
   const runsPlayed = records.length;
@@ -85,8 +108,7 @@ export function aggregateBatch(records: readonly SimRunRecord[], cardIds: readon
     victories,
     winRate,
     byHero: aggregateByHero(records),
-    // Aucun familier n'existe encore (Phase 7) — tableau vide, prêt à être peuplé.
-    byFamiliar: [],
+    byFamiliar: aggregateByFamiliar(records),
     byCard,
     flags: buildCardBalanceFlags(byCard, winRate),
   };

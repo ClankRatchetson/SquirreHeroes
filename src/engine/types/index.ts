@@ -2,6 +2,7 @@ export * from "./i18n-key";
 export * from "./status";
 export * from "./effect";
 export * from "./card";
+export * from "./familiar";
 export * from "./enemy";
 export * from "./hero";
 export * from "./combatant";

@@ -32,6 +32,16 @@ export const fr = {
   "heroes.docteur_bogue.description":
     "Ruse et poison : Sève empoisonnée, altérations d'état, dégâts différés.",
 
+  // Familiers
+  "familiars.mesange_radar.name": "Mésange Radar",
+  "familiars.mesange_radar.description": "+1 carte piochée au premier tour de chaque combat.",
+  "familiars.herisson_kevlar.name": "Hérisson Kevlar",
+  "familiars.herisson_kevlar.description": "+3 blocage au premier tour de chaque combat.",
+  "familiars.bourdon_bourru.name": "Bourdon Bourru",
+  "familiars.bourdon_bourru.description": "2 dégâts à un ennemi aléatoire en fin de chaque tour.",
+  "familiars.taupe_secrete.name": "Taupe Secrète",
+  "familiars.taupe_secrete.description": "+1 énergie tous les 3 tours.",
+
   // Ennemis — Acte I, Le Potager
   "enemies.mulot_masque.name": "Le Mulot Masqué",
   "enemies.mulot_masque.moves.griffade.name": "Griffade",
@@ -182,6 +192,20 @@ export const fr = {
   "cards.chimie_du_chaos.nameUpgraded": "Chimie du chaos+",
   "cards.chimie_du_chaos.flavor": "Une formule qu'il vaut mieux ne jamais reproduire.",
 
+  // Cartes — signature familiers
+  "cards.radar_visuel.name": "Radar de mésange",
+  "cards.radar_visuel.nameUpgraded": "Radar de mésange+",
+  "cards.radar_visuel.flavor": "Elle repère la carte qu'il te faut avant même que tu la cherches.",
+  "cards.boule_defensive.name": "Boule défensive",
+  "cards.boule_defensive.nameUpgraded": "Boule défensive+",
+  "cards.boule_defensive.flavor": "Roulée en boule, plus rien ne passe.",
+  "cards.pique_furieux.name": "Piqué furieux",
+  "cards.pique_furieux.nameUpgraded": "Piqué furieux+",
+  "cards.pique_furieux.flavor": "Il ne pique qu'une fois, mais il vise juste.",
+  "cards.galerie_souterraine.name": "Galerie souterraine",
+  "cards.galerie_souterraine.nameUpgraded": "Galerie souterraine+",
+  "cards.galerie_souterraine.flavor": "Un raccourci que personne d'autre ne connaît.",
+
   // Cartes — neutres
   "cards.flair_du_fourre.name": "Flair du fourré",
   "cards.flair_du_fourre.nameUpgraded": "Flair du fourré+",
@@ -274,6 +298,9 @@ export const fr = {
   "ui.heroSelect.locked": "Verrouillé",
   "ui.heroSelect.unlockActI": "Se débloque en terminant l'Acte I",
   "ui.heroSelect.start": "Commencer",
+  "ui.familiarSelect.title": "Choisis ton familier",
+  "ui.familiarSelect.locked": "Verrouillé",
+  "ui.familiarSelect.unlockBoss": "Se débloque en vainquant un boss",
   "ui.collection.title": "Collection",
   "ui.collection.glandsDorLabel": "Glands d'Or",
   "ui.collection.milestones.title": "Jalons",

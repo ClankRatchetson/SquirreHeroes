@@ -1,5 +1,5 @@
 import type { AggregatedTreeBonuses } from "../../engine/meta";
-import type { HeroDefinition, RunAction, RunState } from "../../engine/types";
+import type { FamiliarDefinition, HeroDefinition, RunAction, RunState } from "../../engine/types";
 import type { PersistedRunState } from "../../persistence";
 import type { CombatDisplayEvent, TargetingState } from "./combat-store.types";
 
@@ -11,10 +11,16 @@ export interface RunStoreState {
 
   /**
    * `bonuses` : agrégat de l'arbre de Glands d'Or (Phase 5), calculé par
-   * l'écran de sélection de héros. `hero` : héros choisi (Phase 7) — par
-   * défaut Casse-Noix si omis (rétrocompatible avec les appels existants).
+   * l'écran de sélection de héros. `hero` : héros choisi (Phase 7 lot 1/2)
+   * — par défaut Casse-Noix si omis. `familiar` : familier choisi (Phase 7
+   * lot 3), additif — aucun familier si omis (rétrocompatible).
    */
-  readonly startNewRun: (seed: number, bonuses?: AggregatedTreeBonuses, hero?: HeroDefinition) => void;
+  readonly startNewRun: (
+    seed: number,
+    bonuses?: AggregatedTreeBonuses,
+    hero?: HeroDefinition,
+    familiar?: FamiliarDefinition,
+  ) => void;
   /** Reprend une run sauvegardée : réattache les catalogues vivants, remet à zéro l'état UI éphémère. */
   readonly hydrateRun: (persisted: PersistedRunState) => void;
   /** Actions génériques du run (carte, boutique, récompense, feu de camp, événement). */

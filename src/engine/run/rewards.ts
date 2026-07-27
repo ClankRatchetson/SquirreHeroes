@@ -1,4 +1,4 @@
-import type { Card, CardId, CardOwner, HeroId, RunDeckEntry, RunRewardOffer, RunState } from "../types";
+import type { Card, CardId, CardOwner, FamiliarId, HeroId, RunDeckEntry, RunRewardOffer, RunState } from "../types";
 import { shuffle, type RngState } from "../rng";
 
 export const REWARD_TABLE: Readonly<Record<"combat" | "elite" | "boss", number>> = {
@@ -10,13 +10,18 @@ export const REWARD_TABLE: Readonly<Record<"combat" | "elite" | "boss", number>>
 const REWARD_CARD_CHOICES = 3;
 
 /**
- * `heroId`/`"neutre"` via un `Set` runtime plutôt qu'une comparaison directe
- * : un seul héros existe aujourd'hui, donc TypeScript prouverait la
- * comparaison directe toujours vraie (faux positif ESLint) — ce filtre
- * redevient effectif dès qu'un second héros existe (Phase 7).
+ * `heroId`/`"neutre"`/`familiarId` via un `Set` runtime plutôt qu'une
+ * comparaison directe : un seul héros a longtemps existé, donc TypeScript
+ * prouverait une comparaison directe toujours vraie (faux positif ESLint).
+ * `familiarId` élargit le même ensemble d'éligibilité (§3.3 : la carte
+ * signature d'un familier n'est éligible que quand CE familier est actif).
  */
-function eligibleCardIds(cardCatalog: Readonly<Record<CardId, Card>>, heroId: HeroId): readonly CardId[] {
-  const eligibleOwners: ReadonlySet<CardOwner> = new Set([heroId, "neutre"]);
+function eligibleCardIds(
+  cardCatalog: Readonly<Record<CardId, Card>>,
+  heroId: HeroId,
+  familiarId: FamiliarId | null,
+): readonly CardId[] {
+  const eligibleOwners: ReadonlySet<CardOwner> = new Set([heroId, "neutre", ...(familiarId ? [familiarId] : [])]);
   return Object.values(cardCatalog)
     .filter((card) => eligibleOwners.has(card.hero) && card.type !== "malediction")
     .map((card) => card.id);
@@ -27,9 +32,10 @@ export function generateRewardOffer(
   rng: RngState,
   cardCatalog: Readonly<Record<CardId, Card>>,
   heroId: HeroId,
+  familiarId: FamiliarId | null,
   rewardKind: "combat" | "elite",
 ): readonly [RunRewardOffer, RngState] {
-  const [shuffled, nextRng] = shuffle(rng, eligibleCardIds(cardCatalog, heroId));
+  const [shuffled, nextRng] = shuffle(rng, eligibleCardIds(cardCatalog, heroId, familiarId));
   return [{ cardChoices: shuffled.slice(0, REWARD_CARD_CHOICES), noisettes: REWARD_TABLE[rewardKind] }, nextRng];
 }
 

@@ -1,5 +1,5 @@
 import type { CombatState, EnemyInstance, HeroState } from "../types";
-import { applyDrawEffect } from "../effects";
+import { applyDrawEffect, applyPeriodicFamiliarEnergyBonus } from "../effects";
 import { decideNextIntent } from "./enemy-intent";
 import { HAND_SIZE } from "./constants";
 
@@ -20,6 +20,7 @@ export function startHeroTurn(state: CombatState): CombatState {
     energy: state.maxEnergy,
     turnNumber: state.turnNumber + 1,
   };
+  current = applyPeriodicFamiliarEnergyBonus(current);
 
   const cardsToDraw = Math.max(0, HAND_SIZE - current.hand.length);
   current = applyDrawEffect(current, { kind: "draw", amount: cardsToDraw });

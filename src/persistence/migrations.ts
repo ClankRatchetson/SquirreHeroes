@@ -7,11 +7,27 @@ export interface Migration {
 }
 
 /**
- * Première vraie migration du projet : v1 (Phase 4, pas de `meta`, pas de
- * `noisettesBonusPerCombat` sur `currentRun`) → v2 (Phase 5). Une run en
- * cours reçoit `noisettesBonusPerCombat: 0` (comportement inchangé pour une
- * sauvegarde antérieure à l'existence du bonus) ; `meta` est initialisée à
- * `INITIAL_META_PROGRESSION`.
+ * v2 (Phase 5) → v3 (Phase 7 lot 3) : `currentRun` gagne `familiarId: null`
+ * (aucune run antérieure au familier n'en a un) et, si un combat est en
+ * cours, `pendingCombat.familiarPassive: null` de la même façon.
+ */
+function migrateRunToV3(currentRun: Record<string, unknown>): Record<string, unknown> {
+  const pendingCombat = currentRun.pendingCombat;
+  return {
+    ...currentRun,
+    familiarId: null,
+    pendingCombat:
+      pendingCombat === null || pendingCombat === undefined
+        ? null
+        : { ...(pendingCombat as Record<string, unknown>), familiarPassive: null },
+  };
+}
+
+/**
+ * Historique des migrations : v1 (Phase 4, pas de `meta`, pas de
+ * `noisettesBonusPerCombat` sur `currentRun`) → v2 (Phase 5, ajoute `meta` +
+ * `noisettesBonusPerCombat: 0`) → v3 (Phase 7 lot 3, ajoute
+ * `familiarId`/`familiarPassive: null`, cf. `migrateRunToV3`).
  */
 export const MIGRATIONS: readonly Migration[] = [
   {
@@ -23,6 +39,14 @@ export const MIGRATIONS: readonly Migration[] = [
           ? null
           : { ...(data.currentRun as Record<string, unknown>), noisettesBonusPerCombat: 0 },
       meta: INITIAL_META_PROGRESSION,
+    }),
+  },
+  {
+    fromVersion: 2,
+    migrate: (data) => ({
+      schemaVersion: 3,
+      currentRun: data.currentRun === null ? null : migrateRunToV3(data.currentRun as Record<string, unknown>),
+      meta: data.meta,
     }),
   },
 ];

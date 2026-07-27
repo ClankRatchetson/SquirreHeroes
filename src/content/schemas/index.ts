@@ -6,6 +6,7 @@ export * from "./effect.schema";
 export * from "./card.schema";
 export * from "./enemy.schema";
 export * from "./hero.schema";
+export * from "./familiar.schema";
 export * from "./run-effect.schema";
 export * from "./event.schema";
 export * from "./meta-tree.schema";

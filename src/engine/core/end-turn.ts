@@ -1,5 +1,10 @@
 import type { CombatState, EnemyInstance } from "../types";
-import { resolveEffects, tickEndOfTurnStatuses, type EffectResolutionContext } from "../effects";
+import {
+  applyEndOfTurnFamiliarDamage,
+  resolveEffects,
+  tickEndOfTurnStatuses,
+  type EffectResolutionContext,
+} from "../effects";
 import { checkCombatOutcome } from "./outcome";
 import { startHeroTurn } from "./start-hero-turn";
 
@@ -29,6 +34,12 @@ export function resolveEndTurn(state: CombatState): CombatState {
   }
 
   current = { ...current, discardPile: [...current.discardPile, ...current.hand], hand: [] };
+
+  current = applyEndOfTurnFamiliarDamage(current);
+  current = checkCombatOutcome(current);
+  if (current.outcome !== "en_cours") {
+    return current;
+  }
 
   for (const enemy of current.enemies) {
     if (enemy.hp <= 0) {

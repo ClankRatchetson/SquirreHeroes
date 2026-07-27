@@ -1,0 +1,6 @@
+{
+  "id": "bourdon_bourru",
+  "nameKey": "familiars.bourdon_bourru.name",
+  "passive": { "kind": "damageRandomEnemyEndOfTurn", "amount": 2 },
+  "signatureCardId": "pique_furieux"
+}

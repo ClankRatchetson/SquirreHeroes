@@ -1,10 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { createRun } from "../../../src/engine/run/create-run";
 import { makeCard } from "../helpers";
-import type { Card, EnemyDefinition, EventDefinition, HeroDefinition } from "../../../src/engine/types";
+import type { Card, EnemyDefinition, EventDefinition, FamiliarDefinition, HeroDefinition } from "../../../src/engine/types";
 
 const strike: Card = makeCard({ id: "strike" });
-const CATALOG: Readonly<Record<string, Card>> = { strike };
+const familiarCard: Card = makeCard({ id: "familiar_signature", hero: "mesange_radar" });
+const CATALOG: Readonly<Record<string, Card>> = { strike, familiar_signature: familiarCard };
+
+const familiar: FamiliarDefinition = {
+  id: "mesange_radar",
+  nameKey: "test.familiar",
+  passive: { kind: "bonusDrawFirstTurn", amount: 1 },
+  signatureCardId: "familiar_signature",
+};
 
 const hero: HeroDefinition = {
   id: "casse_noix",
@@ -130,5 +138,39 @@ describe("createRun", () => {
       noisettesBonusPerCombat: 2,
     });
     expect(state.noisettesBonusPerCombat).toBe(2);
+  });
+
+  it("sans familier, familiarId/familiarPassive valent null et le deck n'a que les cartes du héros", () => {
+    const state = createRun({
+      hero,
+      cardCatalog: CATALOG,
+      enemyCatalog: ENEMY_CATALOG,
+      eventCatalog: EVENT_CATALOG,
+      commonEnemyIds: ["dummy"],
+      eliteEnemyIds: ["dummy"],
+      bossEnemyIds: ["dummy"],
+      seed: 1,
+    });
+    expect(state.familiarId).toBeNull();
+    expect(state.familiarPassive).toBeNull();
+    expect(state.deck).toHaveLength(2);
+  });
+
+  it("avec un familier, sa carte signature s'ajoute au deck et familiarId/familiarPassive sont figés", () => {
+    const state = createRun({
+      hero,
+      familiar,
+      cardCatalog: CATALOG,
+      enemyCatalog: ENEMY_CATALOG,
+      eventCatalog: EVENT_CATALOG,
+      commonEnemyIds: ["dummy"],
+      eliteEnemyIds: ["dummy"],
+      bossEnemyIds: ["dummy"],
+      seed: 1,
+    });
+    expect(state.familiarId).toBe("mesange_radar");
+    expect(state.familiarPassive).toEqual({ kind: "bonusDrawFirstTurn", amount: 1 });
+    expect(state.deck).toHaveLength(3);
+    expect(state.deck.filter((entry) => entry.cardId === "familiar_signature")).toHaveLength(1);
   });
 });

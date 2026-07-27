@@ -1,4 +1,14 @@
-import type { Card, CardId, CardOwner, HeroId, RunDeckEntry, RunState, ShopOffer, ShopOfferSlot } from "../types";
+import type {
+  Card,
+  CardId,
+  CardOwner,
+  FamiliarId,
+  HeroId,
+  RunDeckEntry,
+  RunState,
+  ShopOffer,
+  ShopOfferSlot,
+} from "../types";
 import { shuffle, type RngState } from "../rng";
 
 export const CARD_PRICE_BY_RARITY: Readonly<Record<Card["rarity"], number>> = {
@@ -10,9 +20,13 @@ export const UPGRADE_PRICE = 50;
 export const REMOVE_PRICE = 35;
 export const SHOP_CARD_SLOTS = 5;
 
-/** Cf. `rewards.ts` : `Set` runtime pour éviter un faux positif ESLint tant qu'un seul héros existe. */
-function eligibleCards(cardCatalog: Readonly<Record<CardId, Card>>, heroId: HeroId): readonly Card[] {
-  const eligibleOwners: ReadonlySet<CardOwner> = new Set([heroId, "neutre"]);
+/** Cf. `rewards.ts` : `Set` runtime pour éviter un faux positif ESLint, `familiarId` élargit l'ensemble d'éligibilité. */
+function eligibleCards(
+  cardCatalog: Readonly<Record<CardId, Card>>,
+  heroId: HeroId,
+  familiarId: FamiliarId | null,
+): readonly Card[] {
+  const eligibleOwners: ReadonlySet<CardOwner> = new Set([heroId, "neutre", ...(familiarId ? [familiarId] : [])]);
   return Object.values(cardCatalog).filter((card) => eligibleOwners.has(card.hero) && card.type !== "malediction");
 }
 
@@ -20,8 +34,9 @@ export function generateShopOffer(
   rng: RngState,
   cardCatalog: Readonly<Record<CardId, Card>>,
   heroId: HeroId,
+  familiarId: FamiliarId | null,
 ): readonly [ShopOffer, RngState] {
-  const [shuffled, nextRng] = shuffle(rng, eligibleCards(cardCatalog, heroId));
+  const [shuffled, nextRng] = shuffle(rng, eligibleCards(cardCatalog, heroId, familiarId));
   const cardsForSale: readonly ShopOfferSlot[] = shuffled.slice(0, SHOP_CARD_SLOTS).map((card) => ({
     cardId: card.id,
     price: CARD_PRICE_BY_RARITY[card.rarity],

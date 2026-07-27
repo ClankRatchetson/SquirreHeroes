@@ -55,6 +55,7 @@ export function simulateOneRun(params: RunOneParams): SimRunRecord {
 
   return {
     heroId: state.heroId,
+    familiarId: state.familiarId,
     victory: state.outcome === "victoire",
     cardOffers,
     finalDeckCardIds: [...new Set(state.deck.map((entry) => entry.cardId))],

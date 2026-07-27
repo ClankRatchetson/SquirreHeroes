@@ -5,6 +5,7 @@ import type { SimRunRecord } from "../../src/sim/types";
 function makeRecord(overrides: Partial<SimRunRecord> = {}): SimRunRecord {
   return {
     heroId: "casse_noix",
+    familiarId: null,
     victory: false,
     cardOffers: [],
     finalDeckCardIds: [],
@@ -22,8 +23,17 @@ describe("aggregateBatch", () => {
     expect(result.byHero).toEqual([{ heroId: "casse_noix", runsPlayed: 3, victories: 2, winRate: 2 / 3 }]);
   });
 
-  it("byFamiliar est toujours vide (Phase 7 pas encore livrée)", () => {
-    expect(aggregateBatch([], []).byFamiliar).toEqual([]);
+  it("byFamiliar ignore les runs sans familier et agrège les autres par familier", () => {
+    const records = [
+      makeRecord({ familiarId: null, victory: true }),
+      makeRecord({ familiarId: "mesange_radar", victory: true }),
+      makeRecord({ familiarId: "mesange_radar", victory: false }),
+      makeRecord({ familiarId: "taupe_secrete", victory: true }),
+    ];
+    const { byFamiliar } = aggregateBatch(records, []);
+    expect(byFamiliar).toHaveLength(2);
+    expect(byFamiliar).toContainEqual({ familiarId: "mesange_radar", runsPlayed: 2, victories: 1, winRate: 0.5 });
+    expect(byFamiliar).toContainEqual({ familiarId: "taupe_secrete", runsPlayed: 1, victories: 1, winRate: 1 });
   });
 
   it("calcule pickRate/winRateWhenPresent par carte", () => {

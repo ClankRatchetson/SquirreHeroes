@@ -1,0 +1,14 @@
+{
+  "id": "radar_visuel",
+  "nameKey": "cards.radar_visuel.name",
+  "hero": "mesange_radar",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "draw", "amount": 1 }],
+  "upgraded": {
+    "nameKey": "cards.radar_visuel.nameUpgraded",
+    "effects": [{ "kind": "draw", "amount": 2 }]
+  },
+  "flavorKey": "cards.radar_visuel.flavor"
+}

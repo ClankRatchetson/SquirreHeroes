@@ -1,0 +1,20 @@
+{
+  "id": "galerie_souterraine",
+  "nameKey": "cards.galerie_souterraine.name",
+  "hero": "taupe_secrete",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "gainEnergy", "amount": 1 },
+    { "kind": "draw", "amount": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.galerie_souterraine.nameUpgraded",
+    "effects": [
+      { "kind": "gainEnergy", "amount": 1 },
+      { "kind": "draw", "amount": 2 }
+    ]
+  },
+  "flavorKey": "cards.galerie_souterraine.flavor"
+}

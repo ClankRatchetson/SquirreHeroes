@@ -54,7 +54,7 @@ export const useRunStore = create<RunStoreState>((set, get) => ({
   pendingEvents: [],
   isResolvingEnemyTurn: false,
 
-  startNewRun: (seed, bonuses, hero) => {
+  startNewRun: (seed, bonuses, hero, familiar) => {
     const runState = createRun({
       hero: hero ?? CASSE_NOIX,
       cardCatalog: CARD_CATALOG,
@@ -67,6 +67,7 @@ export const useRunStore = create<RunStoreState>((set, get) => ({
       bonusMaxHp: bonuses?.bonusMaxHp,
       upgradedStartingCardIds: bonuses?.upgradedStartingCardIds,
       noisettesBonusPerCombat: bonuses?.noisettesBonusPerCombat,
+      familiar,
     });
     set({ runState, targeting: EMPTY_TARGETING, pendingEvents: [], isResolvingEnemyTurn: false });
     // `recordRunStart` relit `useRunStore.getState().runState` (déjà à jour ci-dessus) et

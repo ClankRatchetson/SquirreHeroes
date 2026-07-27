@@ -135,4 +135,25 @@ describe("resolveEndTurn", () => {
     expect(next.turnNumber).toBe(state.turnNumber + 1);
     expect(next.energy).toBe(next.maxEnergy);
   });
+
+  it("applique les dégâts du familier (Bourdon Bourru) après la défausse, avant les intentions ennemies", () => {
+    const state = makeState({
+      hand: [filler],
+      enemies: [makeEnemy({ instanceId: "e", hp: 20, intent: selfBlock, moves: { block: selfBlock }, pattern: ["block"] })],
+      familiarPassive: { kind: "damageRandomEnemyEndOfTurn", amount: 2 },
+    });
+    const next = resolveEndTurn(state);
+    // 20 PV - 2 (familier) puis le move "block" de l'ennemi n'inflige rien au héros (block sur soi).
+    expect(next.enemies.find((e) => e.instanceId === "e")?.hp).toBe(18);
+  });
+
+  it("le familier peut à lui seul déclencher la victoire (dernier ennemi achevé avant même son intention)", () => {
+    const state = makeState({
+      enemies: [makeEnemy({ instanceId: "e", hp: 2, intent: selfBlock, moves: { block: selfBlock }, pattern: ["block"] })],
+      familiarPassive: { kind: "damageRandomEnemyEndOfTurn", amount: 2 },
+    });
+    const next = resolveEndTurn(state);
+    expect(next.outcome).toBe("victoire");
+    expect(next.enemies[0]?.hp).toBe(0);
+  });
 });

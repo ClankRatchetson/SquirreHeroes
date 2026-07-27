@@ -4,6 +4,7 @@ import { t, tFromContent } from "../../src/content/i18n/t";
 import { CARD_CATALOG } from "../../src/content/cards";
 import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { HERO_CATALOG } from "../../src/content/heroes";
+import { FAMILIAR_CATALOG } from "../../src/content/familiars";
 import { EVENT_CATALOG } from "../../src/content/events";
 import { META_TREE } from "../../src/content/meta-tree";
 
@@ -41,6 +42,12 @@ describe("clés i18n référencées par le contenu", () => {
   it("chaque nameKey de héros résout vers une chaîne non vide", () => {
     for (const hero of Object.values(HERO_CATALOG)) {
       expect(tFromContent(hero.nameKey).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("chaque nameKey de familier résout vers une chaîne non vide", () => {
+    for (const familiar of Object.values(FAMILIAR_CATALOG)) {
+      expect(tFromContent(familiar.nameKey).length).toBeGreaterThan(0);
     }
   });
 

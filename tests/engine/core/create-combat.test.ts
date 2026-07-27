@@ -95,4 +95,21 @@ describe("createCombat", () => {
     const without = createCombat({ hero, enemies: [enemyDef], cardCatalog: CATALOG, seed: 1 });
     expect(withOverrides).toEqual(without);
   });
+
+  it("sans familiarPassive, familiarPassive vaut null", () => {
+    const state = createCombat({ hero, enemies: [enemyDef], cardCatalog: CATALOG, seed: 1 });
+    expect(state.familiarPassive).toBeNull();
+  });
+
+  it("familiarPassive bonusBlockFirstTurn s'applique dès la création (turn 1 ne passe jamais par startHeroTurn)", () => {
+    const state = createCombat({
+      hero,
+      enemies: [enemyDef],
+      cardCatalog: CATALOG,
+      seed: 1,
+      familiarPassive: { kind: "bonusBlockFirstTurn", amount: 3 },
+    });
+    expect(state.hero.block).toBe(3);
+    expect(state.familiarPassive).toEqual({ kind: "bonusBlockFirstTurn", amount: 3 });
+  });
 });

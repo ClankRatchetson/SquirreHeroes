@@ -18,13 +18,23 @@ const upgradable: Card = makeCard({
   rarity: "commune",
   upgraded: { nameKey: "test.guard.up", effects: [] },
 });
-const CATALOG: Readonly<Record<string, Card>> = { strike, guard: upgradable };
+const familiarCard: Card = makeCard({ id: "familiar_signature", hero: "mesange_radar" });
+const CATALOG: Readonly<Record<string, Card>> = { strike, guard: upgradable, familiar_signature: familiarCard };
 
 describe("generateShopOffer", () => {
   it("fixe le prix de chaque carte selon sa rareté", () => {
-    const [offer] = generateShopOffer(createRng(1), CATALOG, "casse_noix");
+    const [offer] = generateShopOffer(createRng(1), CATALOG, "casse_noix", null);
     const strikeSlot = offer.cardsForSale.find((s) => s.cardId === "strike");
     expect(strikeSlot?.price).toBe(CARD_PRICE_BY_RARITY.rare);
+  });
+
+  it("la carte signature d'un familier n'est éligible que si ce familier est actif", () => {
+    const soloCatalog: Readonly<Record<string, Card>> = { familiar_signature: familiarCard };
+    const [withoutFamiliar] = generateShopOffer(createRng(1), soloCatalog, "casse_noix", null);
+    expect(withoutFamiliar.cardsForSale).toHaveLength(0);
+
+    const [withMatchingFamiliar] = generateShopOffer(createRng(1), soloCatalog, "casse_noix", "mesange_radar");
+    expect(withMatchingFamiliar.cardsForSale.map((s) => s.cardId)).toContain("familiar_signature");
   });
 });
 

@@ -1,8 +1,9 @@
-import type { CardId, HeroId } from "./card";
+import type { CardId, FamiliarId, HeroId } from "./card";
 import type { Card } from "./card";
 import type { CombatState } from "./combat-state";
 import type { EnemyDefinition, EnemyId } from "./enemy";
 import type { EventDefinition } from "./event";
+import type { FamiliarPassive } from "./familiar";
 import type { RngState } from "../rng/mulberry32";
 
 export type RunNodeType = "combat" | "elite" | "evenement" | "boutique" | "feu_de_camp" | "boss";
@@ -71,4 +72,8 @@ export interface RunState {
   readonly nextRunCardSeq: number;
   /** Figé une fois à la création de la run (jamais relu en direct depuis la méta-progression en cours de run). */
   readonly noisettesBonusPerCombat: number;
+  /** Identité du familier choisi pour la run (affichage/éligibilité de cartes) — `null` si aucun. */
+  readonly familiarId: FamiliarId | null;
+  /** Passif résolu une fois à la création de la run — dénormalisé plutôt que de porter un catalogue complet sur `RunState`. */
+  readonly familiarPassive: FamiliarPassive | null;
 }

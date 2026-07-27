@@ -45,6 +45,10 @@ import piegeABogues from "./piege_a_bogues.json";
 import derivatif from "./derivatif.json";
 import overdose from "./overdose.json";
 import chimieDuChaos from "./chimie_du_chaos.json";
+import radarVisuel from "./radar_visuel.json";
+import bouleDefensive from "./boule_defensive.json";
+import piqueFurieux from "./pique_furieux.json";
+import galerieSouterraine from "./galerie_souterraine.json";
 import type { Card } from "../../engine/types";
 import { cardSchema } from "../schemas";
 import { loadCatalog } from "../schemas";
@@ -97,6 +101,10 @@ const RAW_CARDS: readonly unknown[] = [
   derivatif,
   overdose,
   chimieDuChaos,
+  radarVisuel,
+  bouleDefensive,
+  piqueFurieux,
+  galerieSouterraine,
 ];
 
 export const CARD_CATALOG: Readonly<Record<string, Card>> = loadCatalog(RAW_CARDS, cardSchema);

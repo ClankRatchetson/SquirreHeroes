@@ -24,6 +24,7 @@ function stripCombatState(combat: CombatState): PersistedCombatState {
     outcome: combat.outcome,
     rng: combat.rng,
     nextInstanceSeq: combat.nextInstanceSeq,
+    familiarPassive: combat.familiarPassive,
   };
 }
 
@@ -51,6 +52,8 @@ export function stripRunState(run: RunState): PersistedRunState {
     rng: run.rng,
     nextRunCardSeq: run.nextRunCardSeq,
     noisettesBonusPerCombat: run.noisettesBonusPerCombat,
+    familiarId: run.familiarId,
+    familiarPassive: run.familiarPassive,
   };
 }
 

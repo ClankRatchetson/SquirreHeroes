@@ -1,5 +1,6 @@
 import type { Card, CardId } from "./card";
 import type { EnemyInstance, HeroState } from "./combatant";
+import type { FamiliarPassive } from "./familiar";
 import type { RngState } from "../rng/mulberry32";
 
 export type CombatPhase = "hero_turn" | "combat_over";
@@ -31,4 +32,6 @@ export interface CombatState {
   readonly rng: RngState;
   readonly cardCatalog: Readonly<Record<CardId, Card>>;
   readonly nextInstanceSeq: number;
+  /** Figé pour tout le combat (§3.3 : le familier n'est pas une unité ciblable, juste un passif ambiant). */
+  readonly familiarPassive: FamiliarPassive | null;
 }

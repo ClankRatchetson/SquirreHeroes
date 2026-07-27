@@ -1,0 +1,14 @@
+{
+  "id": "pique_furieux",
+  "nameKey": "cards.pique_furieux.name",
+  "hero": "bourdon_bourru",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "damage", "target": "enemy", "amount": 8 }],
+  "upgraded": {
+    "nameKey": "cards.pique_furieux.nameUpgraded",
+    "effects": [{ "kind": "damage", "target": "enemy", "amount": 11 }]
+  },
+  "flavorKey": "cards.pique_furieux.flavor"
+}

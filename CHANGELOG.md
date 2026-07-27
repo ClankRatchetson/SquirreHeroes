@@ -4,6 +4,65 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.10.0] — Phase 7 (lot 3) — Les 4 familiers
+
+### Ajouté
+- Les **4 familiers de la v1.0** (§3.3 des specs) : **Mésange Radar** (+1
+  carte piochée au 1er tour de chaque combat, familier de départ toujours
+  débloqué), **Hérisson Kevlar** (+3 blocage au 1er tour), **Bourdon
+  Bourru** (2 dégâts à un ennemi aléatoire en fin de chaque tour), **Taupe
+  Secrète** (+1 énergie tous les 3 tours). Chacun apporte 1 carte signature
+  ajoutée au deck de départ. 12 combinaisons héros×familier désormais
+  jouables — complète le 2ᵉ axe de rejouabilité de la v1.0.
+- Nouveau vocabulaire fermé `FamiliarPassive` (4 membres, un par familier
+  réel) et 3 points d'accroche moteur dédiés
+  (`src/engine/effects/familiar-passive.ts`) : bonus de 1er tour (appliqué
+  en fin de `createCombat`, le tour 1 ne passant jamais par
+  `startHeroTurn`), bonus d'énergie périodique (`startHeroTurn`), dégâts de
+  fin de tour à un ennemi aléatoire (`resolveEndTurn`, dégâts plats sans
+  bonus d'attaquant ni riposte Piquants — le familier n'est pas une unité
+  ciblable). `CardOwner` élargi aux 4 identifiants de familier (même
+  mécanisme que l'élargissement de `HeroId` aux lots 1/2) : la carte
+  signature d'un familier n'est éligible en récompense/boutique que quand
+  ce familier est actif.
+- `RunState` gagne `familiarId`/`familiarPassive` (figés à la création de
+  la run, comme `heroId`/`heroMaxHp`) ; migration `schemaVersion` v2 → v3
+  (`familiarId`/`familiarPassive: null` pour toute sauvegarde antérieure,
+  y compris un combat en cours), avec un vrai test de migration.
+- `HeroSelectScreen` gagne une 2ᵉ section de sélection (familier), même
+  patron que la sélection de héros — bouton global "Commencer" inchangé,
+  préservant tous les parcours e2e existants. Déblocage des 3 familiers
+  autres que Mésange Radar via `meta.bossesDefeated.length > 0` ("vaincre
+  un boss débloque un familier", §3.5), distinct de `actICompleted`
+  (héros) bien que synchronisé tant qu'un seul boss existe.
+- Harnais de simulation : `BalanceReport.byFamiliar` enfin peuplé (stub vide
+  depuis la Phase 6, prêt de longue date). `npm run sim` simule désormais
+  les 12 combinaisons héros×familier et imprime un tableau récapitulatif.
+- Tests unitaires étendus/ajoutés (dont un fichier dédié
+  `familiar-passive.test.ts`) + 4 nouveaux tests e2e. 390 tests unitaires,
+  13 tests e2e, tous verts. Couverture maintenue ≥96 % sur `/src/engine`.
+
+### Constaté (à surveiller)
+- Sous le bot de simulation, **Mésange Radar est systématiquement le
+  familier le moins performant pour les 3 héros** (ex. Casse-Noix : 1.7 %
+  sans bonus contre 6.2-6.5 % pour Bourdon Bourru/Taupe Secrète). Diagnostic
+  posé : la politique de combat gloutonne épuise déjà toute son énergie
+  chaque tour — une carte piochée en plus ne lui sert donc à rien tant
+  qu'elle n'est pas gratuite, alors que Taupe Secrète (énergie
+  supplémentaire, la vraie contrainte du bot) et Bourdon Bourru (dégâts
+  garantis, indépendants de tout choix de carte) restent pleinement
+  efficaces sous n'importe quelle politique. Contrairement aux cartes des
+  héros (Lots 1-2), **les valeurs des passifs de familier sont fixées par
+  le cahier des charges** (§3.3) et n'ont donc PAS été ajustées ici pour
+  compenser ce biais — un joueur humain, qui ne joue pas toute son énergie
+  mécaniquement chaque tour, bénéficie réellement du choix supplémentaire
+  qu'apporte une carte de plus en main. À revalider si un lot futur fait
+  évoluer la politique de combat du harnais.
+- Vérifié manuellement (build de production servi localement) : les 4
+  familiers s'affichent en sélection, Mésange Radar toujours débloquée,
+  les 3 autres verrouillées avant tout boss vaincu ; une run avec Mésange
+  Radar affiche bien 6 cartes en main dès le 1er combat (5 + son bonus).
+
 ## [0.9.0] — Phase 7 (lot 2) — Docteur Bogue, 3ᵉ héros jouable
 
 ### Ajouté

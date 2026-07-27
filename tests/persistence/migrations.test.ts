@@ -3,20 +3,21 @@ import { MIGRATIONS, runMigrations } from "../../src/persistence/migrations";
 import { CURRENT_SCHEMA_VERSION } from "../../src/persistence/save-file";
 import { INITIAL_META_PROGRESSION } from "../../src/engine/meta";
 import { stripRunState } from "../../src/persistence/serialize";
-import { makeRunState } from "../engine/helpers";
+import { makeRunState, makeState } from "../engine/helpers";
 
 describe("migrations", () => {
-  it("CURRENT_SCHEMA_VERSION vaut 2 (Phase 5 — ajout de meta)", () => {
-    expect(CURRENT_SCHEMA_VERSION).toBe(2);
+  it("CURRENT_SCHEMA_VERSION vaut 3 (Phase 7 lot 3 — ajout des familiers)", () => {
+    expect(CURRENT_SCHEMA_VERSION).toBe(3);
   });
 
-  it("MIGRATIONS contient la première vraie migration du projet, depuis v1", () => {
-    expect(MIGRATIONS).toHaveLength(1);
+  it("MIGRATIONS contient l'historique complet du projet, depuis v1", () => {
+    expect(MIGRATIONS).toHaveLength(2);
     expect(MIGRATIONS[0]?.fromVersion).toBe(1);
+    expect(MIGRATIONS[1]?.fromVersion).toBe(2);
   });
 
   it("runMigrations retourne l'enveloppe inchangée si déjà à la version courante", () => {
-    const envelope = { schemaVersion: 2, currentRun: null, meta: INITIAL_META_PROGRESSION };
+    const envelope = { schemaVersion: 3, currentRun: null, meta: INITIAL_META_PROGRESSION };
     expect(runMigrations(envelope)).toEqual(envelope);
   });
 
@@ -25,7 +26,7 @@ describe("migrations", () => {
   });
 
   it("runMigrations lève sur une sauvegarde annonçant une version future inconnue", () => {
-    expect(() => runMigrations({ schemaVersion: 3, currentRun: null })).toThrow();
+    expect(() => runMigrations({ schemaVersion: 4, currentRun: null })).toThrow();
   });
 
   it("migre une authentique sauvegarde v1 (Phase 4 : sans meta, sans noisettesBonusPerCombat) vers v2", () => {
@@ -51,12 +52,45 @@ describe("migrations", () => {
       rng: strippedRun.rng,
       nextRunCardSeq: strippedRun.nextRunCardSeq,
     };
-    const v1Envelope = { schemaVersion: 1, currentRun: v1CurrentRun };
+    // MIGRATIONS[0] (v1->v2) suivi de MIGRATIONS[1] (v2->v3) s'enchaînent — on inspecte
+    // uniquement la forme v2 intermédiaire, sans encore invoquer familiarId/familiarPassive.
+    const migration = MIGRATIONS[0];
+    const migratedToV2 = migration?.migrate({ schemaVersion: 1, currentRun: v1CurrentRun });
 
-    const migrated = runMigrations(v1Envelope);
+    expect(migratedToV2?.schemaVersion).toBe(2);
+    expect(migratedToV2?.meta).toEqual(INITIAL_META_PROGRESSION);
+    expect(migratedToV2?.currentRun).toEqual({ ...v1CurrentRun, noisettesBonusPerCombat: 0 });
+  });
 
-    expect(migrated.schemaVersion).toBe(2);
-    expect(migrated.meta).toEqual(INITIAL_META_PROGRESSION);
-    expect(migrated.currentRun).toEqual({ ...v1CurrentRun, noisettesBonusPerCombat: 0 });
+  it("migre une authentique sauvegarde v2 (Phase 5, sans familiarId/familiarPassive) vers v3 — sans combat en cours", () => {
+    const strippedRun = stripRunState(makeRunState({ pendingCombat: null }));
+    const v2CurrentRun: Record<string, unknown> = { ...strippedRun };
+    delete v2CurrentRun.familiarId;
+    delete v2CurrentRun.familiarPassive;
+    const v2Envelope = { schemaVersion: 2, currentRun: v2CurrentRun, meta: INITIAL_META_PROGRESSION };
+
+    const migrated = runMigrations(v2Envelope);
+
+    expect(migrated.schemaVersion).toBe(3);
+    expect((migrated.currentRun as { familiarId: unknown }).familiarId).toBeNull();
+    expect((migrated.currentRun as { pendingCombat: unknown }).pendingCombat).toBeNull();
+  });
+
+  it("migre une authentique sauvegarde v2 vers v3 — avec un combat en cours", () => {
+    const combatState = makeState();
+    const strippedRun = stripRunState(makeRunState({ pendingCombat: combatState }));
+    const v2CurrentRun: Record<string, unknown> = { ...strippedRun };
+    delete v2CurrentRun.familiarId;
+    delete v2CurrentRun.familiarPassive;
+    const v2PendingCombat = v2CurrentRun.pendingCombat as Record<string, unknown>;
+    delete v2PendingCombat.familiarPassive;
+    const v2Envelope = { schemaVersion: 2, currentRun: v2CurrentRun, meta: INITIAL_META_PROGRESSION };
+
+    const migrated = runMigrations(v2Envelope);
+
+    expect(migrated.schemaVersion).toBe(3);
+    const migratedRun = migrated.currentRun as { familiarId: unknown; pendingCombat: Record<string, unknown> };
+    expect(migratedRun.familiarId).toBeNull();
+    expect(migratedRun.pendingCombat.familiarPassive).toBeNull();
   });
 });

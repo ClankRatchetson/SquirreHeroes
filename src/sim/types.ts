@@ -1,4 +1,4 @@
-import type { CardId, HeroId } from "../engine/types";
+import type { CardId, FamiliarId, HeroId } from "../engine/types";
 
 export interface HeroStats {
   readonly heroId: HeroId;
@@ -7,14 +7,8 @@ export interface HeroStats {
   readonly winRate: number;
 }
 
-/**
- * Aucun familier n'existe encore (reporté à la Phase 7) — ce type est prêt
- * à être peuplé, mais `BalanceReport.byFamiliar` reste un tableau vide tant
- * qu'aucun `FamiliarDefinition` n'existe réellement. Même précédent que le
- * Canal A de la Phase 5 : infrastructure réelle, jamais de contenu fictif.
- */
 export interface FamiliarStats {
-  readonly familiarId: string;
+  readonly familiarId: FamiliarId;
   readonly runsPlayed: number;
   readonly victories: number;
   readonly winRate: number;
@@ -66,6 +60,7 @@ export interface BalanceReport {
 /** Un enregistrement par run simulée — entrée brute agrégée ensuite par `aggregate.ts`. */
 export interface SimRunRecord {
   readonly heroId: HeroId;
+  readonly familiarId: FamiliarId | null;
   readonly victory: boolean;
   /** Cartes offertes (récompense/boutique) durant cette run, avec le fait qu'elles aient été choisies ou non. */
   readonly cardOffers: readonly { readonly cardId: CardId; readonly chosen: boolean }[];

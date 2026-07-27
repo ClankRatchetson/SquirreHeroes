@@ -60,6 +60,7 @@ export function makeState(overrides: Partial<CombatState> = {}): CombatState {
     rng: createRng(1),
     cardCatalog: {},
     nextInstanceSeq: 0,
+    familiarPassive: null,
     ...overrides,
   };
 }
@@ -122,6 +123,8 @@ export function makeRunState(overrides: Partial<RunState> = {}): RunState {
     eventCatalog: {},
     nextRunCardSeq: 0,
     noisettesBonusPerCombat: 0,
+    familiarId: null,
+    familiarPassive: null,
     ...overrides,
   };
 }

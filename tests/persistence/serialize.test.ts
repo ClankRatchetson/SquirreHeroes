@@ -55,4 +55,19 @@ describe("hydrateRunState", () => {
     const hydrated = hydrateRunState(stripRunState(run), CATALOGS);
     expect(hydrated.pendingCombat).toBeNull();
   });
+
+  it("familiarId/familiarPassive (run) et familiarPassive (combat) survivent au strip+hydrate", () => {
+    const run = makeRunState({
+      familiarId: "mesange_radar",
+      familiarPassive: { kind: "bonusDrawFirstTurn", amount: 1 },
+      pendingCombat: makeState({
+        cardCatalog: CATALOGS.cardCatalog,
+        familiarPassive: { kind: "bonusDrawFirstTurn", amount: 1 },
+      }),
+    });
+    const hydrated = hydrateRunState(stripRunState(run), CATALOGS);
+    expect(hydrated.familiarId).toBe("mesange_radar");
+    expect(hydrated.familiarPassive).toEqual({ kind: "bonusDrawFirstTurn", amount: 1 });
+    expect(hydrated.pendingCombat?.familiarPassive).toEqual({ kind: "bonusDrawFirstTurn", amount: 1 });
+  });
 });

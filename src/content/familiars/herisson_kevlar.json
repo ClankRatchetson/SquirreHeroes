@@ -1,0 +1,6 @@
+{
+  "id": "herisson_kevlar",
+  "nameKey": "familiars.herisson_kevlar.name",
+  "passive": { "kind": "bonusBlockFirstTurn", "amount": 3 },
+  "signatureCardId": "boule_defensive"
+}

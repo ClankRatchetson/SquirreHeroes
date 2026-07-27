@@ -1,0 +1,6 @@
+{
+  "id": "mesange_radar",
+  "nameKey": "familiars.mesange_radar.name",
+  "passive": { "kind": "bonusDrawFirstTurn", "amount": 1 },
+  "signatureCardId": "radar_visuel"
+}

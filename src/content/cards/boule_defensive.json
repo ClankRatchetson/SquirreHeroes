@@ -1,0 +1,14 @@
+{
+  "id": "boule_defensive",
+  "nameKey": "cards.boule_defensive.name",
+  "hero": "herisson_kevlar",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "block", "target": "self", "amount": 7 }],
+  "upgraded": {
+    "nameKey": "cards.boule_defensive.nameUpgraded",
+    "effects": [{ "kind": "block", "target": "self", "amount": 10 }]
+  },
+  "flavorKey": "cards.boule_defensive.flavor"
+}

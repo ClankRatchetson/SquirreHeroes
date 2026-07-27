@@ -3,8 +3,8 @@ import { CARD_CATALOG } from "../../src/content/cards";
 import { cardSchema } from "../../src/content/schemas";
 
 describe("catalogue de cartes", () => {
-  it("contient exactement les 47 cartes (15 tranche verticale + 16 Captain Cabriole + 16 Docteur Bogue)", () => {
-    expect(Object.keys(CARD_CATALOG)).toHaveLength(47);
+  it("contient exactement les 51 cartes (15 tranche verticale + 16 Cabriole + 16 Bogue + 4 familiers)", () => {
+    expect(Object.keys(CARD_CATALOG)).toHaveLength(51);
   });
 
   it("chaque carte passe la validation Zod", () => {
@@ -25,9 +25,19 @@ describe("catalogue de cartes", () => {
     }
   });
 
-  it("hero est toujours un héros connu ou neutre", () => {
+  it("hero est toujours un héros/familier connu ou neutre", () => {
+    const knownOwners = [
+      "casse_noix",
+      "captain_cabriole",
+      "docteur_bogue",
+      "mesange_radar",
+      "herisson_kevlar",
+      "bourdon_bourru",
+      "taupe_secrete",
+      "neutre",
+    ];
     for (const card of Object.values(CARD_CATALOG)) {
-      expect(["casse_noix", "captain_cabriole", "docteur_bogue", "neutre"]).toContain(card.hero);
+      expect(knownOwners).toContain(card.hero);
     }
   });
 
@@ -39,6 +49,14 @@ describe("catalogue de cartes", () => {
   it("exactement 16 cartes signature Docteur Bogue", () => {
     const bogueCards = Object.values(CARD_CATALOG).filter((c) => c.hero === "docteur_bogue");
     expect(bogueCards).toHaveLength(16);
+  });
+
+  it("exactement 1 carte signature par familier (4 au total)", () => {
+    const familiarIds = ["mesange_radar", "herisson_kevlar", "bourdon_bourru", "taupe_secrete"];
+    for (const familiarId of familiarIds) {
+      const cards = Object.values(CARD_CATALOG).filter((c) => c.hero === familiarId);
+      expect(cards).toHaveLength(1);
+    }
   });
 
   it("aucune carte de type malédiction dans le contenu de test (volontaire)", () => {

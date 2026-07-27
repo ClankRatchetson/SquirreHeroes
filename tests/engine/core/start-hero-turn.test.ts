@@ -57,4 +57,11 @@ describe("startHeroTurn", () => {
     expect(next.enemies.find((e) => e.instanceId === "alive")?.intent).toEqual(moveB);
     expect(next.enemies.find((e) => e.instanceId === "dead")?.intent).toEqual(moveA);
   });
+
+  it("applique le bonus d'énergie du familier au tour atteint (Taupe Secrète : tous les 3 tours)", () => {
+    const passive = { kind: "bonusEnergyEveryNTurns" as const, amount: 1, everyNTurns: 3 };
+    // turnNumber démarre à 2 -> startHeroTurn l'incrémente à 3 -> le bonus doit s'appliquer.
+    const state = makeState({ turnNumber: 2, energy: 0, maxEnergy: 3, familiarPassive: passive });
+    expect(startHeroTurn(state).energy).toBe(4);
+  });
 });

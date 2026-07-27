@@ -22,7 +22,7 @@ function resolveReward(state: RunState, finishedCombat: CombatState): RunState {
   }
 
   const rewardKind = node?.type === "elite" ? "elite" : "combat";
-  const [offer, nextRng] = generateRewardOffer(state.rng, state.cardCatalog, state.heroId, rewardKind);
+  const [offer, nextRng] = generateRewardOffer(state.rng, state.cardCatalog, state.heroId, state.familiarId, rewardKind);
   return {
     ...state,
     pendingCombat: null,

@@ -42,11 +42,12 @@ export function resolveChoisirNoeud(state: RunState, nodeId: string): RunState {
         seed,
         deckOverride: visited.deck.map((entry) => ({ cardId: entry.cardId, upgraded: entry.upgraded })),
         heroHpOverride: state.heroHp,
+        familiarPassive: state.familiarPassive ?? undefined,
       });
       return { ...visited, rng: nextRng, pendingCombat, phase: "combat" };
     }
     case "boutique": {
-      const [offer, nextRng] = generateShopOffer(visited.rng, state.cardCatalog, state.heroId);
+      const [offer, nextRng] = generateShopOffer(visited.rng, state.cardCatalog, state.heroId, state.familiarId);
       return { ...visited, rng: nextRng, pendingShop: offer, phase: "boutique" };
     }
     case "feu_de_camp":

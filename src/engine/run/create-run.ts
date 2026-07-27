@@ -1,4 +1,14 @@
-import type { Card, CardId, EnemyDefinition, EnemyId, EventDefinition, HeroDefinition, RunDeckEntry, RunState } from "../types";
+import type {
+  Card,
+  CardId,
+  EnemyDefinition,
+  EnemyId,
+  EventDefinition,
+  FamiliarDefinition,
+  HeroDefinition,
+  RunDeckEntry,
+  RunState,
+} from "../types";
 import { createRng } from "../rng";
 import { generateMap, type MapGenerationPools } from "./map-generation";
 
@@ -15,6 +25,8 @@ export interface CreateRunParams {
   readonly bonusMaxHp?: number | undefined;
   readonly upgradedStartingCardIds?: readonly CardId[] | undefined;
   readonly noisettesBonusPerCombat?: number | undefined;
+  /** Familier choisi pour la run (§3.3) — additif, rétro-compatible ; sa carte signature s'ajoute au deck de départ. */
+  readonly familiar?: FamiliarDefinition | undefined;
 }
 
 export function createRun(params: CreateRunParams): RunState {
@@ -28,8 +40,11 @@ export function createRun(params: CreateRunParams): RunState {
   const [map, rng1] = generateMap(rng0, pools);
 
   const upgradedIds = new Set(params.upgradedStartingCardIds ?? []);
+  const startingCardIds = params.familiar
+    ? [...params.hero.startingDeck, params.familiar.signatureCardId]
+    : params.hero.startingDeck;
   let nextRunCardSeq = 0;
-  const deck: RunDeckEntry[] = params.hero.startingDeck.map((cardId) => {
+  const deck: RunDeckEntry[] = startingCardIds.map((cardId) => {
     const entry: RunDeckEntry = {
       runCardId: `run-card-${String(nextRunCardSeq)}`,
       cardId,
@@ -62,5 +77,7 @@ export function createRun(params: CreateRunParams): RunState {
     eventCatalog: params.eventCatalog,
     nextRunCardSeq,
     noisettesBonusPerCombat: params.noisettesBonusPerCombat ?? 0,
+    familiarId: params.familiar?.id ?? null,
+    familiarPassive: params.familiar?.passive ?? null,
   };
 }
