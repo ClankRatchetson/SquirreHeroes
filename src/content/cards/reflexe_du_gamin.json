@@ -1,0 +1,22 @@
+{
+  "id": "reflexe_du_gamin",
+  "nameKey": "cards.reflexe_du_gamin.name",
+  "hero": "captain_cabriole",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "block", "target": "self", "amount": 5 },
+    { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 },
+    { "kind": "draw", "amount": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.reflexe_du_gamin.nameUpgraded",
+    "effects": [
+      { "kind": "block", "target": "self", "amount": 7 },
+      { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 },
+      { "kind": "draw", "amount": 1 }
+    ]
+  },
+  "flavorKey": "cards.reflexe_du_gamin.flavor"
+}

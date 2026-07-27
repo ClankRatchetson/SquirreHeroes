@@ -54,9 +54,9 @@ export const useRunStore = create<RunStoreState>((set, get) => ({
   pendingEvents: [],
   isResolvingEnemyTurn: false,
 
-  startNewRun: (seed, bonuses) => {
+  startNewRun: (seed, bonuses, hero) => {
     const runState = createRun({
-      hero: CASSE_NOIX,
+      hero: hero ?? CASSE_NOIX,
       cardCatalog: CARD_CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,

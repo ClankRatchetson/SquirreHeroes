@@ -1,0 +1,14 @@
+{
+  "id": "combo_du_capitaine",
+  "nameKey": "cards.combo_du_capitaine.name",
+  "hero": "captain_cabriole",
+  "type": "attaque",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 4, "amountPerHit": 5 }],
+  "upgraded": {
+    "nameKey": "cards.combo_du_capitaine.nameUpgraded",
+    "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 4, "amountPerHit": 6 }]
+  },
+  "flavorKey": "cards.combo_du_capitaine.flavor"
+}

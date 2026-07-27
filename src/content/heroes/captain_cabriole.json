@@ -1,0 +1,17 @@
+{
+  "id": "captain_cabriole",
+  "nameKey": "heroes.captain_cabriole.name",
+  "maxHp": 76,
+  "startingDeck": [
+    "griffe_eclair",
+    "griffe_eclair",
+    "griffe_eclair",
+    "griffe_eclair",
+    "esquive_feline",
+    "esquive_feline",
+    "esquive_feline",
+    "esquive_feline",
+    "coup_d_oeil",
+    "pas_de_deux"
+  ]
+}

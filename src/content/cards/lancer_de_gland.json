@@ -1,0 +1,14 @@
+{
+  "id": "lancer_de_gland",
+  "nameKey": "cards.lancer_de_gland.name",
+  "hero": "captain_cabriole",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "damage", "target": "enemy", "amount": 9 }],
+  "upgraded": {
+    "nameKey": "cards.lancer_de_gland.nameUpgraded",
+    "effects": [{ "kind": "damage", "target": "enemy", "amount": 12 }]
+  },
+  "flavorKey": "cards.lancer_de_gland.flavor"
+}

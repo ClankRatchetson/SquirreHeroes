@@ -1,0 +1,22 @@
+{
+  "id": "grand_final_du_capitaine",
+  "nameKey": "cards.grand_final_du_capitaine.name",
+  "hero": "captain_cabriole",
+  "type": "attaque",
+  "rarity": "legendaire",
+  "cost": 2,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 16 },
+    { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 2 },
+    { "kind": "exhaust" }
+  ],
+  "upgraded": {
+    "nameKey": "cards.grand_final_du_capitaine.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 21 },
+      { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 2 },
+      { "kind": "exhaust" }
+    ]
+  },
+  "flavorKey": "cards.grand_final_du_capitaine.flavor"
+}

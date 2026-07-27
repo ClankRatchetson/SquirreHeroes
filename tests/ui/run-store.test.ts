@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createCombat, isCardPlayable } from "../../src/engine/core";
 import { CARD_CATALOG } from "../../src/content/cards";
-import { CASSE_NOIX } from "../../src/content/heroes";
+import { CAPTAIN_CABRIOLE, CASSE_NOIX } from "../../src/content/heroes";
 import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { EVENT_CATALOG } from "../../src/content/events";
 import { stripRunState } from "../../src/persistence/serialize";
@@ -174,6 +174,20 @@ describe("useRunStore", () => {
     expect(runState?.heroMaxHp).toBe(CASSE_NOIX.maxHp + 5);
     expect(runState?.heroHp).toBe(CASSE_NOIX.maxHp + 5);
     expect(runState?.noisettesBonusPerCombat).toBe(3);
+  });
+
+  it("startNewRun(seed, bonuses, hero) démarre une run avec le héros choisi (Phase 7)", () => {
+    useRunStore.getState().startNewRun(3, undefined, CAPTAIN_CABRIOLE);
+    const runState = useRunStore.getState().runState;
+    expect(runState?.heroId).toBe("captain_cabriole");
+    expect(runState?.heroMaxHp).toBe(CAPTAIN_CABRIOLE.maxHp);
+    expect(runState?.heroHp).toBe(CAPTAIN_CABRIOLE.maxHp);
+  });
+
+  it("startNewRun sans hero explicite reste Casse-Noix (rétrocompatible)", () => {
+    useRunStore.getState().startNewRun(4);
+    const runState = useRunStore.getState().runState;
+    expect(runState?.heroId).toBe("casse_noix");
   });
 
   describe("transition vers run_over", () => {

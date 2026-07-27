@@ -1,0 +1,14 @@
+{
+  "id": "corde_a_linge",
+  "nameKey": "cards.corde_a_linge.name",
+  "hero": "captain_cabriole",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 1 }],
+  "upgraded": {
+    "nameKey": "cards.corde_a_linge.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 2 }]
+  },
+  "flavorKey": "cards.corde_a_linge.flavor"
+}

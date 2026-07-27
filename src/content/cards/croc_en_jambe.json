@@ -1,0 +1,14 @@
+{
+  "id": "croc_en_jambe",
+  "nameKey": "cards.croc_en_jambe.name",
+  "hero": "captain_cabriole",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "coquille_fetee", "stacks": 2 }],
+  "upgraded": {
+    "nameKey": "cards.croc_en_jambe.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "coquille_fetee", "stacks": 3 }]
+  },
+  "flavorKey": "cards.croc_en_jambe.flavor"
+}

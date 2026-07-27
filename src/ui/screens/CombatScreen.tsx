@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { CombatControllerContext, type CombatController } from "../combat-controller";
 import { useCombatStore } from "../store/combat-store";
 import { CombatBattlefield } from "../components/combat/CombatBattlefield";
+import { CASSE_NOIX } from "../../content/heroes";
 
 /** Écran de démo Phase 2 : `Provider` fin autour de `useCombatStore`. */
 export function CombatScreen() {
@@ -19,6 +20,7 @@ export function CombatScreen() {
   const controller = useMemo<CombatController>(
     () => ({
       engineState,
+      heroNameKey: CASSE_NOIX.nameKey,
       targeting,
       isResolvingEnemyTurn,
       pendingEvents,

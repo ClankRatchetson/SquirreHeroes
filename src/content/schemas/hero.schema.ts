@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { HeroDefinition } from "../../engine/types";
 import { translationKeySchema } from "./i18n-key.schema";
 
-const heroIdSchema = z.literal("casse_noix");
+const heroIdSchema = z.enum(["casse_noix", "captain_cabriole"]);
 
 export const heroDefinitionSchema: z.ZodType<HeroDefinition> = z.strictObject({
   id: heroIdSchema,

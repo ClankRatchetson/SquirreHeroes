@@ -2,8 +2,8 @@ import type { EffectSpec } from "./effect";
 import type { TranslationKey } from "./i18n-key";
 
 export type CardId = string;
-/** Un seul héros en Phase 1 — s'étendra en Phase 7 (Captain Cabriole, Docteur Bogue). */
-export type HeroId = "casse_noix";
+/** Docteur Bogue reste hors périmètre (lot Phase 7 ultérieur). */
+export type HeroId = "casse_noix" | "captain_cabriole";
 export type CardOwner = HeroId | "neutre";
 export type CardType = "attaque" | "defense" | "competence" | "pouvoir" | "malediction";
 export type Rarity = "commune" | "rare" | "legendaire";

@@ -1,0 +1,20 @@
+{
+  "id": "sac_a_malices",
+  "nameKey": "cards.sac_a_malices.name",
+  "hero": "captain_cabriole",
+  "type": "competence",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [
+    { "kind": "gainEnergy", "amount": 1 },
+    { "kind": "applyStatus", "target": "self", "status": "force", "stacks": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.sac_a_malices.nameUpgraded",
+    "effects": [
+      { "kind": "gainEnergy", "amount": 1 },
+      { "kind": "applyStatus", "target": "self", "status": "force", "stacks": 2 }
+    ]
+  },
+  "flavorKey": "cards.sac_a_malices.flavor"
+}

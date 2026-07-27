@@ -13,6 +13,22 @@ import toilettage from "./toilettage.json";
 import bouclierReflexe from "./bouclier_reflexe.json";
 import griffureCroisee from "./griffure_croisee.json";
 import coupDeSemonce from "./coup_de_semonce.json";
+import griffeEclair from "./griffe_eclair.json";
+import esquiveFeline from "./esquive_feline.json";
+import coupDOeil from "./coup_d_oeil.json";
+import reflexeDuGamin from "./reflexe_du_gamin.json";
+import lancerDeGland from "./lancer_de_gland.json";
+import rouladeArriere from "./roulade_arriere.json";
+import cordeALinge from "./corde_a_linge.json";
+import crocEnJambe from "./croc_en_jambe.json";
+import piedLeger from "./pied_leger.json";
+import pasDeDeux from "./pas_de_deux.json";
+import feinteBasse from "./feinte_basse.json";
+import comboDuCapitaine from "./combo_du_capitaine.json";
+import sacAMalices from "./sac_a_malices.json";
+import diversion from "./diversion.json";
+import grandFinalDuCapitaine from "./grand_final_du_capitaine.json";
+import tourbillonAcrobatique from "./tourbillon_acrobatique.json";
 import type { Card } from "../../engine/types";
 import { cardSchema } from "../schemas";
 import { loadCatalog } from "../schemas";
@@ -33,6 +49,22 @@ const RAW_CARDS: readonly unknown[] = [
   bouclierReflexe,
   griffureCroisee,
   coupDeSemonce,
+  griffeEclair,
+  esquiveFeline,
+  coupDOeil,
+  reflexeDuGamin,
+  lancerDeGland,
+  rouladeArriere,
+  cordeALinge,
+  crocEnJambe,
+  piedLeger,
+  pasDeDeux,
+  feinteBasse,
+  comboDuCapitaine,
+  sacAMalices,
+  diversion,
+  grandFinalDuCapitaine,
+  tourbillonAcrobatique,
 ];
 
 export const CARD_CATALOG: Readonly<Record<string, Card>> = loadCatalog(RAW_CARDS, cardSchema);

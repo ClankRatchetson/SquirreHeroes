@@ -1,0 +1,14 @@
+{
+  "id": "esquive_feline",
+  "nameKey": "cards.esquive_feline.name",
+  "hero": "captain_cabriole",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "block", "target": "self", "amount": 8 }],
+  "upgraded": {
+    "nameKey": "cards.esquive_feline.nameUpgraded",
+    "effects": [{ "kind": "block", "target": "self", "amount": 11 }]
+  },
+  "flavorKey": "cards.esquive_feline.flavor"
+}

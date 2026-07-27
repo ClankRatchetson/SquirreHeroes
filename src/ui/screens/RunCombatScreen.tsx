@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { CombatControllerContext, type CombatController } from "../combat-controller";
 import { useRunStore } from "../store/run-store";
 import { CombatBattlefield } from "../components/combat/CombatBattlefield";
+import { CASSE_NOIX, HERO_CATALOG } from "../../content/heroes";
 
 /**
  * Écran de combat en mode run : `Provider` fin autour de `useRunStore`.
@@ -11,6 +12,7 @@ import { CombatBattlefield } from "../components/combat/CombatBattlefield";
  */
 export function RunCombatScreen() {
   const engineState = useRunStore((s) => s.runState?.pendingCombat ?? null);
+  const heroId = useRunStore((s) => s.runState?.heroId);
   const targeting = useRunStore((s) => s.targeting);
   const isResolvingEnemyTurn = useRunStore((s) => s.isResolvingEnemyTurn);
   const pendingEvents = useRunStore((s) => s.pendingEvents);
@@ -23,6 +25,7 @@ export function RunCombatScreen() {
   const controller = useMemo<CombatController>(
     () => ({
       engineState,
+      heroNameKey: (heroId ? HERO_CATALOG[heroId]?.nameKey : undefined) ?? CASSE_NOIX.nameKey,
       targeting,
       isResolvingEnemyTurn,
       pendingEvents,
@@ -32,7 +35,7 @@ export function RunCombatScreen() {
       endTurn,
       consumeEvent,
     }),
-    [engineState, targeting, isResolvingEnemyTurn, pendingEvents, selectCard, hoverEnemy, playCard, endTurn, consumeEvent],
+    [engineState, heroId, targeting, isResolvingEnemyTurn, pendingEvents, selectCard, hoverEnemy, playCard, endTurn, consumeEvent],
   );
 
   return (

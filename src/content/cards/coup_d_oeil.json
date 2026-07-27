@@ -1,0 +1,20 @@
+{
+  "id": "coup_d_oeil",
+  "nameKey": "cards.coup_d_oeil.name",
+  "hero": "captain_cabriole",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "draw", "amount": 1 },
+    { "kind": "applyStatus", "target": "self", "status": "force", "stacks": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.coup_d_oeil.nameUpgraded",
+    "effects": [
+      { "kind": "draw", "amount": 1 },
+      { "kind": "applyStatus", "target": "self", "status": "force", "stacks": 2 }
+    ]
+  },
+  "flavorKey": "cards.coup_d_oeil.flavor"
+}

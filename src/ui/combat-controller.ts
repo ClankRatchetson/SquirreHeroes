@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { CombatState } from "../engine/types";
+import type { CombatState, TranslationKey } from "../engine/types";
 import type { CombatDisplayEvent, TargetingState } from "./store/combat-store.types";
 
 /**
@@ -10,6 +10,8 @@ import type { CombatDisplayEvent, TargetingState } from "./store/combat-store.ty
  */
 export interface CombatController {
   readonly engineState: CombatState | null;
+  /** Nom du héros réellement en jeu (Phase 7 : plusieurs héros possibles) — jamais figé sur Casse-Noix. */
+  readonly heroNameKey: TranslationKey;
   readonly targeting: TargetingState;
   readonly isResolvingEnemyTurn: boolean;
   readonly pendingEvents: readonly CombatDisplayEvent[];

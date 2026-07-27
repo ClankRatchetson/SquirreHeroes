@@ -1,0 +1,20 @@
+{
+  "id": "tourbillon_acrobatique",
+  "nameKey": "cards.tourbillon_acrobatique.name",
+  "hero": "captain_cabriole",
+  "type": "attaque",
+  "rarity": "legendaire",
+  "cost": 2,
+  "effects": [
+    { "kind": "damageAll", "amount": 9 },
+    { "kind": "gainEnergy", "amount": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.tourbillon_acrobatique.nameUpgraded",
+    "effects": [
+      { "kind": "damageAll", "amount": 12 },
+      { "kind": "gainEnergy", "amount": 1 }
+    ]
+  },
+  "flavorKey": "cards.tourbillon_acrobatique.flavor"
+}

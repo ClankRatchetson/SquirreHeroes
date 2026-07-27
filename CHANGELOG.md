@@ -4,6 +4,52 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.8.0] — Phase 7 (lot 1) — Captain Cabriole, 2ᵉ héros jouable
+
+### Ajouté
+- 2ᵉ héros jouable : **Captain Cabriole** (archétype agilité/combo — cartes
+  à coût faible, chaînes de statuts, esquive, gain d'énergie), 16 cartes
+  signature + deck de départ de 10 cartes (`maxHp: 76`). Jouable dès
+  aujourd'hui à travers le contenu Acte I existant — aucun nouvel ennemi,
+  aucune génération multi-actes, aucun familier (hors périmètre de ce lot,
+  cf. décision actée avec l'utilisateur : Phase 7 traitée « par lots testés
+  et équilibrés », jamais en un seul commit).
+- `HeroId`/`CardOwner` élargis à 2 membres (`captain_cabriole` ajouté,
+  Docteur Bogue reste hors périmètre). `HeroSelectScreen` boucle désormais
+  sur `HERO_CATALOG` au lieu d'un 2ᵉ emplacement figé — déblocage de
+  Captain Cabriole toujours piloté par `meta.actICompleted` (design Canal A
+  inchangé depuis la Phase 5, câblé sur du contenu réel). Un seul bouton
+  « Commencer » global (pas un par héros) préserve tous les tests e2e
+  existants sans modification.
+- Harnais de simulation (Phase 6) étendu : `npm run sim` simule les 2
+  héros séparément (un rapport JSON par héros), en filtrant le pool de
+  cartes éligibles par héros pour éviter un bruit de « cartes jamais
+  offertes » entre héros.
+- ~50 nouvelles clés i18n (héros + 16 cartes). 6 nouveaux tests unitaires +
+  2 nouveaux tests e2e (`hero-select.spec.ts`). Couverture maintenue à
+  96.74 % sur `/src/engine`.
+
+### Corrigé
+- `HeroPanel` affichait toujours le nom de Casse-Noix en combat, y compris
+  pendant une run jouée avec un autre héros — désormais dérivé du héros
+  réel de la run (`CombatController.heroNameKey`).
+
+### Constaté (à surveiller)
+- Le harnais de simulation mesure un taux de victoire nettement plus bas
+  pour Captain Cabriole que pour Casse-Noix sous le bot actuel. Diagnostic
+  posé : la politique de combat gloutonne (coût décroissant, attaque
+  départagée en priorité) ne raisonne pas sur l'enchaînement
+  statut-déclencheur → carte de paiement propre à l'archétype combo de
+  Cabriole (ex. `corde_a_linge`/`diversion` puis `feinte_basse`), et le
+  choix de cartes en récompense/boutique reste aléatoire uniforme (non
+  synergique). Un ajustement mesuré a été appliqué (`maxHp` 68→76,
+  `esquive_feline` alignée sur `mur_de_ronces`), mais l'écart residuel est
+  probablement une limite du bot plutôt qu'un défaut du kit — à revalider
+  si un lot futur fait évoluer la politique de combat du harnais.
+- Vérifié manuellement (build de production servi localement) : les 2
+  héros s'affichent en sélection, Cabriole verrouillé/déverrouillé selon
+  `meta.actICompleted`, une run Cabriole affiche bien ses PV (76/76).
+
 ## [0.7.0] — Phase 6 — Harnais de simulation & équilibrage
 
 ### Ajouté

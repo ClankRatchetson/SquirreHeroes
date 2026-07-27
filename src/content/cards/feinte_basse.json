@@ -1,0 +1,30 @@
+{
+  "id": "feinte_basse",
+  "nameKey": "cards.feinte_basse.name",
+  "hero": "captain_cabriole",
+  "type": "attaque",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [
+    {
+      "kind": "conditional",
+      "target": "enemy",
+      "status": "etourdi",
+      "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 14 }],
+      "whenFalse": [{ "kind": "damage", "target": "enemy", "amount": 8 }]
+    }
+  ],
+  "upgraded": {
+    "nameKey": "cards.feinte_basse.nameUpgraded",
+    "effects": [
+      {
+        "kind": "conditional",
+        "target": "enemy",
+        "status": "etourdi",
+        "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 18 }],
+        "whenFalse": [{ "kind": "damage", "target": "enemy", "amount": 10 }]
+      }
+    ]
+  },
+  "flavorKey": "cards.feinte_basse.flavor"
+}

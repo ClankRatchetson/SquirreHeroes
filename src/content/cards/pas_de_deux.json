@@ -1,0 +1,14 @@
+{
+  "id": "pas_de_deux",
+  "nameKey": "cards.pas_de_deux.name",
+  "hero": "captain_cabriole",
+  "type": "pouvoir",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 2 }],
+  "upgraded": {
+    "nameKey": "cards.pas_de_deux.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 3 }]
+  },
+  "flavorKey": "cards.pas_de_deux.flavor"
+}

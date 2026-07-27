@@ -1,0 +1,14 @@
+{
+  "id": "pied_leger",
+  "nameKey": "cards.pied_leger.name",
+  "hero": "captain_cabriole",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 0,
+  "effects": [{ "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 1 }],
+  "upgraded": {
+    "nameKey": "cards.pied_leger.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 2 }]
+  },
+  "flavorKey": "cards.pied_leger.flavor"
+}

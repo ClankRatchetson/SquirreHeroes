@@ -1,0 +1,20 @@
+{
+  "id": "griffe_eclair",
+  "nameKey": "cards.griffe_eclair.name",
+  "hero": "captain_cabriole",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 7 },
+    { "kind": "draw", "amount": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.griffe_eclair.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 10 },
+      { "kind": "draw", "amount": 1 }
+    ]
+  },
+  "flavorKey": "cards.griffe_eclair.flavor"
+}

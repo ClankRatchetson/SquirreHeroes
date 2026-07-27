@@ -1,6 +1,5 @@
 import { getEnergy } from "../../../engine/core";
 import { t } from "../../../content/i18n/t";
-import { CASSE_NOIX } from "../../../content/heroes";
 import { useCombatController } from "../../combat-controller";
 import { HeroPanel } from "../hero/HeroPanel";
 import { EnemyRow } from "../enemy/EnemyRow";
@@ -20,7 +19,7 @@ export interface CombatBattlefieldProps {
  * mode démo (`CombatScreen`) et par le mode run (`RunCombatScreen`).
  */
 export function CombatBattlefield({ onReplay }: CombatBattlefieldProps) {
-  const { engineState, isResolvingEnemyTurn, endTurn } = useCombatController();
+  const { engineState, heroNameKey, isResolvingEnemyTurn, endTurn } = useCombatController();
 
   if (!engineState) {
     return null;
@@ -39,7 +38,7 @@ export function CombatBattlefield({ onReplay }: CombatBattlefieldProps) {
 
       <div className="flex-1" />
 
-      <HeroPanel hero={engineState.hero} nameKey={CASSE_NOIX.nameKey} />
+      <HeroPanel hero={engineState.hero} nameKey={heroNameKey} />
 
       <div className="flex items-center justify-between">
         <EnergyBar current={energy.current} max={energy.max} />

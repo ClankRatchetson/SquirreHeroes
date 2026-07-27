@@ -1,0 +1,20 @@
+{
+  "id": "diversion",
+  "nameKey": "cards.diversion.name",
+  "hero": "captain_cabriole",
+  "type": "competence",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [
+    { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 2 },
+    { "kind": "draw", "amount": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.diversion.nameUpgraded",
+    "effects": [
+      { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 3 },
+      { "kind": "draw", "amount": 1 }
+    ]
+  },
+  "flavorKey": "cards.diversion.flavor"
+}

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { runSimulation } from "../../src/sim/report";
 import { CARD_CATALOG } from "../../src/content/cards";
-import { CASSE_NOIX, HERO_CATALOG } from "../../src/content/heroes";
+import { CASSE_NOIX } from "../../src/content/heroes";
 import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { EVENT_CATALOG } from "../../src/content/events";
 import { META_TREE } from "../../src/content/meta-tree";
@@ -36,7 +36,9 @@ describe("runSimulation", () => {
       expect(batch.runsPlayed).toBe(10); // 20 runs / 2 lots
       expect(batch.winRate).toBeGreaterThanOrEqual(0);
       expect(batch.winRate).toBeLessThanOrEqual(1);
-      expect(batch.byHero).toHaveLength(Object.keys(HERO_CATALOG).length);
+      // `runSimulation` est mono-héros par construction (`createRun`/`createCombat` prennent un seul
+      // héros) — même avec 2 héros dans `HERO_CATALOG`, un appel donné ne simule que `CONFIG.hero`.
+      expect(batch.byHero).toHaveLength(1);
       expect(batch.byFamiliar).toEqual([]);
       expect(batch.byCard).toHaveLength(Object.keys(CARD_CATALOG).length);
       for (const card of batch.byCard) {

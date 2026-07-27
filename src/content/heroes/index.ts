@@ -1,8 +1,9 @@
 import casseNoixJson from "./casse_noix.json";
+import captainCabrioleJson from "./captain_cabriole.json";
 import type { HeroDefinition } from "../../engine/types";
 import { heroDefinitionSchema, loadCatalog } from "../schemas";
 
-const RAW_HEROES: readonly unknown[] = [casseNoixJson];
+const RAW_HEROES: readonly unknown[] = [casseNoixJson, captainCabrioleJson];
 
 export const HERO_CATALOG: Readonly<Record<string, HeroDefinition>> = loadCatalog(
   RAW_HEROES,
@@ -14,3 +15,9 @@ if (!casseNoix) {
   throw new Error("Contenu manquant : héros casse_noix introuvable dans HERO_CATALOG.");
 }
 export const CASSE_NOIX: HeroDefinition = casseNoix;
+
+const captainCabriole = HERO_CATALOG.captain_cabriole;
+if (!captainCabriole) {
+  throw new Error("Contenu manquant : héros captain_cabriole introuvable dans HERO_CATALOG.");
+}
+export const CAPTAIN_CABRIOLE: HeroDefinition = captainCabriole;

@@ -1,0 +1,14 @@
+{
+  "id": "roulade_arriere",
+  "nameKey": "cards.roulade_arriere.name",
+  "hero": "captain_cabriole",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 2, "amountPerHit": 4 }],
+  "upgraded": {
+    "nameKey": "cards.roulade_arriere.nameUpgraded",
+    "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 2, "amountPerHit": 5 }]
+  },
+  "flavorKey": "cards.roulade_arriere.flavor"
+}
