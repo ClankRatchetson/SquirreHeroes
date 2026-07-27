@@ -1,54 +1,43 @@
-import { getEnergy } from "../../engine/core";
-import { t } from "../../content/i18n/t";
-import { CASSE_NOIX } from "../../content/heroes";
+import { useMemo } from "react";
+import { CombatControllerContext, type CombatController } from "../combat-controller";
 import { useCombatStore } from "../store/combat-store";
-import { HeroPanel } from "../components/hero/HeroPanel";
-import { EnemyRow } from "../components/enemy/EnemyRow";
-import { Hand } from "../components/hand/Hand";
-import { EnergyBar } from "../components/hand/EnergyBar";
-import { EndTurnButton } from "../components/hand/EndTurnButton";
-import { OutcomeOverlay } from "../components/feedback/OutcomeOverlay";
+import { CombatBattlefield } from "../components/combat/CombatBattlefield";
 
+/** Écran de démo Phase 2 : `Provider` fin autour de `useCombatStore`. */
 export function CombatScreen() {
   const engineState = useCombatStore((s) => s.engineState);
+  const targeting = useCombatStore((s) => s.targeting);
   const isResolvingEnemyTurn = useCombatStore((s) => s.isResolvingEnemyTurn);
+  const pendingEvents = useCombatStore((s) => s.pendingEvents);
+  const selectCard = useCombatStore((s) => s.selectCard);
+  const hoverEnemy = useCombatStore((s) => s.hoverEnemy);
+  const playCard = useCombatStore((s) => s.playCard);
   const endTurn = useCombatStore((s) => s.endTurn);
+  const consumeEvent = useCombatStore((s) => s.consumeEvent);
   const startNewCombat = useCombatStore((s) => s.startNewCombat);
 
-  if (!engineState) {
-    return null;
-  }
-
-  const energy = getEnergy(engineState);
+  const controller = useMemo<CombatController>(
+    () => ({
+      engineState,
+      targeting,
+      isResolvingEnemyTurn,
+      pendingEvents,
+      selectCard,
+      hoverEnemy,
+      playCard,
+      endTurn,
+      consumeEvent,
+    }),
+    [engineState, targeting, isResolvingEnemyTurn, pendingEvents, selectCard, hoverEnemy, playCard, endTurn, consumeEvent],
+  );
 
   return (
-    <div className="flex min-h-dvh flex-col gap-3 bg-stone-900 p-3 text-stone-100">
-      <p data-testid="turn-number" className="text-center text-xs text-stone-400">
-        {t("ui.combat.turnLabel")} {engineState.turnNumber}
-        {isResolvingEnemyTurn && <span className="ml-2">{t("ui.combat.enemyTurnResolving")}</span>}
-      </p>
-
-      <EnemyRow enemies={engineState.enemies} />
-
-      <div className="flex-1" />
-
-      <HeroPanel hero={engineState.hero} nameKey={CASSE_NOIX.nameKey} />
-
-      <div className="flex items-center justify-between">
-        <EnergyBar current={energy.current} max={energy.max} />
-        <EndTurnButton disabled={isResolvingEnemyTurn} onClick={endTurn} />
-      </div>
-
-      <Hand state={engineState} />
-
-      {engineState.outcome !== "en_cours" && (
-        <OutcomeOverlay
-          outcome={engineState.outcome}
-          onReplay={() => {
-            startNewCombat(Date.now());
-          }}
-        />
-      )}
-    </div>
+    <CombatControllerContext.Provider value={controller}>
+      <CombatBattlefield
+        onReplay={() => {
+          startNewCombat(Date.now());
+        }}
+      />
+    </CombatControllerContext.Provider>
   );
 }

@@ -59,4 +59,40 @@ describe("createCombat", () => {
     const brokenEnemy: EnemyDefinition = { ...enemyDef, pattern: [], moves: [] };
     expect(() => createCombat({ hero, enemies: [brokenEnemy], cardCatalog: CATALOG, seed: 1 })).toThrow();
   });
+
+  it("deckOverride remplace le deck de départ, y compris les cartes améliorées", () => {
+    const state = createCombat({
+      hero,
+      enemies: [enemyDef],
+      cardCatalog: CATALOG,
+      seed: 1,
+      deckOverride: [
+        { cardId: "strike", upgraded: true },
+        { cardId: "guard", upgraded: false },
+      ],
+    });
+    const all = [...state.hand, ...state.drawPile];
+    expect(all).toHaveLength(2);
+    expect(all.find((c) => c.cardId === "strike")?.upgraded).toBe(true);
+    expect(all.find((c) => c.cardId === "guard")?.upgraded).toBe(false);
+  });
+
+  it("heroHpOverride fixe les PV de départ sans changer maxHp", () => {
+    const state = createCombat({ hero, enemies: [enemyDef], cardCatalog: CATALOG, seed: 1, heroHpOverride: 12 });
+    expect(state.hero.hp).toBe(12);
+    expect(state.hero.maxHp).toBe(50);
+  });
+
+  it("sans deckOverride/heroHpOverride, le comportement est inchangé", () => {
+    const withOverrides = createCombat({
+      hero,
+      enemies: [enemyDef],
+      cardCatalog: CATALOG,
+      seed: 1,
+      deckOverride: undefined,
+      heroHpOverride: undefined,
+    });
+    const without = createCombat({ hero, enemies: [enemyDef], cardCatalog: CATALOG, seed: 1 });
+    expect(withOverrides).toEqual(without);
+  });
 });

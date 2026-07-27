@@ -37,6 +37,15 @@ export const fr = {
   "enemies.pie_kleptomane.moves.bec_vif.name": "Bec vif",
   "enemies.pie_kleptomane.moves.vol_eclair.name": "Vol éclair",
   "enemies.pie_kleptomane.moves.repli_furtif.name": "Repli furtif",
+  "enemies.merle_mercenaire.name": "Le Merle Mercenaire",
+  "enemies.merle_mercenaire.moves.plongeon_vif.name": "Plongeon vif",
+  "enemies.merle_mercenaire.moves.piquetis_rapide.name": "Piquetis rapide",
+  "enemies.merle_mercenaire.moves.envol_defensif.name": "Envol défensif",
+  "enemies.baronne_bec_de_fer.name": "La Baronne Bec-de-Fer",
+  "enemies.baronne_bec_de_fer.moves.griffure_imperiale.name": "Griffure impériale",
+  "enemies.baronne_bec_de_fer.moves.tornade_de_plumes.name": "Tornade de plumes",
+  "enemies.baronne_bec_de_fer.moves.cri_du_rapace.name": "Cri du rapace",
+  "enemies.baronne_bec_de_fer.moves.jugement_du_bec.name": "Jugement du bec",
 
   // Cartes — signature Casse-Noix
   "cards.noisette_explosive.name": "Noisette explosive",
@@ -100,4 +109,47 @@ export const fr = {
   "ui.outcome.victory": "Victoire !",
   "ui.outcome.defeat": "Défaite",
   "ui.outcome.replay": "Rejouer",
+
+  // Événements de run
+  "events.noyer_ancestral.title": "Le Noyer Ancestral",
+  "events.noyer_ancestral.text":
+    "Un noyer immense, aux branches chargées de noisettes dorées, se dresse devant toi. Grimper prend du temps... et des risques.",
+  "events.noyer_ancestral.choices.grimper_prudent.label": "Grimper prudemment",
+  "events.noyer_ancestral.choices.grimper_vite.label": "Grimper vite",
+  "events.noyer_ancestral.choices.repartir.label": "Repartir",
+  "events.fontaine_moussue.title": "La Fontaine Moussue",
+  "events.fontaine_moussue.text":
+    "Une source claire coule entre les pierres moussues. L'eau semble apaisante — mais le lit du ruisseau scintille aussi.",
+  "events.fontaine_moussue.choices.se_reposer.label": "Se reposer",
+  "events.fontaine_moussue.choices.fouiller.label": "Fouiller",
+  "events.marchand_ambulant.title": "Le Marchand Ambulant Mystérieux",
+  "events.marchand_ambulant.text":
+    "Une silhouette encapuchonnée déballe un étal de fortune. \"Une carte contre quelques Noisettes, l'ami ?\"",
+  "events.marchand_ambulant.choices.echanger.label": "Échanger",
+  "events.marchand_ambulant.choices.refuser.label": "Refuser",
+
+  // UI — structure de run (Phase 3)
+  "ui.menu.newRun": "Nouvelle run",
+  "ui.run.map.floorLabel": "Étage",
+  "ui.run.map.combat": "Combat",
+  "ui.run.map.elite": "Élite",
+  "ui.run.map.boutique": "Boutique",
+  "ui.run.map.feu_de_camp": "Feu de camp",
+  "ui.run.map.evenement": "Événement",
+  "ui.run.map.boss": "Boss",
+  "ui.run.noisettesLabel": "Noisettes",
+  "ui.run.reward.title": "Récompense",
+  "ui.run.reward.noisettesGained": "Noisettes gagnées",
+  "ui.run.reward.skip": "Passer",
+  "ui.run.shop.title": "Boutique",
+  "ui.run.shop.upgrade": "Améliorer",
+  "ui.run.shop.remove": "Retirer",
+  "ui.run.shop.leave": "Quitter",
+  "ui.run.campfire.title": "Feu de camp",
+  "ui.run.campfire.heal": "Se reposer",
+  "ui.run.campfire.upgradeSection": "Améliorer une carte",
+  "ui.run.campfire.upgradeConfirm": "Améliorer",
+  "ui.run.outcome.victory": "Acte I terminé — Victoire !",
+  "ui.run.outcome.defeat": "Défaite — la run s'arrête ici",
+  "ui.run.outcome.newRun": "Nouvelle run",
 } as const;

@@ -5,6 +5,10 @@ import type {
   CombatState,
   EnemyInstance,
   EnemyMoveDef,
+  RunMap,
+  RunNode,
+  RunNodeType,
+  RunState,
   HeroState,
 } from "../../src/engine/types";
 import type { EffectResolutionContext } from "../../src/engine/effects";
@@ -78,6 +82,44 @@ export function makeCard(overrides: Partial<Card> & { readonly id: CardId }): Ca
     rarity: "commune",
     cost: 1,
     effects: [],
+    ...overrides,
+  };
+}
+
+export function makeRunNode(overrides: Partial<RunNode> & { readonly id: string; readonly type: RunNodeType }): RunNode {
+  return {
+    floor: 0,
+    edges: [],
+    ...overrides,
+  };
+}
+
+export function makeRunState(overrides: Partial<RunState> = {}): RunState {
+  const map: RunMap = {
+    actId: "acte_1",
+    floorCount: 1,
+    nodes: [makeRunNode({ id: "node-0", type: "combat", enemyIds: ["test_enemy"] })],
+  };
+  return {
+    heroId: "casse_noix",
+    heroMaxHp: 80,
+    heroHp: 80,
+    deck: [],
+    noisettes: 0,
+    map,
+    currentNodeId: null,
+    visitedNodeIds: [],
+    phase: "carte",
+    outcome: "en_cours",
+    pendingCombat: null,
+    pendingReward: null,
+    pendingShop: null,
+    pendingEventId: null,
+    rng: createRng(1),
+    cardCatalog: {},
+    enemyCatalog: {},
+    eventCatalog: {},
+    nextRunCardSeq: 0,
     ...overrides,
   };
 }

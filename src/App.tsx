@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { MenuScreen } from "./ui/screens/MenuScreen";
 import { CombatScreen } from "./ui/screens/CombatScreen";
+import { RunScreen } from "./ui/screens/RunScreen";
 
-type Screen = "menu" | "combat";
+type Screen = "menu" | "combat" | "run";
 
 function App() {
   const [screen, setScreen] = useState<Screen>("menu");
@@ -10,13 +11,19 @@ function App() {
   if (screen === "menu") {
     return (
       <MenuScreen
-        onStart={() => {
+        onStartCombat={() => {
           setScreen("combat");
+        }}
+        onStartRun={() => {
+          setScreen("run");
         }}
       />
     );
   }
-  return <CombatScreen />;
+  if (screen === "combat") {
+    return <CombatScreen />;
+  }
+  return <RunScreen />;
 }
 
 export default App;

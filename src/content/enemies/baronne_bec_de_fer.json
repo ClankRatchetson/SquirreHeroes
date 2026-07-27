@@ -1,0 +1,42 @@
+{
+  "id": "baronne_bec_de_fer",
+  "nameKey": "enemies.baronne_bec_de_fer.name",
+  "maxHp": 100,
+  "moves": [
+    {
+      "id": "griffure_imperiale",
+      "nameKey": "enemies.baronne_bec_de_fer.moves.griffure_imperiale.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 14 }]
+    },
+    {
+      "id": "tornade_de_plumes",
+      "nameKey": "enemies.baronne_bec_de_fer.moves.tornade_de_plumes.name",
+      "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 4, "amountPerHit": 4 }]
+    },
+    {
+      "id": "cri_du_rapace",
+      "nameKey": "enemies.baronne_bec_de_fer.moves.cri_du_rapace.name",
+      "effects": [
+        { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 1 },
+        { "kind": "block", "target": "self", "amount": 10 }
+      ]
+    },
+    {
+      "id": "jugement_du_bec",
+      "nameKey": "enemies.baronne_bec_de_fer.moves.jugement_du_bec.name",
+      "effects": [
+        {
+          "kind": "conditional",
+          "target": "enemy",
+          "status": "a_decouvert",
+          "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 24 }],
+          "whenFalse": [
+            { "kind": "damage", "target": "enemy", "amount": 14 },
+            { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 1 }
+          ]
+        }
+      ]
+    }
+  ],
+  "pattern": ["cri_du_rapace", "jugement_du_bec", "griffure_imperiale", "tornade_de_plumes"]
+}

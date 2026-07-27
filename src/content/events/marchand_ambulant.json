@@ -1,0 +1,20 @@
+{
+  "id": "marchand_ambulant",
+  "titleKey": "events.marchand_ambulant.title",
+  "textKey": "events.marchand_ambulant.text",
+  "choices": [
+    {
+      "id": "echanger",
+      "labelKey": "events.marchand_ambulant.choices.echanger.label",
+      "effects": [
+        { "kind": "loseNoisettes", "amount": 10 },
+        { "kind": "addCardToDeck", "cardId": "griffure_croisee" }
+      ]
+    },
+    {
+      "id": "refuser",
+      "labelKey": "events.marchand_ambulant.choices.refuser.label",
+      "effects": []
+    }
+  ]
+}

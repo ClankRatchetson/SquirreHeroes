@@ -1,11 +1,24 @@
 import { describe, expect, it } from "vitest";
-import { CAMPAGNOL_CAGOULE, ENEMY_CATALOG, MULOT_MASQUE, PIE_KLEPTOMANE } from "../../src/content/enemies";
+import {
+  BARONNE_BEC_DE_FER,
+  CAMPAGNOL_CAGOULE,
+  ENEMY_CATALOG,
+  MERLE_MERCENAIRE,
+  MULOT_MASQUE,
+  PIE_KLEPTOMANE,
+} from "../../src/content/enemies";
 import { enemyDefinitionSchema } from "../../src/content/schemas";
 
 describe("catalogue d'ennemis", () => {
-  it("contient les 3 ennemis communs de l'Acte I", () => {
+  it("contient le roster complet de l'Acte I : 3 communs + 1 élite + 1 boss", () => {
     expect(Object.keys(ENEMY_CATALOG).sort()).toEqual(
-      ["campagnol_cagoule", "mulot_masque", "pie_kleptomane"].sort(),
+      [
+        "campagnol_cagoule",
+        "mulot_masque",
+        "pie_kleptomane",
+        "merle_mercenaire",
+        "baronne_bec_de_fer",
+      ].sort(),
     );
   });
 
@@ -23,9 +36,11 @@ describe("catalogue d'ennemis", () => {
     }
   });
 
-  it("les PV des 3 ennemis correspondent aux specs", () => {
+  it("les PV des ennemis correspondent aux specs", () => {
     expect(MULOT_MASQUE.maxHp).toBe(42);
     expect(CAMPAGNOL_CAGOULE.maxHp).toBe(38);
     expect(PIE_KLEPTOMANE.maxHp).toBe(34);
+    expect(MERLE_MERCENAIRE.maxHp).toBe(60);
+    expect(BARONNE_BEC_DE_FER.maxHp).toBe(100);
   });
 });

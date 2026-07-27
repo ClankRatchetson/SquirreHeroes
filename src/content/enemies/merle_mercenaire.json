@@ -1,0 +1,26 @@
+{
+  "id": "merle_mercenaire",
+  "nameKey": "enemies.merle_mercenaire.name",
+  "maxHp": 60,
+  "moves": [
+    {
+      "id": "plongeon_vif",
+      "nameKey": "enemies.merle_mercenaire.moves.plongeon_vif.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 11 }]
+    },
+    {
+      "id": "piquetis_rapide",
+      "nameKey": "enemies.merle_mercenaire.moves.piquetis_rapide.name",
+      "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 3, "amountPerHit": 5 }]
+    },
+    {
+      "id": "envol_defensif",
+      "nameKey": "enemies.merle_mercenaire.moves.envol_defensif.name",
+      "effects": [
+        { "kind": "block", "target": "self", "amount": 9 },
+        { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }
+      ]
+    }
+  ],
+  "pattern": ["plongeon_vif", "piquetis_rapide", "envol_defensif"]
+}

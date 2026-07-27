@@ -18,6 +18,10 @@ export interface CreateCombatParams {
   readonly enemies: readonly EnemyDefinition[];
   readonly cardCatalog: Readonly<Record<CardId, Card>>;
   readonly seed: number;
+  /** Remplace `hero.startingDeck` quand fourni — le run y injecte son deck courant (cartes améliorées incluses). */
+  readonly deckOverride?: readonly { readonly cardId: CardId; readonly upgraded: boolean }[] | undefined;
+  /** PV de départ pour CE combat — par défaut `hero.maxHp` (comportement inchangé). */
+  readonly heroHpOverride?: number | undefined;
 }
 
 function buildEnemyInstance(def: EnemyDefinition, index: number): EnemyInstance {
@@ -51,9 +55,12 @@ function buildEnemyInstance(def: EnemyDefinition, index: number): EnemyInstance 
 export function createCombat(params: CreateCombatParams): CombatState {
   const rng0 = createRng(params.seed);
 
+  const sourceDeck =
+    params.deckOverride ?? params.hero.startingDeck.map((cardId) => ({ cardId, upgraded: false }));
+
   let nextInstanceSeq = 0;
-  const unshuffledDraw: CardInstance[] = params.hero.startingDeck.map((cardId) => {
-    const instance: CardInstance = { instanceId: `card-${String(nextInstanceSeq)}`, cardId, upgraded: false };
+  const unshuffledDraw: CardInstance[] = sourceDeck.map(({ cardId, upgraded }) => {
+    const instance: CardInstance = { instanceId: `card-${String(nextInstanceSeq)}`, cardId, upgraded };
     nextInstanceSeq += 1;
     return instance;
   });
@@ -64,7 +71,7 @@ export function createCombat(params: CreateCombatParams): CombatState {
 
   const heroState: HeroState = {
     maxHp: params.hero.maxHp,
-    hp: params.hero.maxHp,
+    hp: params.heroHpOverride ?? params.hero.maxHp,
     block: 0,
     statuses: [],
     retainsBlock: false,

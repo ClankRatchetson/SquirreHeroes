@@ -4,6 +4,47 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.4.0] — Phase 3 — Structure de run
+
+### Ajouté
+- Réducteur de run pur (`/src/engine/run`), miroir de `/src/engine/core` :
+  génération déterministe de la carte à embranchements de l'Acte I (9
+  étages, poids par type de nœud, connectivité garantie, feu de camp
+  garanti avant le boss), récompenses/boutique/feu de camp/événements,
+  composition avec `combatReducer` via `forwardToCombat` (`runReducer`
+  orchestre la transition victoire-de-combat → récompense-de-run, jamais
+  la UI). `createCombat` reçoit deux paramètres additifs et rétro-
+  compatibles (`deckOverride`, `heroHpOverride`) pour reprendre le deck et
+  les PV du run à chaque combat.
+- Roster complet de l'Acte I : ajout de l'élite Le Merle Mercenaire (60 PV)
+  et du boss La Baronne Bec-de-Fer (100 PV, synergie `a_decouvert` avec
+  `coup_de_grace`) — l'acte est désormais jouable de bout en bout, victoire
+  ou défaite.
+- Nouveau vocabulaire d'effets de run, séparé et minimal (`RunEffectSpec`,
+  5 primitives : `damage`, `heal`, `gainNoisettes`, `loseNoisettes`,
+  `addCardToDeck`) et nouveau type de contenu événement (3 événements
+  d'exemple : Le Noyer Ancestral, La Fontaine Moussue, Le Marchand Ambulant
+  Mystérieux), validés par Zod, avec vérification croisée des `cardId`
+  référencés faite en test plutôt que dans le schéma (évite un cycle
+  d'import, même précédent que `HeroDefinition.startingDeck`).
+- UI de run complète (`useRunStore`, `CombatController` — contexte React
+  partagé entre le mode démo et le mode run pour réutiliser les composants
+  de combat de la Phase 2 sans duplication — carte à embranchements,
+  écrans de récompense/boutique/feu de camp/événement, écran de fin de
+  run). Utilitaire `stagger-enemy-turn.ts` extrait de `combat-store.ts`
+  pour être partagé sans duplication avec `run-store.ts`.
+- Script CLI de démonstration `npm run cli:run`, miroir de `cli:combat` :
+  joue une run entière headless jusqu'à victoire ou défaite, déterministe.
+- ~45 nouvelles clés i18n (élite/boss, événements, écrans de run).
+- 85 nouveaux tests unitaires (moteur de run, contenu, store) + nouveau
+  test e2e `run-flow.spec.ts` prouvant le câblage carte → nœud → combat →
+  retour à un écran hors combat. Couverture maintenue à 96.51% sur
+  `/src/engine` (seuil 90%).
+- Vérifié manuellement : chaque type de nœud (combat, boutique, feu de
+  camp, événement, récompense) atteint et fonctionnel sur mobile ; un bug
+  de mise en page a été détecté et corrigé (`justify-center` empêchait
+  d'atteindre le premier nœud d'une carte défilante horizontalement).
+
 ## [0.3.0] — Phase 2 — UI de combat jouable au doigt
 
 ### Ajouté

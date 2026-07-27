@@ -1,6 +1,6 @@
 import { isCardPlayable } from "../../../engine/core";
 import type { EnemyInstance } from "../../../engine/types";
-import { useCombatStore } from "../../store/combat-store";
+import { useCombatController } from "../../combat-controller";
 import { EnemyCard } from "./EnemyCard";
 
 export interface EnemyRowProps {
@@ -8,9 +8,7 @@ export interface EnemyRowProps {
 }
 
 export function EnemyRow({ enemies }: EnemyRowProps) {
-  const engineState = useCombatStore((s) => s.engineState);
-  const targeting = useCombatStore((s) => s.targeting);
-  const playCard = useCombatStore((s) => s.playCard);
+  const { engineState, targeting, playCard } = useCombatController();
 
   const selectedCardInstanceId = targeting.selectedCardInstanceId;
 

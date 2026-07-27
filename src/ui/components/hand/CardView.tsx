@@ -5,7 +5,7 @@ import { isCardPlayable } from "../../../engine/core";
 import type { Card, CardInstance } from "../../../engine/types";
 import { tFromContent } from "../../../content/i18n/t";
 import { cardNeedsEnemyTarget, isCardVisuallyPlayable } from "../../card-target";
-import { useCombatStore } from "../../store/combat-store";
+import { useCombatController } from "../../combat-controller";
 import { CARD_RESOLVE_MS } from "../../animation/timing";
 
 export interface CardViewProps {
@@ -21,12 +21,8 @@ function findHoveredEnemyId(point: { readonly x: number; readonly y: number }): 
 
 /** Une carte de la main : tap-select, drag, désactivée si non jouable. */
 export function CardView({ instance, card }: CardViewProps) {
-  const engineState = useCombatStore((s) => s.engineState);
-  const isResolvingEnemyTurn = useCombatStore((s) => s.isResolvingEnemyTurn);
-  const selectedCardInstanceId = useCombatStore((s) => s.targeting.selectedCardInstanceId);
-  const selectCard = useCombatStore((s) => s.selectCard);
-  const hoverEnemy = useCombatStore((s) => s.hoverEnemy);
-  const playCard = useCombatStore((s) => s.playCard);
+  const { engineState, isResolvingEnemyTurn, targeting, selectCard, hoverEnemy, playCard } = useCombatController();
+  const selectedCardInstanceId = targeting.selectedCardInstanceId;
 
   const needsTarget = cardNeedsEnemyTarget(card, instance.upgraded);
   const playable =

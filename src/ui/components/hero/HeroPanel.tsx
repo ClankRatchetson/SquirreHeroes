@@ -1,7 +1,7 @@
 import type { HeroState } from "../../../engine/types";
 import { t, tFromContent } from "../../../content/i18n/t";
 import { useCombatEventQueue } from "../../hooks/useCombatEventQueue";
-import { useCombatStore } from "../../store/combat-store";
+import { useCombatController } from "../../combat-controller";
 import { StatusTooltip } from "../status/StatusTooltip";
 import { FloatingNumber } from "../feedback/FloatingNumber";
 
@@ -12,7 +12,7 @@ export interface HeroPanelProps {
 
 export function HeroPanel({ hero, nameKey }: HeroPanelProps) {
   const events = useCombatEventQueue("hero");
-  const consumeEvent = useCombatStore((s) => s.consumeEvent);
+  const { consumeEvent } = useCombatController();
 
   return (
     <div data-testid="hero-panel" className="relative flex flex-col gap-2 rounded-lg bg-stone-800 p-3">

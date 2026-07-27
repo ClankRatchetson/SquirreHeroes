@@ -1,10 +1,18 @@
 import mulotMasqueJson from "./mulot_masque.json";
 import campagnolCagouleJson from "./campagnol_cagoule.json";
 import pieKleptomaneJson from "./pie_kleptomane.json";
+import merleMercenaireJson from "./merle_mercenaire.json";
+import baronneBecDeFerJson from "./baronne_bec_de_fer.json";
 import type { EnemyDefinition } from "../../engine/types";
 import { enemyDefinitionSchema, loadCatalog } from "../schemas";
 
-const RAW_ENEMIES: readonly unknown[] = [mulotMasqueJson, campagnolCagouleJson, pieKleptomaneJson];
+const RAW_ENEMIES: readonly unknown[] = [
+  mulotMasqueJson,
+  campagnolCagouleJson,
+  pieKleptomaneJson,
+  merleMercenaireJson,
+  baronneBecDeFerJson,
+];
 
 export const ENEMY_CATALOG: Readonly<Record<string, EnemyDefinition>> = loadCatalog(
   RAW_ENEMIES,
@@ -22,3 +30,5 @@ function requireEnemy(id: string): EnemyDefinition {
 export const MULOT_MASQUE: EnemyDefinition = requireEnemy("mulot_masque");
 export const CAMPAGNOL_CAGOULE: EnemyDefinition = requireEnemy("campagnol_cagoule");
 export const PIE_KLEPTOMANE: EnemyDefinition = requireEnemy("pie_kleptomane");
+export const MERLE_MERCENAIRE: EnemyDefinition = requireEnemy("merle_mercenaire");
+export const BARONNE_BEC_DE_FER: EnemyDefinition = requireEnemy("baronne_bec_de_fer");

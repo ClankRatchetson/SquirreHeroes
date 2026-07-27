@@ -1,0 +1,25 @@
+{
+  "id": "noyer_ancestral",
+  "titleKey": "events.noyer_ancestral.title",
+  "textKey": "events.noyer_ancestral.text",
+  "choices": [
+    {
+      "id": "grimper_prudent",
+      "labelKey": "events.noyer_ancestral.choices.grimper_prudent.label",
+      "effects": [{ "kind": "gainNoisettes", "amount": 20 }]
+    },
+    {
+      "id": "grimper_vite",
+      "labelKey": "events.noyer_ancestral.choices.grimper_vite.label",
+      "effects": [
+        { "kind": "gainNoisettes", "amount": 35 },
+        { "kind": "damage", "amount": 8 }
+      ]
+    },
+    {
+      "id": "repartir",
+      "labelKey": "events.noyer_ancestral.choices.repartir.label",
+      "effects": []
+    }
+  ]
+}

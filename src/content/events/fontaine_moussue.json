@@ -1,0 +1,17 @@
+{
+  "id": "fontaine_moussue",
+  "titleKey": "events.fontaine_moussue.title",
+  "textKey": "events.fontaine_moussue.text",
+  "choices": [
+    {
+      "id": "se_reposer",
+      "labelKey": "events.fontaine_moussue.choices.se_reposer.label",
+      "effects": [{ "kind": "heal", "amount": 15 }]
+    },
+    {
+      "id": "fouiller",
+      "labelKey": "events.fontaine_moussue.choices.fouiller.label",
+      "effects": [{ "kind": "gainNoisettes", "amount": 15 }]
+    }
+  ]
+}

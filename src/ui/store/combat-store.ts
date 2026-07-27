@@ -4,7 +4,7 @@ import { CARD_CATALOG } from "../../content/cards";
 import { CASSE_NOIX } from "../../content/heroes";
 import { CAMPAGNOL_CAGOULE, MULOT_MASQUE, PIE_KLEPTOMANE } from "../../content/enemies";
 import { diffCombatStates } from "../animation/diff-events";
-import { ENEMY_TURN_STEP_MS } from "../animation/timing";
+import { staggerEnemyTurnPresentation } from "../animation/stagger-enemy-turn";
 import type { CombatStoreState, TargetingState } from "./combat-store.types";
 
 const EMPTY_TARGETING: TargetingState = { selectedCardInstanceId: null, hoveredEnemyInstanceId: null };
@@ -70,33 +70,19 @@ export const useCombatStore = create<CombatStoreState>((set, get) => ({
       return;
     }
 
-    const events = diffCombatStates(prev, next);
-    const heroEvents = events.filter((e) => e.targetId === "hero");
-    const enemyEventGroups = next.enemies.map((enemy) =>
-      events.filter((e) => e.targetId === enemy.instanceId),
-    );
-
     // L'état moteur (final) s'affiche immédiatement — seule la PRÉSENTATION
     // des flashs est étalée dans le temps, jamais un second appel au réducteur.
     set({ engineState: next, isResolvingEnemyTurn: true, targeting: EMPTY_TARGETING });
 
-    enemyEventGroups.forEach((group, index) => {
-      if (group.length === 0) {
-        return;
-      }
-      setTimeout(() => {
-        set((s) => ({ pendingEvents: [...s.pendingEvents, ...group] }));
-      }, index * ENEMY_TURN_STEP_MS);
-    });
-
-    setTimeout(
-      () => {
-        set((s) => ({
-          pendingEvents: heroEvents.length > 0 ? [...s.pendingEvents, ...heroEvents] : s.pendingEvents,
-          isResolvingEnemyTurn: false,
-        }));
+    staggerEnemyTurnPresentation(
+      prev,
+      next,
+      (events) => {
+        set((s) => ({ pendingEvents: [...s.pendingEvents, ...events] }));
       },
-      next.enemies.length * ENEMY_TURN_STEP_MS,
+      (resolving) => {
+        set({ isResolvingEnemyTurn: resolving });
+      },
     );
   },
 

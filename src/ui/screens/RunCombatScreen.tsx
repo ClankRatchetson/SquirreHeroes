@@ -1,0 +1,43 @@
+import { useMemo } from "react";
+import { CombatControllerContext, type CombatController } from "../combat-controller";
+import { useRunStore } from "../store/run-store";
+import { CombatBattlefield } from "../components/combat/CombatBattlefield";
+
+/**
+ * Écran de combat en mode run : `Provider` fin autour de `useRunStore`.
+ * `onReplay` n'est jamais invoqué en pratique — dès que le combat se
+ * termine, `runState.pendingCombat` repasse à `null` et `RunScreen` change
+ * de phase avant qu'un nouveau rendu n'ait l'occasion d'afficher l'overlay.
+ */
+export function RunCombatScreen() {
+  const engineState = useRunStore((s) => s.runState?.pendingCombat ?? null);
+  const targeting = useRunStore((s) => s.targeting);
+  const isResolvingEnemyTurn = useRunStore((s) => s.isResolvingEnemyTurn);
+  const pendingEvents = useRunStore((s) => s.pendingEvents);
+  const selectCard = useRunStore((s) => s.selectCard);
+  const hoverEnemy = useRunStore((s) => s.hoverEnemy);
+  const playCard = useRunStore((s) => s.playCard);
+  const endTurn = useRunStore((s) => s.endTurn);
+  const consumeEvent = useRunStore((s) => s.consumeEvent);
+
+  const controller = useMemo<CombatController>(
+    () => ({
+      engineState,
+      targeting,
+      isResolvingEnemyTurn,
+      pendingEvents,
+      selectCard,
+      hoverEnemy,
+      playCard,
+      endTurn,
+      consumeEvent,
+    }),
+    [engineState, targeting, isResolvingEnemyTurn, pendingEvents, selectCard, hoverEnemy, playCard, endTurn, consumeEvent],
+  );
+
+  return (
+    <CombatControllerContext.Provider value={controller}>
+      <CombatBattlefield onReplay={() => {}} />
+    </CombatControllerContext.Provider>
+  );
+}

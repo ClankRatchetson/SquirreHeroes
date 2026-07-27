@@ -4,6 +4,7 @@ import { t, tFromContent } from "../../src/content/i18n/t";
 import { CARD_CATALOG } from "../../src/content/cards";
 import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { HERO_CATALOG } from "../../src/content/heroes";
+import { EVENT_CATALOG } from "../../src/content/events";
 
 describe("i18n dictionary", () => {
   it("resolves every declared key to a non-empty string", () => {
@@ -39,6 +40,16 @@ describe("clés i18n référencées par le contenu", () => {
   it("chaque nameKey de héros résout vers une chaîne non vide", () => {
     for (const hero of Object.values(HERO_CATALOG)) {
       expect(tFromContent(hero.nameKey).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("chaque titleKey/textKey/labelKey d'événement résout vers une chaîne non vide", () => {
+    for (const event of Object.values(EVENT_CATALOG)) {
+      expect(tFromContent(event.titleKey).length).toBeGreaterThan(0);
+      expect(tFromContent(event.textKey).length).toBeGreaterThan(0);
+      for (const choice of event.choices) {
+        expect(tFromContent(choice.labelKey).length).toBeGreaterThan(0);
+      }
     }
   });
 });

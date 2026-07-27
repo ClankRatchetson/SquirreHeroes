@@ -1,7 +1,7 @@
 import type { EnemyInstance } from "../../../engine/types";
 import { tFromContent } from "../../../content/i18n/t";
 import { useCombatEventQueue } from "../../hooks/useCombatEventQueue";
-import { useCombatStore } from "../../store/combat-store";
+import { useCombatController } from "../../combat-controller";
 import { StatusTooltip } from "../status/StatusTooltip";
 import { FloatingNumber } from "../feedback/FloatingNumber";
 import { IntentIcon } from "./IntentIcon";
@@ -15,7 +15,7 @@ export interface EnemyCardProps {
 
 export function EnemyCard({ enemy, isTargetable, isHovered, onSelectTarget }: EnemyCardProps) {
   const events = useCombatEventQueue(enemy.instanceId);
-  const consumeEvent = useCombatStore((s) => s.consumeEvent);
+  const { consumeEvent } = useCombatController();
   const isDead = enemy.hp <= 0;
 
   return (
