@@ -9,23 +9,24 @@ const POOLS: MapGenerationPools = {
   bossEnemyIds: ["baronne_bec_de_fer"],
   eventIds: ["noyer_ancestral", "fontaine_moussue", "marchand_ambulant"],
 };
+const ACT_ID = "acte_1";
 
 describe("generateMap", () => {
   it("est déterministe : la même seed produit la même carte", () => {
-    const [mapA] = generateMap(createRng(42), POOLS);
-    const [mapB] = generateMap(createRng(42), POOLS);
+    const [mapA] = generateMap(createRng(42), POOLS, ACT_ID);
+    const [mapB] = generateMap(createRng(42), POOLS, ACT_ID);
     expect(mapA).toEqual(mapB);
   });
 
   it("le floor 0 est un unique nœud combat", () => {
-    const [map] = generateMap(createRng(1), POOLS);
+    const [map] = generateMap(createRng(1), POOLS, ACT_ID);
     const floor0 = map.nodes.filter((n) => n.floor === 0);
     expect(floor0).toHaveLength(1);
     expect(floor0[0]?.type).toBe("combat");
   });
 
   it("le dernier floor est un unique nœud boss", () => {
-    const [map] = generateMap(createRng(1), POOLS);
+    const [map] = generateMap(createRng(1), POOLS, ACT_ID);
     const lastFloor = map.nodes.filter((n) => n.floor === FLOOR_COUNT - 1);
     expect(lastFloor).toHaveLength(1);
     expect(lastFloor[0]?.type).toBe("boss");
@@ -34,7 +35,7 @@ describe("generateMap", () => {
 
   it("aucun nœud élite avant ELITE_MIN_FLOOR, sur plusieurs seeds", () => {
     for (let seed = 0; seed < 30; seed += 1) {
-      const [map] = generateMap(createRng(seed), POOLS);
+      const [map] = generateMap(createRng(seed), POOLS, ACT_ID);
       const earlyElites = map.nodes.filter((n) => n.floor < ELITE_MIN_FLOOR && n.type === "elite");
       expect(earlyElites).toHaveLength(0);
     }
@@ -42,7 +43,7 @@ describe("generateMap", () => {
 
   it("tout nœud de floor > 0 a au moins une arête entrante, sur plusieurs seeds", () => {
     for (let seed = 0; seed < 30; seed += 1) {
-      const [map] = generateMap(createRng(seed), POOLS);
+      const [map] = generateMap(createRng(seed), POOLS, ACT_ID);
       for (let floor = 1; floor < FLOOR_COUNT; floor += 1) {
         const nodesAtFloor = map.nodes.filter((n) => n.floor === floor);
         const allEdgesIntoFloor = map.nodes.filter((n) => n.floor === floor - 1).flatMap((n) => n.edges);
@@ -55,15 +56,20 @@ describe("generateMap", () => {
 
   it("garantit au moins un feu de camp au floor prévu, sur plusieurs seeds", () => {
     for (let seed = 0; seed < 30; seed += 1) {
-      const [map] = generateMap(createRng(seed), POOLS);
+      const [map] = generateMap(createRng(seed), POOLS, ACT_ID);
       const campfireFloor = map.nodes.filter((n) => n.floor === FLOOR_COUNT - 3);
       expect(campfireFloor.some((n) => n.type === "feu_de_camp")).toBe(true);
     }
   });
 
   it("le dernier floor n'a aucune arête sortante", () => {
-    const [map] = generateMap(createRng(5), POOLS);
+    const [map] = generateMap(createRng(5), POOLS, ACT_ID);
     const lastFloor = map.nodes.filter((n) => n.floor === FLOOR_COUNT - 1);
     expect(lastFloor.every((n) => n.edges.length === 0)).toBe(true);
+  });
+
+  it("la carte porte l'actId fourni par l'appelant (pas figé en dur)", () => {
+    const [map] = generateMap(createRng(1), POOLS, "acte_2");
+    expect(map.actId).toBe("acte_2");
   });
 });

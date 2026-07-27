@@ -1,5 +1,6 @@
 import type { CardId, FamiliarId, HeroId } from "../engine/types";
 import type {
+  ActReachStats,
   BalanceBatchResult,
   CardBalanceFlags,
   CardStats,
@@ -96,6 +97,27 @@ function aggregateByFamiliar(records: readonly SimRunRecord[]): readonly Familia
   });
 }
 
+/** Distingue "jamais atteint cet acte" de "a échoué DANS cet acte" — regroupe par `finalActIndex`. */
+function aggregateByActReached(records: readonly SimRunRecord[]): readonly ActReachStats[] {
+  const byActIndex = new Map<number, SimRunRecord[]>();
+  for (const record of records) {
+    const bucket = byActIndex.get(record.finalActIndex) ?? [];
+    bucket.push(record);
+    byActIndex.set(record.finalActIndex, bucket);
+  }
+  return [...byActIndex.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([actIndex, actRecords]) => {
+      const victories = actRecords.filter((r) => r.victory).length;
+      return {
+        actIndex,
+        runsPlayed: actRecords.length,
+        victories,
+        winRate: actRecords.length > 0 ? victories / actRecords.length : 0,
+      };
+    });
+}
+
 /** Réduit un lot de `SimRunRecord` en `BalanceBatchResult` — fonction pure, aucune simulation ici. */
 export function aggregateBatch(records: readonly SimRunRecord[], cardIds: readonly CardId[]): BalanceBatchResult {
   const runsPlayed = records.length;
@@ -110,6 +132,7 @@ export function aggregateBatch(records: readonly SimRunRecord[], cardIds: readon
     byHero: aggregateByHero(records),
     byFamiliar: aggregateByFamiliar(records),
     byCard,
+    byActReached: aggregateByActReached(records),
     flags: buildCardBalanceFlags(byCard, winRate),
   };
 }

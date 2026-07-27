@@ -1,0 +1,18 @@
+{
+  "id": "griffeur_de_gouttiere",
+  "nameKey": "enemies.griffeur_de_gouttiere.name",
+  "maxHp": 40,
+  "moves": [
+    {
+      "id": "griffure_sale",
+      "nameKey": "enemies.griffeur_de_gouttiere.moves.griffure_sale.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 9 }]
+    },
+    {
+      "id": "feulement_glacial",
+      "nameKey": "enemies.griffeur_de_gouttiere.moves.feulement_glacial.name",
+      "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 1 }]
+    }
+  ],
+  "pattern": ["griffure_sale", "feulement_glacial", "griffure_sale"]
+}

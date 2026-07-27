@@ -54,6 +54,10 @@ export function stripRunState(run: RunState): PersistedRunState {
     noisettesBonusPerCombat: run.noisettesBonusPerCombat,
     familiarId: run.familiarId,
     familiarPassive: run.familiarPassive,
+    acts: run.acts,
+    actIndex: run.actIndex,
+    bossesDefeatedThisRun: run.bossesDefeatedThisRun,
+    pendingActTransition: run.pendingActTransition,
   };
 }
 

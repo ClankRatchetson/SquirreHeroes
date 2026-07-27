@@ -70,4 +70,19 @@ describe("hydrateRunState", () => {
     expect(hydrated.familiarPassive).toEqual({ kind: "bonusDrawFirstTurn", amount: 1 });
     expect(hydrated.pendingCombat?.familiarPassive).toEqual({ kind: "bonusDrawFirstTurn", amount: 1 });
   });
+
+  it("acts/actIndex/bossesDefeatedThisRun/pendingActTransition (multi-actes) survivent au strip+hydrate", () => {
+    const actTwo = { actId: "acte_2", commonEnemyIds: ["a"], eliteEnemyIds: ["b"], bossEnemyIds: ["c"] };
+    const run = makeRunState({
+      acts: [{ actId: "acte_1", commonEnemyIds: ["mulot_masque"], eliteEnemyIds: ["merle_mercenaire"], bossEnemyIds: ["baronne_bec_de_fer"] }, actTwo],
+      actIndex: 1,
+      bossesDefeatedThisRun: ["baronne_bec_de_fer"],
+      pendingActTransition: true,
+    });
+    const hydrated = hydrateRunState(stripRunState(run), CATALOGS);
+    expect(hydrated.acts).toEqual(run.acts);
+    expect(hydrated.actIndex).toBe(1);
+    expect(hydrated.bossesDefeatedThisRun).toEqual(["baronne_bec_de_fer"]);
+    expect(hydrated.pendingActTransition).toBe(true);
+  });
 });

@@ -4,15 +4,14 @@ import { CARD_CATALOG } from "../../src/content/cards";
 import { CASSE_NOIX } from "../../src/content/heroes";
 import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { EVENT_CATALOG } from "../../src/content/events";
+import { RUN_ACTS } from "../../src/content/acts";
 
 const BASE_PARAMS = {
   hero: CASSE_NOIX,
   cardCatalog: CARD_CATALOG,
   enemyCatalog: ENEMY_CATALOG,
   eventCatalog: EVENT_CATALOG,
-  commonEnemyIds: ["mulot_masque", "campagnol_cagoule", "pie_kleptomane"],
-  eliteEnemyIds: ["merle_mercenaire"],
-  bossEnemyIds: ["baronne_bec_de_fer"],
+  acts: RUN_ACTS,
 };
 
 describe("simulateOneRun", () => {

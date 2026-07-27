@@ -4,6 +4,62 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.11.0] — Phase 7 (lot 4) — Acte II « Le Parc » + transition multi-actes
+
+### Ajouté
+- **La mécanique de transition multi-actes** : jusqu'ici, vaincre LE boss
+  terminait toujours la run en victoire. `RunState` gagne `acts` (liste
+  ordonnée et figée d'`RunActConfig` à la création de la run),
+  `actIndex`, `bossesDefeatedThisRun` (accumulé à chaque boss vaincu,
+  jamais dérivé rétroactivement de la carte courante — corrige un bug
+  latent où un boss d'un acte antérieur, une fois la carte remplacée,
+  n'aurait jamais été comptabilisé) et `pendingActTransition`. Vaincre le
+  boss d'un acte non final génère désormais une récompense de type
+  `"boss"` (le `REWARD_TABLE.boss = 60` existait depuis la Phase 3 mais
+  n'était jusqu'ici jamais atteint) ; la résoudre (carte choisie ou
+  passée) génère la carte de l'acte suivant et avance `actIndex`. Seul le
+  dernier acte termine encore la run en victoire.
+- **Acte II « Le Parc »** (§3.4) : 3 communs (**Le Griffeur de Gouttière**,
+  **La Fouine Fatale**, **Le Corvidé Masqué**), 1 élite (**La Belette
+  Braqueuse**) et 1 boss (**Le Baron Griffu**), calqués sur le gabarit de
+  puissance de l'Acte I — aucune primitive d'effet ni statut nouveau.
+- `RunMapScreen` affiche désormais l'étiquette de l'acte en cours
+  ("Acte I — Le Potager" / "Acte II — Le Parc"), seul signal visuel
+  qu'une transition a eu lieu.
+- `applyRunCompletion` (méta) corrigé en profondeur : `bossesDefeated`
+  (déblocage des familiers) n'est plus gated sur une victoire totale — un
+  boss vaincu puis suivi d'une défaite plus loin dans la run compte quand
+  même. `actICompleted` (déblocage des héros 2 et 3) se dérive
+  spécifiquement du boss de l'Acte I (`acts[0]`), pas de l'issue globale
+  de la run — sans quoi, dès qu'un 2ᵉ acte existe, `actICompleted` aurait
+  silencieusement fini par signifier "a terminé toute la run".
+- Migration `schemaVersion` v3 → v4 : toute sauvegarde antérieure (une
+  seule run en cours possible, forcément mono-Acte-I) reçoit
+  `acts: [ACT_I]`, `actIndex: 0`, `bossesDefeatedThisRun: []`,
+  `pendingActTransition: false`, avec un vrai test de migration.
+- Harnais de simulation : chaque run traverse désormais potentiellement
+  les 2 actes ; `finalActIndex` par run permet de distinguer "n'a jamais
+  atteint l'Acte II" de "a échoué dans l'Acte II" (colonne dédiée dans le
+  tableau récapitulatif de `npm run sim`).
+- Nouveau `tests/e2e/act-transition.spec.ts` : preuve directe de la
+  transition (récompense de boss non final, carte choisie ou passée,
+  bascule vers l'Acte II). 406 tests unitaires, 15 tests e2e, tous verts.
+  Couverture maintenue à 96.82 % sur `/src/engine`.
+
+### Constaté (à surveiller)
+- `npm run sim -- --runs=2000` : le taux de victoire global s'effondre à
+  ~0 % sur les 12 combinaisons (contre 0.3-2.7 % avant ce lot, cf.
+  « Constaté » v0.8.0-v0.9.0) — attendu : le bot de simulation, déjà très
+  faible sur un Acte I seul (choix de nœud/récompense/boutique uniformes,
+  aucune anticipation stratégique), voit son parcours doubler avec
+  l'Acte II. Le taux "atteint l'Acte II" (0.4 % à 6.5% selon la
+  combinaison) confirme que la quasi-totalité des runs simulées échouent
+  déjà dans l'Acte I — ce n'est pas un signal de déséquilibre du contenu
+  de l'Acte II lui-même (dont le gabarit est calqué à l'identique sur
+  l'Acte I), mais une limite connue et déjà documentée du bot glouton à
+  choix aléatoire. Le plafond +20 % du Canal B reste respecté sur toutes
+  les combinaisons.
+
 ## [0.10.0] — Phase 7 (lot 3) — Les 4 familiers
 
 ### Ajouté

@@ -6,6 +6,7 @@ import { ENEMY_CATALOG } from "../../src/content/enemies";
 import { EVENT_CATALOG } from "../../src/content/events";
 import { META_TREE } from "../../src/content/meta-tree";
 import { INITIAL_META_PROGRESSION } from "../../src/engine/meta";
+import { RUN_ACTS } from "../../src/content/acts";
 
 /**
  * Test d'intégration léger du harnais complet — appelle directement
@@ -17,9 +18,7 @@ const CONFIG = {
   cardCatalog: CARD_CATALOG,
   enemyCatalog: ENEMY_CATALOG,
   eventCatalog: EVENT_CATALOG,
-  commonEnemyIds: ["mulot_masque", "campagnol_cagoule", "pie_kleptomane"],
-  eliteEnemyIds: ["merle_mercenaire"],
-  bossEnemyIds: ["baronne_bec_de_fer"],
+  acts: RUN_ACTS,
   cardIds: Object.keys(CARD_CATALOG),
   metaTree: META_TREE,
   initialMetaProgression: INITIAL_META_PROGRESSION,

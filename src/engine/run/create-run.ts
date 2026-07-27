@@ -6,20 +6,20 @@ import type {
   EventDefinition,
   FamiliarDefinition,
   HeroDefinition,
+  RunActConfig,
   RunDeckEntry,
   RunState,
 } from "../types";
 import { createRng } from "../rng";
-import { generateMap, type MapGenerationPools } from "./map-generation";
+import { generateMap, poolsForAct } from "./map-generation";
 
 export interface CreateRunParams {
   readonly hero: HeroDefinition;
   readonly cardCatalog: Readonly<Record<CardId, Card>>;
   readonly enemyCatalog: Readonly<Record<EnemyId, EnemyDefinition>>;
   readonly eventCatalog: Readonly<Record<string, EventDefinition>>;
-  readonly commonEnemyIds: readonly EnemyId[];
-  readonly eliteEnemyIds: readonly EnemyId[];
-  readonly bossEnemyIds: readonly EnemyId[];
+  /** Liste ordonnée des actes de la run (Acte I en premier) — figée telle quelle sur `RunState.acts`. */
+  readonly acts: readonly RunActConfig[];
   readonly seed: number;
   /** Bonus de méta-progression (Canal B), additifs et rétro-compatibles — mêmes discipline que deckOverride/heroHpOverride de createCombat. */
   readonly bonusMaxHp?: number | undefined;
@@ -31,13 +31,11 @@ export interface CreateRunParams {
 
 export function createRun(params: CreateRunParams): RunState {
   const rng0 = createRng(params.seed);
-  const pools: MapGenerationPools = {
-    commonEnemyIds: params.commonEnemyIds,
-    eliteEnemyIds: params.eliteEnemyIds,
-    bossEnemyIds: params.bossEnemyIds,
-    eventIds: Object.keys(params.eventCatalog),
-  };
-  const [map, rng1] = generateMap(rng0, pools);
+  const firstAct = params.acts[0];
+  if (!firstAct) {
+    throw new Error("Contenu manquant : une run doit avoir au moins un acte.");
+  }
+  const [map, rng1] = generateMap(rng0, poolsForAct(firstAct, params.eventCatalog), firstAct.actId);
 
   const upgradedIds = new Set(params.upgradedStartingCardIds ?? []);
   const startingCardIds = params.familiar
@@ -79,5 +77,9 @@ export function createRun(params: CreateRunParams): RunState {
     noisettesBonusPerCombat: params.noisettesBonusPerCombat ?? 0,
     familiarId: params.familiar?.id ?? null,
     familiarPassive: params.familiar?.passive ?? null,
+    acts: params.acts,
+    actIndex: 0,
+    bossesDefeatedThisRun: [],
+    pendingActTransition: false,
   };
 }

@@ -24,10 +24,40 @@ function migrateRunToV3(currentRun: Record<string, unknown>): Record<string, unk
 }
 
 /**
+ * v3 (Phase 7 lot 3) → v4 (Phase 7 lot 4) : `currentRun` gagne `acts`
+ * (backfillé avec la config RÉELLE et unique de l'Acte I — la seule qui ait
+ * jamais existé avant ce lot, aucune sauvegarde ne peut donc en avoir une
+ * autre), `actIndex: 0`, `bossesDefeatedThisRun: []` et
+ * `pendingActTransition: false` (une run persistée est TOUJOURS
+ * `outcome:"en_cours"` — seules les runs en cours sont sauvegardées — donc
+ * aucun boss n'a pu être vaincu dans cette comptabilité avant que ce lot
+ * n'existe). Littéraux dupliqués depuis `src/content/acts.ts` plutôt
+ * qu'importés : `/src/persistence` ne dépend jamais de `/src/content`.
+ */
+const ACT_I_CONFIG_V4_BACKFILL = {
+  actId: "acte_1",
+  commonEnemyIds: ["mulot_masque", "campagnol_cagoule", "pie_kleptomane"],
+  eliteEnemyIds: ["merle_mercenaire"],
+  bossEnemyIds: ["baronne_bec_de_fer"],
+};
+
+function migrateRunToV4(currentRun: Record<string, unknown>): Record<string, unknown> {
+  return {
+    ...currentRun,
+    acts: [ACT_I_CONFIG_V4_BACKFILL],
+    actIndex: 0,
+    bossesDefeatedThisRun: [],
+    pendingActTransition: false,
+  };
+}
+
+/**
  * Historique des migrations : v1 (Phase 4, pas de `meta`, pas de
  * `noisettesBonusPerCombat` sur `currentRun`) → v2 (Phase 5, ajoute `meta` +
  * `noisettesBonusPerCombat: 0`) → v3 (Phase 7 lot 3, ajoute
- * `familiarId`/`familiarPassive: null`, cf. `migrateRunToV3`).
+ * `familiarId`/`familiarPassive: null`, cf. `migrateRunToV3`) → v4 (Phase 7
+ * lot 4, ajoute `acts`/`actIndex`/`bossesDefeatedThisRun`/
+ * `pendingActTransition`, cf. `migrateRunToV4`).
  */
 export const MIGRATIONS: readonly Migration[] = [
   {
@@ -46,6 +76,14 @@ export const MIGRATIONS: readonly Migration[] = [
     migrate: (data) => ({
       schemaVersion: 3,
       currentRun: data.currentRun === null ? null : migrateRunToV3(data.currentRun as Record<string, unknown>),
+      meta: data.meta,
+    }),
+  },
+  {
+    fromVersion: 3,
+    migrate: (data) => ({
+      schemaVersion: 4,
+      currentRun: data.currentRun === null ? null : migrateRunToV4(data.currentRun as Record<string, unknown>),
       meta: data.meta,
     }),
   },

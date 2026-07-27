@@ -13,9 +13,7 @@ export interface RunSimulationConfig {
   readonly cardCatalog: CreateRunParams["cardCatalog"];
   readonly enemyCatalog: CreateRunParams["enemyCatalog"];
   readonly eventCatalog: CreateRunParams["eventCatalog"];
-  readonly commonEnemyIds: CreateRunParams["commonEnemyIds"];
-  readonly eliteEnemyIds: CreateRunParams["eliteEnemyIds"];
-  readonly bossEnemyIds: CreateRunParams["bossEnemyIds"];
+  readonly acts: CreateRunParams["acts"];
   readonly cardIds: readonly CardId[];
   readonly metaTree: readonly MetaTreeNode[];
   readonly initialMetaProgression: MetaProgression;
@@ -35,9 +33,7 @@ function runBatch(config: RunSimulationConfig, perBatch: number, bonuses: BatchB
         cardCatalog: config.cardCatalog,
         enemyCatalog: config.enemyCatalog,
         eventCatalog: config.eventCatalog,
-        commonEnemyIds: config.commonEnemyIds,
-        eliteEnemyIds: config.eliteEnemyIds,
-        bossEnemyIds: config.bossEnemyIds,
+        acts: config.acts,
         // Seeds appariées avec l'autre lot (même index -> même seed) : même carte, mêmes
         // ennemis, mêmes événements générés dans les 2 lots — seule la puissance de départ
         // du héros diffère, ce qui isole l'effet du Canal B du bruit de génération.

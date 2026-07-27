@@ -1,5 +1,6 @@
 import type { Card, CardId, CardOwner, FamiliarId, HeroId, RunDeckEntry, RunRewardOffer, RunState } from "../types";
 import { shuffle, type RngState } from "../rng";
+import { generateMap, poolsForAct } from "./map-generation";
 
 export const REWARD_TABLE: Readonly<Record<"combat" | "elite" | "boss", number>> = {
   combat: 15,
@@ -27,16 +28,45 @@ function eligibleCardIds(
     .map((card) => card.id);
 }
 
-/** Récompense de nœud `combat`/`elite` (jamais `boss`, cf. `resolveReward`). */
+/** Récompense de nœud `combat`/`elite`/`boss` (un boss non-final déclenche aussi une récompense, cf. `resolveReward`). */
 export function generateRewardOffer(
   rng: RngState,
   cardCatalog: Readonly<Record<CardId, Card>>,
   heroId: HeroId,
   familiarId: FamiliarId | null,
-  rewardKind: "combat" | "elite",
+  rewardKind: "combat" | "elite" | "boss",
 ): readonly [RunRewardOffer, RngState] {
   const [shuffled, nextRng] = shuffle(rng, eligibleCardIds(cardCatalog, heroId, familiarId));
   return [{ cardChoices: shuffled.slice(0, REWARD_CARD_CHOICES), noisettes: REWARD_TABLE[rewardKind] }, nextRng];
+}
+
+/**
+ * Termine la résolution d'une récompense : retour à la carte courante, SAUF
+ * si `pendingActTransition` est vrai (récompense de boss non-final) — dans
+ * ce cas, génère l'acte suivant (`RunState.acts[actIndex + 1]`) et y bascule.
+ */
+function finalizeRewardResolution(state: RunState): RunState {
+  if (!state.pendingActTransition) {
+    return { ...state, phase: "carte" };
+  }
+  const nextActIndex = state.actIndex + 1;
+  const nextAct = state.acts[nextActIndex];
+  if (!nextAct) {
+    // Garde-fou défensif : `resolveReward` ne pose `pendingActTransition` que quand un acte
+    // suivant existe réellement — ce cas ne devrait jamais se produire en pratique.
+    return { ...state, phase: "carte", pendingActTransition: false };
+  }
+  const [map, nextRng] = generateMap(state.rng, poolsForAct(nextAct, state.eventCatalog), nextAct.actId);
+  return {
+    ...state,
+    map,
+    actIndex: nextActIndex,
+    currentNodeId: null,
+    visitedNodeIds: [],
+    rng: nextRng,
+    phase: "carte",
+    pendingActTransition: false,
+  };
 }
 
 /** Les Noisettes de l'offre ont déjà été créditées à la victoire (cf. `resolveReward`) : ne reste que le choix de carte. */
@@ -45,18 +75,17 @@ export function resolveRewardClaimCard(state: RunState, cardId: CardId): RunStat
     return state;
   }
   const newEntry: RunDeckEntry = { runCardId: `run-card-${String(state.nextRunCardSeq)}`, cardId, upgraded: false };
-  return {
+  return finalizeRewardResolution({
     ...state,
     deck: [...state.deck, newEntry],
     nextRunCardSeq: state.nextRunCardSeq + 1,
     pendingReward: null,
-    phase: "carte",
-  };
+  });
 }
 
 export function resolveRewardSkip(state: RunState): RunState {
   if (state.phase !== "recompense" || !state.pendingReward) {
     return state;
   }
-  return { ...state, pendingReward: null, phase: "carte" };
+  return finalizeRewardResolution({ ...state, pendingReward: null });
 }

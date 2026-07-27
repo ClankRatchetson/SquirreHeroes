@@ -5,6 +5,7 @@ import { HERO_CATALOG } from "../src/content/heroes";
 import { FAMILIAR_CATALOG } from "../src/content/familiars";
 import { ENEMY_CATALOG } from "../src/content/enemies";
 import { EVENT_CATALOG } from "../src/content/events";
+import { RUN_ACTS } from "../src/content/acts";
 import { META_TREE } from "../src/content/meta-tree";
 import { INITIAL_META_PROGRESSION } from "../src/engine/meta";
 import { runSimulation } from "../src/sim/report";
@@ -22,10 +23,6 @@ import type { FamiliarDefinition, HeroDefinition } from "../src/engine/types";
  * illisible à 12 lignes) tout en écrivant un rapport JSON complet par
  * combinaison pour analyse approfondie.
  */
-
-const COMMON_ENEMY_IDS = ["mulot_masque", "campagnol_cagoule", "pie_kleptomane"];
-const ELITE_ENEMY_IDS = ["merle_mercenaire"];
-const BOSS_ENEMY_IDS = ["baronne_bec_de_fer"];
 
 function parseArgs(argv: readonly string[]): { readonly runs: number; readonly seed: number } {
   let runs = 1000;
@@ -57,9 +54,7 @@ function simulateCombo(hero: HeroDefinition, familiar: FamiliarDefinition, runs:
     cardCatalog: CARD_CATALOG,
     enemyCatalog: ENEMY_CATALOG,
     eventCatalog: EVENT_CATALOG,
-    commonEnemyIds: COMMON_ENEMY_IDS,
-    eliteEnemyIds: ELITE_ENEMY_IDS,
-    bossEnemyIds: BOSS_ENEMY_IDS,
+    acts: RUN_ACTS,
     cardIds: eligibleCardIdsFor(hero, familiar),
     metaTree: META_TREE,
     initialMetaProgression: INITIAL_META_PROGRESSION,
@@ -88,6 +83,17 @@ interface ComboRow {
   readonly baselineWinRate: number;
   readonly fullyUpgradedWinRate: number;
   readonly withinCap: boolean;
+  /** Part des runs (lot "sans bonus") ayant atteint l'Acte II ou plus loin. */
+  readonly reachedAct2Rate: number;
+}
+
+function reachedAct2Rate(byActReached: BalanceReport["baseline"]["byActReached"]): number {
+  const total = byActReached.reduce((sum, a) => sum + a.runsPlayed, 0);
+  if (total === 0) {
+    return 0;
+  }
+  const reached = byActReached.filter((a) => a.actIndex >= 1).reduce((sum, a) => sum + a.runsPlayed, 0);
+  return reached / total;
 }
 
 const rows: ComboRow[] = [];
@@ -105,6 +111,7 @@ for (const hero of heroes) {
       baselineWinRate: report.baseline.winRate,
       fullyUpgradedWinRate: report.fullyUpgraded.winRate,
       withinCap: report.glandsDorCapCheck.withinCap,
+      reachedAct2Rate: reachedAct2Rate(report.baseline.byActReached),
     });
     for (const c of report.baseline.flags.underPicked) allUnderPicked.add(c);
     for (const c of report.baseline.flags.overPicked) allOverPicked.add(c);
@@ -121,13 +128,13 @@ for (const hero of heroes) {
   }
 }
 
-console.log("\nhéros              | familier          | sans bonus | arbre complet | plafond +20%");
-console.log("--------------------|-------------------|------------|----------------|-------------");
+console.log("\nhéros              | familier          | sans bonus | arbre complet | atteint Acte II | plafond +20%");
+console.log("--------------------|-------------------|------------|----------------|-----------------|-------------");
 for (const row of rows) {
   console.log(
     `${row.heroId.padEnd(19)} | ${row.familiarId.padEnd(17)} | ${pct(row.baselineWinRate).padStart(10)} | ${pct(
       row.fullyUpgradedWinRate,
-    ).padStart(14)} | ${row.withinCap ? "OK" : "DÉPASSÉ"}`,
+    ).padStart(14)} | ${pct(row.reachedAct2Rate).padStart(15)} | ${row.withinCap ? "OK" : "DÉPASSÉ"}`,
   );
 }
 

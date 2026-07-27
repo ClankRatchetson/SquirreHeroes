@@ -1,0 +1,42 @@
+{
+  "id": "baron_griffu",
+  "nameKey": "enemies.baron_griffu.name",
+  "maxHp": 112,
+  "moves": [
+    {
+      "id": "coup_de_patte",
+      "nameKey": "enemies.baron_griffu.moves.coup_de_patte.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 15 }]
+    },
+    {
+      "id": "tempete_de_griffes",
+      "nameKey": "enemies.baron_griffu.moves.tempete_de_griffes.name",
+      "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 4, "amountPerHit": 4 }]
+    },
+    {
+      "id": "regard_dominateur",
+      "nameKey": "enemies.baron_griffu.moves.regard_dominateur.name",
+      "effects": [
+        { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 1 },
+        { "kind": "block", "target": "self", "amount": 11 }
+      ]
+    },
+    {
+      "id": "chatiment_du_baron",
+      "nameKey": "enemies.baron_griffu.moves.chatiment_du_baron.name",
+      "effects": [
+        {
+          "kind": "conditional",
+          "target": "enemy",
+          "status": "etourdi",
+          "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 25 }],
+          "whenFalse": [
+            { "kind": "damage", "target": "enemy", "amount": 15 },
+            { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 1 }
+          ]
+        }
+      ]
+    }
+  ],
+  "pattern": ["coup_de_patte", "tempete_de_griffes", "regard_dominateur", "chatiment_du_baron"]
+}

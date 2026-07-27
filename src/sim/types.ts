@@ -40,6 +40,14 @@ export interface GlandsDorCapCheck {
   readonly note: string;
 }
 
+/** Combien de runs se sont terminées sur cet acte (`actIndex`), et avec quel taux de victoire — distingue "jamais atteint l'acte suivant" de "a échoué DANS cet acte". */
+export interface ActReachStats {
+  readonly actIndex: number;
+  readonly runsPlayed: number;
+  readonly victories: number;
+  readonly winRate: number;
+}
+
 export interface BalanceBatchResult {
   readonly runsPlayed: number;
   readonly victories: number;
@@ -47,6 +55,7 @@ export interface BalanceBatchResult {
   readonly byHero: readonly HeroStats[];
   readonly byFamiliar: readonly FamiliarStats[];
   readonly byCard: readonly CardStats[];
+  readonly byActReached: readonly ActReachStats[];
   readonly flags: CardBalanceFlags;
 }
 
@@ -66,4 +75,6 @@ export interface SimRunRecord {
   readonly cardOffers: readonly { readonly cardId: CardId; readonly chosen: boolean }[];
   /** `cardId` de chaque entrée du deck final (victoire ou défaite — l'état au moment de `run_over`). */
   readonly finalDeckCardIds: readonly CardId[];
+  /** `actIndex` au moment où la run s'est terminée — distingue "jamais atteint cet acte" de "a échoué DANS cet acte". */
+  readonly finalActIndex: number;
 }

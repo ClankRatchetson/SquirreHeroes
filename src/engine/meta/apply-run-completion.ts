@@ -16,15 +16,23 @@ export function computeGlandsDorEarned(finishedRun: RunState): number {
 export function applyRunCompletion(meta: MetaProgression, finishedRun: RunState): MetaProgression {
   const isVictory = finishedRun.outcome === "victoire";
   const isDefeat = finishedRun.outcome === "defaite";
-  const bossNode = finishedRun.map.nodes.find((n) => n.type === "boss");
-  const newlyDefeatedBossIds = isVictory && bossNode?.enemyIds ? bossNode.enemyIds : [];
-  const bossesDefeated = [...new Set([...meta.bossesDefeated, ...newlyDefeatedBossIds])];
+  // `bossesDefeatedThisRun` est accumulé pendant la run (cf. `resolveReward`), jamais dérivé
+  // rétroactivement du nœud boss de la carte courante — celle-ci peut avoir été remplacée par
+  // l'acte suivant après une victoire sur un boss intermédiaire. Non conditionné par `isVictory` :
+  // un boss vaincu puis suivi d'une défaite plus loin dans la run compte quand même.
+  const bossesDefeated = [...new Set([...meta.bossesDefeated, ...finishedRun.bossesDefeatedThisRun])];
+  // L'Acte I est terminé si SON boss précisément (`acts[0]`) a été vaincu — pas "la run a été
+  // gagnée", qui ne signifierait plus "Acte I" dès qu'un 2ᵉ acte existe (la victoire ne survient
+  // qu'après le dernier acte configuré).
+  const actIBossIds = finishedRun.acts[0]?.bossEnemyIds ?? [];
+  const actICompleted =
+    meta.actICompleted || actIBossIds.some((id) => finishedRun.bossesDefeatedThisRun.includes(id));
 
   return {
     ...meta,
     totalVictories: meta.totalVictories + (isVictory ? 1 : 0),
     totalDefeats: meta.totalDefeats + (isDefeat ? 1 : 0),
-    actICompleted: meta.actICompleted || isVictory,
+    actICompleted,
     bossesDefeated,
     glandsDor: meta.glandsDor + computeGlandsDorEarned(finishedRun),
   };

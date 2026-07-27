@@ -9,6 +9,7 @@ function makeRecord(overrides: Partial<SimRunRecord> = {}): SimRunRecord {
     victory: false,
     cardOffers: [],
     finalDeckCardIds: [],
+    finalActIndex: 0,
     ...overrides,
   };
 }

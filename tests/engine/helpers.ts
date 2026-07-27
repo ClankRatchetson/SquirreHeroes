@@ -5,6 +5,7 @@ import type {
   CombatState,
   EnemyInstance,
   EnemyMoveDef,
+  RunActConfig,
   RunMap,
   RunNode,
   RunNodeType,
@@ -96,6 +97,16 @@ export function makeRunNode(overrides: Partial<RunNode> & { readonly id: string;
   };
 }
 
+export function makeActConfig(overrides: Partial<RunActConfig> = {}): RunActConfig {
+  return {
+    actId: "acte_1",
+    commonEnemyIds: ["test_enemy"],
+    eliteEnemyIds: ["test_enemy"],
+    bossEnemyIds: ["test_enemy"],
+    ...overrides,
+  };
+}
+
 export function makeRunState(overrides: Partial<RunState> = {}): RunState {
   const map: RunMap = {
     actId: "acte_1",
@@ -125,6 +136,10 @@ export function makeRunState(overrides: Partial<RunState> = {}): RunState {
     noisettesBonusPerCombat: 0,
     familiarId: null,
     familiarPassive: null,
+    acts: [makeActConfig()],
+    actIndex: 0,
+    bossesDefeatedThisRun: [],
+    pendingActTransition: false,
     ...overrides,
   };
 }

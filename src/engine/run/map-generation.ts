@@ -1,4 +1,4 @@
-import type { EnemyId, RunMap, RunNode, RunNodeType } from "../types";
+import type { EnemyId, EventDefinition, RunActConfig, RunMap, RunNode, RunNodeType } from "../types";
 import { nextInt, shuffle, type RngState } from "../rng";
 import {
   ELITE_MIN_FLOOR,
@@ -15,6 +15,19 @@ export interface MapGenerationPools {
   readonly eliteEnemyIds: readonly EnemyId[];
   readonly bossEnemyIds: readonly EnemyId[];
   readonly eventIds: readonly string[];
+}
+
+/** Dérive les pools d'un acte à partir de sa config figée sur `RunState.acts` — même pool d'événements pour tous les actes (non scopé par acte, §3.5 des specs ne le demande pas). */
+export function poolsForAct(
+  act: RunActConfig,
+  eventCatalog: Readonly<Record<string, EventDefinition>>,
+): MapGenerationPools {
+  return {
+    commonEnemyIds: act.commonEnemyIds,
+    eliteEnemyIds: act.eliteEnemyIds,
+    bossEnemyIds: act.bossEnemyIds,
+    eventIds: Object.keys(eventCatalog),
+  };
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -137,8 +150,8 @@ function wireEdges(
   return [edgesByFromId, currentRng];
 }
 
-/** Génère la carte à embranchements de l'Acte I, pilotée à 100% par le PRNG seedé. */
-export function generateMap(rng: RngState, pools: MapGenerationPools): readonly [RunMap, RngState] {
+/** Génère la carte à embranchements d'UN acte, pilotée à 100% par le PRNG seedé — l'acte est identifié par `actId`, indépendant du contenu des pools. */
+export function generateMap(rng: RngState, pools: MapGenerationPools, actId: string): readonly [RunMap, RngState] {
   let currentRng = rng;
   let nodeSeq = 0;
   const floors: RunNode[][] = [];
@@ -200,6 +213,6 @@ export function generateMap(rng: RngState, pools: MapGenerationPools): readonly 
     wiredFloors[floor] = fromNodes.map((n) => ({ ...n, edges: edgesMap.get(n.id) ?? [] }));
   }
 
-  const map: RunMap = { actId: "acte_1", floorCount: FLOOR_COUNT, nodes: wiredFloors.flat() };
+  const map: RunMap = { actId, floorCount: FLOOR_COUNT, nodes: wiredFloors.flat() };
   return [map, currentRng];
 }

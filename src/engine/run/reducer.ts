@@ -12,13 +12,41 @@ function isCombatAction(action: RunAction): action is CombatAction {
   return action.type === "PLAY_CARD" || action.type === "END_TURN";
 }
 
-/** Combat gagné : Noisettes créditées immédiatement, offre de carte générée — sauf sur le nœud `boss`, qui clôt la run. */
+/**
+ * Combat gagné : Noisettes créditées immédiatement, offre de carte générée.
+ * Sur un nœud `boss` : s'il reste un acte suivant, une récompense de type
+ * `"boss"` est générée puis `pendingActTransition` est posé — sa résolution
+ * (`finalizeRewardResolution`, rewards.ts) génère l'acte suivant. Sinon
+ * (dernier acte), comportement inchangé : victoire finale, sans récompense.
+ */
 function resolveReward(state: RunState, finishedCombat: CombatState): RunState {
   const node = state.currentNodeId !== null ? findNode(state, state.currentNodeId) : undefined;
   const heroHp = finishedCombat.hero.hp;
 
   if (node?.type === "boss") {
-    return { ...state, pendingCombat: null, heroHp, phase: "run_over", outcome: "victoire" };
+    const bossesDefeatedThisRun = [...new Set([...state.bossesDefeatedThisRun, ...(node.enemyIds ?? [])])];
+    if (state.actIndex + 1 >= state.acts.length) {
+      return {
+        ...state,
+        pendingCombat: null,
+        heroHp,
+        phase: "run_over",
+        outcome: "victoire",
+        bossesDefeatedThisRun,
+      };
+    }
+    const [offer, nextRng] = generateRewardOffer(state.rng, state.cardCatalog, state.heroId, state.familiarId, "boss");
+    return {
+      ...state,
+      pendingCombat: null,
+      heroHp,
+      noisettes: state.noisettes + offer.noisettes + state.noisettesBonusPerCombat,
+      pendingReward: offer,
+      phase: "recompense",
+      rng: nextRng,
+      bossesDefeatedThisRun,
+      pendingActTransition: true,
+    };
   }
 
   const rewardKind = node?.type === "elite" ? "elite" : "combat";

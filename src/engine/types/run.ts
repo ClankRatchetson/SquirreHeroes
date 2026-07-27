@@ -23,6 +23,14 @@ export interface RunMap {
   readonly nodes: readonly RunNode[];
 }
 
+/** Pools d'ennemis d'UN acte — `RunState.acts` porte la liste ordonnée complète, figée à la création de la run. */
+export interface RunActConfig {
+  readonly actId: string;
+  readonly commonEnemyIds: readonly EnemyId[];
+  readonly eliteEnemyIds: readonly EnemyId[];
+  readonly bossEnemyIds: readonly EnemyId[];
+}
+
 /** Une carte DANS le deck du run — distincte de `CardInstance` (combat), survit entre combats. */
 export interface RunDeckEntry {
   readonly runCardId: string;
@@ -76,4 +84,12 @@ export interface RunState {
   readonly familiarId: FamiliarId | null;
   /** Passif résolu une fois à la création de la run — dénormalisé plutôt que de porter un catalogue complet sur `RunState`. */
   readonly familiarPassive: FamiliarPassive | null;
+  /** Liste ordonnée figée à la création de la run — un acte par entrée, jamais modifiée en cours de run. */
+  readonly acts: readonly RunActConfig[];
+  /** 0-based : quel acte de `acts` est actif (correspond à `map.actId`). */
+  readonly actIndex: number;
+  /** Accumulé (dédupliqué) à chaque boss vaincu pendant la run — jamais dérivé rétroactivement du nœud boss de la carte courante. */
+  readonly bossesDefeatedThisRun: readonly EnemyId[];
+  /** Vrai quand `pendingReward` existe parce qu'un boss non-final vient d'être vaincu : sa résolution déclenche la génération de l'acte suivant. */
+  readonly pendingActTransition: boolean;
 }

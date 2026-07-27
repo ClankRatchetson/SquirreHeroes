@@ -1,6 +1,6 @@
 import { getNodeStatus } from "../../engine/run/selectors";
 import type { RunNode, RunNodeType } from "../../engine/types";
-import { t } from "../../content/i18n/t";
+import { t, tFromContent } from "../../content/i18n/t";
 import { useRunStore } from "../store/run-store";
 
 const NODE_TYPE_LABEL_KEY = {
@@ -11,6 +11,12 @@ const NODE_TYPE_LABEL_KEY = {
   evenement: "ui.run.map.evenement",
   boss: "ui.run.map.boss",
 } as const satisfies Record<RunNodeType, string>;
+
+/** `actId` -> clé i18n d'étiquette de biome — sans elle, rien ne signale visuellement une transition d'acte. */
+const ACT_LABEL_KEY: Readonly<Record<string, string>> = {
+  acte_1: "ui.run.acts.acte_1.label",
+  acte_2: "ui.run.acts.acte_2.label",
+};
 
 function groupByFloor(nodes: readonly RunNode[]): ReadonlyArray<readonly [number, readonly RunNode[]]> {
   const byFloor = new Map<number, RunNode[]>();
@@ -31,9 +37,15 @@ export function RunMapScreen() {
   }
 
   const floors = groupByFloor(runState.map.nodes);
+  const actLabelKey = ACT_LABEL_KEY[runState.map.actId];
 
   return (
     <div className="flex min-h-dvh flex-col gap-3 bg-stone-900 p-3 text-stone-100">
+      {actLabelKey && (
+        <p data-testid="run-act-label" className="text-center text-sm font-semibold text-amber-300">
+          {tFromContent(actLabelKey)}
+        </p>
+      )}
       <div className="flex items-center justify-between text-sm">
         <span data-testid="run-hero-hp">
           {t("ui.combat.hpLabel")} {runState.heroHp}/{runState.heroMaxHp}

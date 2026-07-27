@@ -1,0 +1,26 @@
+{
+  "id": "corvide_masque",
+  "nameKey": "enemies.corvide_masque.name",
+  "maxHp": 40,
+  "moves": [
+    {
+      "id": "bec_perforant",
+      "nameKey": "enemies.corvide_masque.moves.bec_perforant.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 7 }]
+    },
+    {
+      "id": "vol_de_plumes",
+      "nameKey": "enemies.corvide_masque.moves.vol_de_plumes.name",
+      "effects": [
+        { "kind": "heal", "target": "self", "amount": 6 },
+        { "kind": "damage", "target": "enemy", "amount": 4 }
+      ]
+    },
+    {
+      "id": "repli_moqueur",
+      "nameKey": "enemies.corvide_masque.moves.repli_moqueur.name",
+      "effects": [{ "kind": "applyStatus", "target": "self", "status": "repousse", "stacks": 3 }]
+    }
+  ],
+  "pattern": ["bec_perforant", "vol_de_plumes", "repli_moqueur"]
+}

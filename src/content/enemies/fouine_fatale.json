@@ -1,0 +1,18 @@
+{
+  "id": "fouine_fatale",
+  "nameKey": "enemies.fouine_fatale.name",
+  "maxHp": 44,
+  "moves": [
+    {
+      "id": "morsures_rapides",
+      "nameKey": "enemies.fouine_fatale.moves.morsures_rapides.name",
+      "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 3, "amountPerHit": 4 }]
+    },
+    {
+      "id": "esquive_vive",
+      "nameKey": "enemies.fouine_fatale.moves.esquive_vive.name",
+      "effects": [{ "kind": "block", "target": "self", "amount": 6 }]
+    }
+  ],
+  "pattern": ["morsures_rapides", "morsures_rapides", "esquive_vive"]
+}

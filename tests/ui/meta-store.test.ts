@@ -82,7 +82,12 @@ describe("useMetaStore", () => {
   });
 
   it("recordRunCompletion applique applyRunCompletion et persiste la run terminée", () => {
-    const finishedRun = makeRunState({ outcome: "victoire", phase: "run_over", visitedNodeIds: ["n0", "n1"] });
+    const finishedRun = makeRunState({
+      outcome: "victoire",
+      phase: "run_over",
+      visitedNodeIds: ["n0", "n1"],
+      bossesDefeatedThisRun: ["test_enemy"], // acts[0] par défaut a bossEnemyIds: ["test_enemy"]
+    });
     useMetaStore.getState().recordRunCompletion(finishedRun);
 
     const meta = useMetaStore.getState().meta;

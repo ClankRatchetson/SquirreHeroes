@@ -6,6 +6,7 @@ import { CARD_CATALOG } from "../../content/cards";
 import { CASSE_NOIX } from "../../content/heroes";
 import { ENEMY_CATALOG } from "../../content/enemies";
 import { EVENT_CATALOG } from "../../content/events";
+import { RUN_ACTS } from "../../content/acts";
 import { hydrateRunState } from "../../persistence";
 import { persistCurrentSaveFile } from "../persistence/persist-save-file";
 import { useMetaStore } from "./meta-store";
@@ -60,9 +61,7 @@ export const useRunStore = create<RunStoreState>((set, get) => ({
       cardCatalog: CARD_CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["mulot_masque", "campagnol_cagoule", "pie_kleptomane"],
-      eliteEnemyIds: ["merle_mercenaire"],
-      bossEnemyIds: ["baronne_bec_de_fer"],
+      acts: RUN_ACTS,
       seed,
       bonusMaxHp: bonuses?.bonusMaxHp,
       upgradedStartingCardIds: bonuses?.upgradedStartingCardIds,

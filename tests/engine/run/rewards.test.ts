@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { generateRewardOffer, resolveRewardClaimCard, resolveRewardSkip, REWARD_TABLE } from "../../../src/engine/run/rewards";
 import { createRng } from "../../../src/engine/rng";
-import { makeCard, makeRunState } from "../helpers";
+import { makeActConfig, makeCard, makeRunState } from "../helpers";
 import type { Card } from "../../../src/engine/types";
 
 const strike: Card = makeCard({ id: "strike", hero: "casse_noix" });
@@ -86,5 +86,62 @@ describe("resolveRewardSkip", () => {
   it("no-op hors phase recompense", () => {
     const state = makeRunState({ phase: "carte", pendingReward: null });
     expect(resolveRewardSkip(state)).toBe(state);
+  });
+});
+
+describe("finalizeRewardResolution (via resolveRewardClaimCard/resolveRewardSkip)", () => {
+  const actOne = makeActConfig({ actId: "acte_1" });
+  const actTwo = makeActConfig({ actId: "acte_2" });
+  const eventCatalog = {
+    an_event: { id: "an_event", titleKey: "test.title", textKey: "test.text", choices: [] },
+  };
+
+  it("pendingActTransition à false : comportement inchangé, retour à la carte courante", () => {
+    const state = makeRunState({
+      phase: "recompense",
+      pendingReward: { cardChoices: ["strike"], noisettes: 60 },
+      pendingActTransition: false,
+      acts: [actOne, actTwo],
+      actIndex: 0,
+    });
+    const next = resolveRewardClaimCard(state, "strike");
+    expect(next.phase).toBe("carte");
+    expect(next.actIndex).toBe(0);
+    expect(next.map.actId).toBe("acte_1");
+  });
+
+  it("pendingActTransition à true (claim) : génère l'acte suivant et avance actIndex", () => {
+    const state = makeRunState({
+      phase: "recompense",
+      pendingReward: { cardChoices: ["strike"], noisettes: 60 },
+      pendingActTransition: true,
+      acts: [actOne, actTwo],
+      actIndex: 0,
+      eventCatalog,
+    });
+    const next = resolveRewardClaimCard(state, "strike");
+    expect(next.actIndex).toBe(1);
+    expect(next.map.actId).toBe("acte_2");
+    expect(next.currentNodeId).toBeNull();
+    expect(next.visitedNodeIds).toEqual([]);
+    expect(next.phase).toBe("carte");
+    expect(next.pendingActTransition).toBe(false);
+    expect(next.deck).toHaveLength(1);
+  });
+
+  it("pendingActTransition à true (skip) : génère aussi l'acte suivant", () => {
+    const state = makeRunState({
+      phase: "recompense",
+      pendingReward: { cardChoices: ["strike"], noisettes: 60 },
+      pendingActTransition: true,
+      acts: [actOne, actTwo],
+      actIndex: 0,
+      eventCatalog,
+    });
+    const next = resolveRewardSkip(state);
+    expect(next.actIndex).toBe(1);
+    expect(next.map.actId).toBe("acte_2");
+    expect(next.pendingActTransition).toBe(false);
+    expect(next.deck).toHaveLength(0);
   });
 });

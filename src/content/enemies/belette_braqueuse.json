@@ -1,0 +1,26 @@
+{
+  "id": "belette_braqueuse",
+  "nameKey": "enemies.belette_braqueuse.name",
+  "maxHp": 68,
+  "moves": [
+    {
+      "id": "griffure_eclair",
+      "nameKey": "enemies.belette_braqueuse.moves.griffure_eclair.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 12 }]
+    },
+    {
+      "id": "rafale_de_griffes",
+      "nameKey": "enemies.belette_braqueuse.moves.rafale_de_griffes.name",
+      "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 3, "amountPerHit": 5 }]
+    },
+    {
+      "id": "posture_hargneuse",
+      "nameKey": "enemies.belette_braqueuse.moves.posture_hargneuse.name",
+      "effects": [
+        { "kind": "block", "target": "self", "amount": 9 },
+        { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }
+      ]
+    }
+  ],
+  "pattern": ["griffure_eclair", "rafale_de_griffes", "posture_hargneuse"]
+}

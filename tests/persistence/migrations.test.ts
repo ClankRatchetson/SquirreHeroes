@@ -6,18 +6,19 @@ import { stripRunState } from "../../src/persistence/serialize";
 import { makeRunState, makeState } from "../engine/helpers";
 
 describe("migrations", () => {
-  it("CURRENT_SCHEMA_VERSION vaut 3 (Phase 7 lot 3 — ajout des familiers)", () => {
-    expect(CURRENT_SCHEMA_VERSION).toBe(3);
+  it("CURRENT_SCHEMA_VERSION vaut 4 (Phase 7 lot 4 — Acte II + transition multi-actes)", () => {
+    expect(CURRENT_SCHEMA_VERSION).toBe(4);
   });
 
   it("MIGRATIONS contient l'historique complet du projet, depuis v1", () => {
-    expect(MIGRATIONS).toHaveLength(2);
+    expect(MIGRATIONS).toHaveLength(3);
     expect(MIGRATIONS[0]?.fromVersion).toBe(1);
     expect(MIGRATIONS[1]?.fromVersion).toBe(2);
+    expect(MIGRATIONS[2]?.fromVersion).toBe(3);
   });
 
   it("runMigrations retourne l'enveloppe inchangée si déjà à la version courante", () => {
-    const envelope = { schemaVersion: 3, currentRun: null, meta: INITIAL_META_PROGRESSION };
+    const envelope = { schemaVersion: 4, currentRun: null, meta: INITIAL_META_PROGRESSION };
     expect(runMigrations(envelope)).toEqual(envelope);
   });
 
@@ -26,7 +27,7 @@ describe("migrations", () => {
   });
 
   it("runMigrations lève sur une sauvegarde annonçant une version future inconnue", () => {
-    expect(() => runMigrations({ schemaVersion: 4, currentRun: null })).toThrow();
+    expect(() => runMigrations({ schemaVersion: 5, currentRun: null })).toThrow();
   });
 
   it("migre une authentique sauvegarde v1 (Phase 4 : sans meta, sans noisettesBonusPerCombat) vers v2", () => {
@@ -69,11 +70,13 @@ describe("migrations", () => {
     delete v2CurrentRun.familiarPassive;
     const v2Envelope = { schemaVersion: 2, currentRun: v2CurrentRun, meta: INITIAL_META_PROGRESSION };
 
-    const migrated = runMigrations(v2Envelope);
+    // MIGRATIONS[1] (v2->v3) isolé — `runMigrations` enchaînerait jusqu'à CURRENT_SCHEMA_VERSION.
+    const migration = MIGRATIONS[1];
+    const migrated = migration?.migrate(v2Envelope);
 
-    expect(migrated.schemaVersion).toBe(3);
-    expect((migrated.currentRun as { familiarId: unknown }).familiarId).toBeNull();
-    expect((migrated.currentRun as { pendingCombat: unknown }).pendingCombat).toBeNull();
+    expect(migrated?.schemaVersion).toBe(3);
+    expect((migrated?.currentRun as { familiarId: unknown }).familiarId).toBeNull();
+    expect((migrated?.currentRun as { pendingCombat: unknown }).pendingCombat).toBeNull();
   });
 
   it("migre une authentique sauvegarde v2 vers v3 — avec un combat en cours", () => {
@@ -86,11 +89,44 @@ describe("migrations", () => {
     delete v2PendingCombat.familiarPassive;
     const v2Envelope = { schemaVersion: 2, currentRun: v2CurrentRun, meta: INITIAL_META_PROGRESSION };
 
-    const migrated = runMigrations(v2Envelope);
+    // MIGRATIONS[1] (v2->v3) isolé — `runMigrations` enchaînerait jusqu'à CURRENT_SCHEMA_VERSION.
+    const migration = MIGRATIONS[1];
+    const migrated = migration?.migrate(v2Envelope);
 
-    expect(migrated.schemaVersion).toBe(3);
-    const migratedRun = migrated.currentRun as { familiarId: unknown; pendingCombat: Record<string, unknown> };
+    expect(migrated?.schemaVersion).toBe(3);
+    const migratedRun = migrated?.currentRun as { familiarId: unknown; pendingCombat: Record<string, unknown> };
     expect(migratedRun.familiarId).toBeNull();
     expect(migratedRun.pendingCombat.familiarPassive).toBeNull();
+  });
+
+  it("migre une authentique sauvegarde v3 (Phase 7 lot 3, sans acts/actIndex/bossesDefeatedThisRun/pendingActTransition) vers v4", () => {
+    const strippedRun = stripRunState(makeRunState({ pendingCombat: null }));
+    const v3CurrentRun: Record<string, unknown> = { ...strippedRun };
+    delete v3CurrentRun.acts;
+    delete v3CurrentRun.actIndex;
+    delete v3CurrentRun.bossesDefeatedThisRun;
+    delete v3CurrentRun.pendingActTransition;
+    const v3Envelope = { schemaVersion: 3, currentRun: v3CurrentRun, meta: INITIAL_META_PROGRESSION };
+
+    const migrated = runMigrations(v3Envelope);
+
+    expect(migrated.schemaVersion).toBe(4);
+    const migratedRun = migrated.currentRun as {
+      acts: unknown;
+      actIndex: unknown;
+      bossesDefeatedThisRun: unknown;
+      pendingActTransition: unknown;
+    };
+    expect(migratedRun.acts).toEqual([
+      {
+        actId: "acte_1",
+        commonEnemyIds: ["mulot_masque", "campagnol_cagoule", "pie_kleptomane"],
+        eliteEnemyIds: ["merle_mercenaire"],
+        bossEnemyIds: ["baronne_bec_de_fer"],
+      },
+    ]);
+    expect(migratedRun.actIndex).toBe(0);
+    expect(migratedRun.bossesDefeatedThisRun).toEqual([]);
+    expect(migratedRun.pendingActTransition).toBe(false);
   });
 });

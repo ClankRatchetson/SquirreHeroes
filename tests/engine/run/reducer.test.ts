@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { runReducer } from "../../../src/engine/run/reducer";
 import { createCombat } from "../../../src/engine/core";
-import { makeCard, makeRunNode, makeRunState } from "../helpers";
+import { makeActConfig, makeCard, makeRunNode, makeRunState } from "../helpers";
 import type { Card, EnemyDefinition, HeroDefinition } from "../../../src/engine/types";
 
 const strike: Card = makeCard({ id: "strike", cost: 1, effects: [{ kind: "damage", target: "enemy", amount: 50 }] });
@@ -60,13 +60,14 @@ describe("runReducer — forwardToCombat", () => {
     expect(next.pendingReward).not.toBeNull();
   });
 
-  it("victoire sur le nœud boss : pas de récompense, run_over/victoire", () => {
+  it("victoire sur le nœud boss (dernier acte) : pas de récompense, run_over/victoire", () => {
     const state = stateWithPendingCombat("boss");
     const cardInstanceId = state.pendingCombat?.hand[0]?.instanceId as string;
     const next = runReducer(state, { type: "PLAY_CARD", cardInstanceId, targetEnemyId: "weak-0" });
     expect(next.phase).toBe("run_over");
     expect(next.outcome).toBe("victoire");
     expect(next.pendingReward).toBeNull();
+    expect(next.bossesDefeatedThisRun).toEqual(["weak"]);
   });
 
   it("noisettesBonusPerCombat s'ajoute aux Noisettes de récompense sur victoire combat", () => {
@@ -143,6 +144,70 @@ describe("runReducer — forwardToCombat", () => {
     const state = stateWithPendingCombat();
     const next = runReducer(state, { type: "PLAY_CARD", cardInstanceId: "does-not-exist" });
     expect(next).toBe(state);
+  });
+});
+
+describe("runReducer — transition multi-actes", () => {
+  const actOne = makeActConfig({ actId: "acte_1" });
+  const actTwo = makeActConfig({ actId: "acte_2" });
+
+  function stateOnNonFinalBoss() {
+    const combat = createCombat({ hero, enemies: [weakEnemy], cardCatalog: CATALOG, seed: 1 });
+    return makeRunState({
+      phase: "combat",
+      currentNodeId: "node0",
+      heroHp: 80,
+      heroMaxHp: 80,
+      cardCatalog: CATALOG,
+      pendingCombat: combat,
+      acts: [actOne, actTwo],
+      actIndex: 0,
+      // La génération de l'acte suivant peut tirer un nœud "evenement" — il faut un catalogue non vide.
+      eventCatalog: {
+        an_event: { id: "an_event", titleKey: "test.title", textKey: "test.text", choices: [] },
+      },
+      map: {
+        actId: "acte_1",
+        floorCount: 1,
+        nodes: [makeRunNode({ id: "node0", type: "boss", floor: 0, enemyIds: ["weak"] })],
+      },
+    });
+  }
+
+  it("boss non-final : génère une récompense de type boss et pose pendingActTransition", () => {
+    const state = stateOnNonFinalBoss();
+    const cardInstanceId = state.pendingCombat?.hand[0]?.instanceId as string;
+    const next = runReducer(state, { type: "PLAY_CARD", cardInstanceId, targetEnemyId: "weak-0" });
+    expect(next.phase).toBe("recompense");
+    expect(next.pendingReward).not.toBeNull();
+    expect(next.noisettes).toBe(60);
+    expect(next.pendingActTransition).toBe(true);
+    expect(next.actIndex).toBe(0);
+    expect(next.bossesDefeatedThisRun).toEqual(["weak"]);
+  });
+
+  it("résoudre la récompense (choisir une carte) après un boss non-final génère l'acte suivant", () => {
+    const state = stateOnNonFinalBoss();
+    const cardInstanceId = state.pendingCombat?.hand[0]?.instanceId as string;
+    const afterBoss = runReducer(state, { type: "PLAY_CARD", cardInstanceId, targetEnemyId: "weak-0" });
+    const cardId = afterBoss.pendingReward?.cardChoices[0] as string;
+    const next = runReducer(afterBoss, { type: "CHOISIR_RECOMPENSE_CARTE", cardId });
+    expect(next.actIndex).toBe(1);
+    expect(next.map.actId).toBe("acte_2");
+    expect(next.currentNodeId).toBeNull();
+    expect(next.visitedNodeIds).toEqual([]);
+    expect(next.phase).toBe("carte");
+    expect(next.pendingActTransition).toBe(false);
+  });
+
+  it("résoudre la récompense (passer) après un boss non-final génère aussi l'acte suivant", () => {
+    const state = stateOnNonFinalBoss();
+    const cardInstanceId = state.pendingCombat?.hand[0]?.instanceId as string;
+    const afterBoss = runReducer(state, { type: "PLAY_CARD", cardInstanceId, targetEnemyId: "weak-0" });
+    const next = runReducer(afterBoss, { type: "PASSER_RECOMPENSE" });
+    expect(next.actIndex).toBe(1);
+    expect(next.map.actId).toBe("acte_2");
+    expect(next.pendingActTransition).toBe(false);
   });
 });
 

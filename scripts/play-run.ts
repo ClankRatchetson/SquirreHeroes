@@ -6,6 +6,7 @@ import { CARD_CATALOG } from "../src/content/cards";
 import { CASSE_NOIX } from "../src/content/heroes";
 import { ENEMY_CATALOG } from "../src/content/enemies";
 import { EVENT_CATALOG } from "../src/content/events";
+import { RUN_ACTS } from "../src/content/acts";
 import { tFromContent } from "../src/content/i18n/t";
 import { chooseCombatAction } from "../src/sim/policy/combat-policy";
 
@@ -59,9 +60,7 @@ let state = createRun({
   cardCatalog: CARD_CATALOG,
   enemyCatalog: ENEMY_CATALOG,
   eventCatalog: EVENT_CATALOG,
-  commonEnemyIds: ["mulot_masque", "campagnol_cagoule", "pie_kleptomane"],
-  eliteEnemyIds: ["merle_mercenaire"],
-  bossEnemyIds: ["baronne_bec_de_fer"],
+  acts: RUN_ACTS,
   seed: SEED,
 });
 

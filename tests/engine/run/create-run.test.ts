@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { createRun } from "../../../src/engine/run/create-run";
 import { makeCard } from "../helpers";
-import type { Card, EnemyDefinition, EventDefinition, FamiliarDefinition, HeroDefinition } from "../../../src/engine/types";
+import type {
+  Card,
+  EnemyDefinition,
+  EventDefinition,
+  FamiliarDefinition,
+  HeroDefinition,
+  RunActConfig,
+} from "../../../src/engine/types";
 
 const strike: Card = makeCard({ id: "strike" });
 const familiarCard: Card = makeCard({ id: "familiar_signature", hero: "mesange_radar" });
@@ -41,6 +48,19 @@ const anEvent: EventDefinition = {
 };
 const EVENT_CATALOG: Readonly<Record<string, EventDefinition>> = { an_event: anEvent };
 
+const actOne: RunActConfig = {
+  actId: "acte_1",
+  commonEnemyIds: ["dummy"],
+  eliteEnemyIds: ["dummy"],
+  bossEnemyIds: ["dummy"],
+};
+const actTwo: RunActConfig = {
+  actId: "acte_2",
+  commonEnemyIds: ["dummy"],
+  eliteEnemyIds: ["dummy"],
+  bossEnemyIds: ["dummy"],
+};
+
 describe("createRun", () => {
   it("initialise PV/deck/Noisettes/phase correctement", () => {
     const state = createRun({
@@ -48,9 +68,7 @@ describe("createRun", () => {
       cardCatalog: CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["dummy"],
-      eliteEnemyIds: ["dummy"],
-      bossEnemyIds: ["dummy"],
+      acts: [actOne],
       seed: 1,
     });
     expect(state.heroHp).toBe(80);
@@ -68,9 +86,7 @@ describe("createRun", () => {
       cardCatalog: CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["dummy"],
-      eliteEnemyIds: ["dummy"],
-      bossEnemyIds: ["dummy"],
+      acts: [actOne],
       seed: 99,
     };
     expect(createRun(params)).toEqual(createRun(params));
@@ -82,9 +98,7 @@ describe("createRun", () => {
       cardCatalog: CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["dummy"],
-      eliteEnemyIds: ["dummy"],
-      bossEnemyIds: ["dummy"],
+      acts: [actOne],
       seed: 1,
     });
     expect(state.heroMaxHp).toBe(hero.maxHp);
@@ -99,9 +113,7 @@ describe("createRun", () => {
       cardCatalog: CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["dummy"],
-      eliteEnemyIds: ["dummy"],
-      bossEnemyIds: ["dummy"],
+      acts: [actOne],
       seed: 1,
       bonusMaxHp: 5,
     });
@@ -115,9 +127,7 @@ describe("createRun", () => {
       cardCatalog: CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["dummy"],
-      eliteEnemyIds: ["dummy"],
-      bossEnemyIds: ["dummy"],
+      acts: [actOne],
       seed: 1,
       upgradedStartingCardIds: ["strike"],
     });
@@ -131,9 +141,7 @@ describe("createRun", () => {
       cardCatalog: CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["dummy"],
-      eliteEnemyIds: ["dummy"],
-      bossEnemyIds: ["dummy"],
+      acts: [actOne],
       seed: 1,
       noisettesBonusPerCombat: 2,
     });
@@ -146,9 +154,7 @@ describe("createRun", () => {
       cardCatalog: CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["dummy"],
-      eliteEnemyIds: ["dummy"],
-      bossEnemyIds: ["dummy"],
+      acts: [actOne],
       seed: 1,
     });
     expect(state.familiarId).toBeNull();
@@ -163,14 +169,41 @@ describe("createRun", () => {
       cardCatalog: CATALOG,
       enemyCatalog: ENEMY_CATALOG,
       eventCatalog: EVENT_CATALOG,
-      commonEnemyIds: ["dummy"],
-      eliteEnemyIds: ["dummy"],
-      bossEnemyIds: ["dummy"],
+      acts: [actOne],
       seed: 1,
     });
     expect(state.familiarId).toBe("mesange_radar");
     expect(state.familiarPassive).toEqual({ kind: "bonusDrawFirstTurn", amount: 1 });
     expect(state.deck).toHaveLength(3);
     expect(state.deck.filter((entry) => entry.cardId === "familiar_signature")).toHaveLength(1);
+  });
+
+  it("génère la carte du 1er acte seulement, figeant acts/actIndex/bossesDefeatedThisRun/pendingActTransition", () => {
+    const state = createRun({
+      hero,
+      cardCatalog: CATALOG,
+      enemyCatalog: ENEMY_CATALOG,
+      eventCatalog: EVENT_CATALOG,
+      acts: [actOne, actTwo],
+      seed: 1,
+    });
+    expect(state.map.actId).toBe("acte_1");
+    expect(state.acts).toEqual([actOne, actTwo]);
+    expect(state.actIndex).toBe(0);
+    expect(state.bossesDefeatedThisRun).toEqual([]);
+    expect(state.pendingActTransition).toBe(false);
+  });
+
+  it("lève si acts est vide (contenu manquant)", () => {
+    expect(() =>
+      createRun({
+        hero,
+        cardCatalog: CATALOG,
+        enemyCatalog: ENEMY_CATALOG,
+        eventCatalog: EVENT_CATALOG,
+        acts: [],
+        seed: 1,
+      }),
+    ).toThrow();
   });
 });
