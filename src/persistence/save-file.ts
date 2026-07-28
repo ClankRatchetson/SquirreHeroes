@@ -2,7 +2,7 @@ import type { Card, CardId, CombatState, EnemyDefinition, EnemyId, EventDefiniti
 import type { MetaProgression } from "../engine/meta";
 
 /** Gouverne la forme du JSON stocké — orthogonal à la structure IndexedDB (cf. `dexie-adapter.ts`). */
-export const CURRENT_SCHEMA_VERSION = 4;
+export const CURRENT_SCHEMA_VERSION = 5;
 
 export type PersistedCombatState = Omit<CombatState, "cardCatalog">;
 

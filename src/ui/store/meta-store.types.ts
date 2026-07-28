@@ -12,4 +12,6 @@ export interface MetaStoreState {
   readonly recordRunStart: () => void;
   /** Applique les conséquences de fin de run (jalons, Glands d'Or) — appelé à la transition vers `run_over`. */
   readonly recordRunCompletion: (finishedRun: RunState) => void;
+  /** Marque le tutoriel de premier combat comme vu (terminé OU passé) — ne se réaffiche plus jamais après. */
+  readonly completeTutorial: () => void;
 }

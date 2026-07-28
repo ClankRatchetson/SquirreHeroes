@@ -15,6 +15,9 @@ test("fermer l'application en plein combat et retrouver l'état exact au relance
   await page.getByRole("button", { name: "Commencer" }).click();
   await page.locator('[data-testid="run-node"][data-status="disponible"]').first().click();
   await expect(page.getByTestId("hero-panel")).toBeVisible();
+  // Premier combat jamais joué (sauvegarde fraîche) : passe le tutoriel (Phase 8 lot 1) avant
+  // de capturer l'état à comparer après reprise — une fois passé, il ne réapparaît jamais.
+  await page.getByTestId("tutorial-skip").click();
 
   const heroHpBefore = await page.getByTestId("hero-hp").textContent();
   const enemyHpBefore = await page.getByTestId("enemy-hp").first().textContent();

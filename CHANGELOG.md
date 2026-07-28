@@ -4,6 +4,44 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.16.0] — Phase 8 (lot 1) — Tutoriel de premier combat
+
+### Ajouté
+- **Tutoriel de premier combat** : sur une sauvegarde fraîche (jamais
+  passé et jamais sauté), le tout premier combat affiche une suite de 5
+  étapes textuelles (main de cartes, énergie, PV/blocage, intentions
+  ennemies, fin de tour), sautable à tout moment (`Passer le tutoriel`)
+  ou parcourue jusqu'au bout (`C'est parti !`). N'apparaît que dans
+  `RunCombatScreen` (le vrai mode de jeu), jamais dans le mode combat de
+  démo. Une fois vu (terminé ou passé), ne réapparaît plus jamais.
+- `MetaProgression` gagne `tutorialCompleted: boolean` ; migration de
+  sauvegarde `schemaVersion` v4 → v5 : les sauvegardes préexistantes sont
+  backfillées à `tutorialCompleted: true` (quiconque a déjà une
+  sauvegarde a nécessairement déjà démarré une run, donc n'a pas besoin
+  qu'on lui rejoue le tutoriel) — seul un tout nouveau joueur
+  (`INITIAL_META_PROGRESSION`) le voit.
+- `useMetaStore` gagne l'action `completeTutorial()` (même patron que
+  `recordRunStart`/`recordRunCompletion` : met à jour puis persiste, no-op
+  si déjà marqué).
+- Nouveau `tests/e2e/tutorial.spec.ts` (apparition au premier combat,
+  persistance après "Passer" et après avoir parcouru les 5 étapes) ;
+  `run-flow.spec.ts`/`persistence.spec.ts` mis à jour pour passer le
+  tutoriel avant leurs assertions existantes (sauvegarde fraîche = premier
+  combat = tutoriel affiché, comportement attendu et non une régression).
+  413 tests unitaires, 17 tests e2e, tous verts. Couverture maintenue à
+  96.82 % sur `/src/engine`.
+
+### Contexte — suite du planning
+- Phase 8 ("Tutoriel, bruitages, animations finales, écrans de menu,
+  équilibrage global, suite e2e complète, build Android signé, test en
+  conditions hors-ligne strictes") est traitée par lots comme la Phase 7.
+  Ce lot couvre uniquement le tutoriel — entièrement autonome, sans
+  ressource externe. Les bruitages (fichiers audio CC0 à sourcer),
+  l'intégration des illustrations (`assets-pipeline/prompts.md`, en cours
+  de génération séparément), le build Android signé (nécessite un
+  keystore) et le test hors-ligne sur device réel (nécessite un appareil
+  physique) restent des lots futurs distincts.
+
 ## [0.15.0] — Passe d'équilibrage via le harnais de simulation
 
 ### Diagnostiqué

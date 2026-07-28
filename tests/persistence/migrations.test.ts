@@ -6,19 +6,20 @@ import { stripRunState } from "../../src/persistence/serialize";
 import { makeRunState, makeState } from "../engine/helpers";
 
 describe("migrations", () => {
-  it("CURRENT_SCHEMA_VERSION vaut 4 (Phase 7 lot 4 — Acte II + transition multi-actes)", () => {
-    expect(CURRENT_SCHEMA_VERSION).toBe(4);
+  it("CURRENT_SCHEMA_VERSION vaut 5 (Phase 8 lot 1 — tutoriel)", () => {
+    expect(CURRENT_SCHEMA_VERSION).toBe(5);
   });
 
   it("MIGRATIONS contient l'historique complet du projet, depuis v1", () => {
-    expect(MIGRATIONS).toHaveLength(3);
+    expect(MIGRATIONS).toHaveLength(4);
     expect(MIGRATIONS[0]?.fromVersion).toBe(1);
     expect(MIGRATIONS[1]?.fromVersion).toBe(2);
     expect(MIGRATIONS[2]?.fromVersion).toBe(3);
+    expect(MIGRATIONS[3]?.fromVersion).toBe(4);
   });
 
   it("runMigrations retourne l'enveloppe inchangée si déjà à la version courante", () => {
-    const envelope = { schemaVersion: 4, currentRun: null, meta: INITIAL_META_PROGRESSION };
+    const envelope = { schemaVersion: 5, currentRun: null, meta: INITIAL_META_PROGRESSION };
     expect(runMigrations(envelope)).toEqual(envelope);
   });
 
@@ -27,7 +28,7 @@ describe("migrations", () => {
   });
 
   it("runMigrations lève sur une sauvegarde annonçant une version future inconnue", () => {
-    expect(() => runMigrations({ schemaVersion: 5, currentRun: null })).toThrow();
+    expect(() => runMigrations({ schemaVersion: 6, currentRun: null })).toThrow();
   });
 
   it("migre une authentique sauvegarde v1 (Phase 4 : sans meta, sans noisettesBonusPerCombat) vers v2", () => {
@@ -108,10 +109,12 @@ describe("migrations", () => {
     delete v3CurrentRun.pendingActTransition;
     const v3Envelope = { schemaVersion: 3, currentRun: v3CurrentRun, meta: INITIAL_META_PROGRESSION };
 
-    const migrated = runMigrations(v3Envelope);
+    // MIGRATIONS[2] (v3->v4) isolé — `runMigrations` enchaînerait jusqu'à CURRENT_SCHEMA_VERSION.
+    const migration = MIGRATIONS[2];
+    const migrated = migration?.migrate(v3Envelope);
 
-    expect(migrated.schemaVersion).toBe(4);
-    const migratedRun = migrated.currentRun as {
+    expect(migrated?.schemaVersion).toBe(4);
+    const migratedRun = migrated?.currentRun as {
       acts: unknown;
       actIndex: unknown;
       bossesDefeatedThisRun: unknown;
@@ -128,5 +131,21 @@ describe("migrations", () => {
     expect(migratedRun.actIndex).toBe(0);
     expect(migratedRun.bossesDefeatedThisRun).toEqual([]);
     expect(migratedRun.pendingActTransition).toBe(false);
+  });
+
+  it("migre une authentique sauvegarde v4 (Phase 7 lot 4, meta sans tutorialCompleted) vers v5 : le tutoriel est marqué vu", () => {
+    const v4Meta: Record<string, unknown> = { ...INITIAL_META_PROGRESSION };
+    delete v4Meta.tutorialCompleted;
+    const strippedRun = stripRunState(makeRunState({ pendingCombat: null }));
+    const v4Envelope = { schemaVersion: 4, currentRun: strippedRun, meta: v4Meta };
+
+    const migrated = runMigrations(v4Envelope);
+
+    expect(migrated.schemaVersion).toBe(5);
+    expect((migrated.meta as { tutorialCompleted: unknown }).tutorialCompleted).toBe(true);
+    // Le reste de `meta` est préservé tel quel.
+    expect(migrated.meta).toEqual({ ...v4Meta, tutorialCompleted: true });
+    // `currentRun` n'est pas touché par cette migration.
+    expect(migrated.currentRun).toEqual(strippedRun);
   });
 });

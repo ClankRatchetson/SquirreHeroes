@@ -26,6 +26,9 @@ test("une run est jouable au tap : carte -> nœud -> combat -> retour à un écr
   await availableNode.click();
 
   await expect(page.getByTestId("hero-panel")).toBeVisible();
+  // Premier combat jamais joué (sauvegarde fraîche) : le tutoriel (Phase 8 lot 1) s'affiche
+  // par-dessus — on le passe pour ne pas bloquer les clics sur les cartes/le combat.
+  await page.getByTestId("tutorial-skip").click();
   // 5 + 1 : Mésange Radar (familier de départ par défaut, Phase 7 lot 3) pioche 1 carte de plus au 1er tour.
   await expect(page.getByTestId("card-in-hand")).toHaveCount(6);
 

@@ -44,6 +44,8 @@ export interface MetaProgression {
   readonly bossesDefeated: readonly EnemyId[];
   readonly glandsDor: number;
   readonly unlockedTreeNodeIds: readonly string[];
+  /** Vrai dès que le tutoriel de premier combat a été vu (terminé OU passé) — ne se réaffiche jamais après. */
+  readonly tutorialCompleted: boolean;
 }
 
 /** Bonus agrégés d'un ensemble de nœuds débloqués, consommables par `createRun`. */

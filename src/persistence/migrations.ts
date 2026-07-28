@@ -52,12 +52,25 @@ function migrateRunToV4(currentRun: Record<string, unknown>): Record<string, unk
 }
 
 /**
+ * v4 (Phase 7 lot 4) → v5 (Phase 8 lot 1 — tutoriel) : `meta` gagne
+ * `tutorialCompleted`. Backfillé à `true` pour toute sauvegarde
+ * PRÉEXISTANTE : quiconque a déjà une sauvegarde a nécessairement déjà
+ * démarré au moins une run, donc n'a pas besoin qu'on lui rejoue le
+ * tutoriel de premier combat — seul un tout nouveau joueur
+ * (`INITIAL_META_PROGRESSION`, `tutorialCompleted: false`) le verra.
+ */
+function migrateMetaToV5(meta: Record<string, unknown>): Record<string, unknown> {
+  return { ...meta, tutorialCompleted: true };
+}
+
+/**
  * Historique des migrations : v1 (Phase 4, pas de `meta`, pas de
  * `noisettesBonusPerCombat` sur `currentRun`) → v2 (Phase 5, ajoute `meta` +
  * `noisettesBonusPerCombat: 0`) → v3 (Phase 7 lot 3, ajoute
  * `familiarId`/`familiarPassive: null`, cf. `migrateRunToV3`) → v4 (Phase 7
  * lot 4, ajoute `acts`/`actIndex`/`bossesDefeatedThisRun`/
- * `pendingActTransition`, cf. `migrateRunToV4`).
+ * `pendingActTransition`, cf. `migrateRunToV4`) → v5 (Phase 8 lot 1, ajoute
+ * `meta.tutorialCompleted`, cf. `migrateMetaToV5`).
  */
 export const MIGRATIONS: readonly Migration[] = [
   {
@@ -85,6 +98,14 @@ export const MIGRATIONS: readonly Migration[] = [
       schemaVersion: 4,
       currentRun: data.currentRun === null ? null : migrateRunToV4(data.currentRun as Record<string, unknown>),
       meta: data.meta,
+    }),
+  },
+  {
+    fromVersion: 4,
+    migrate: (data) => ({
+      schemaVersion: 5,
+      currentRun: data.currentRun,
+      meta: migrateMetaToV5(data.meta as Record<string, unknown>),
     }),
   },
 ];

@@ -334,6 +334,22 @@ export const fr = {
   "ui.combat.turnLabel": "Tour",
   "ui.combat.enemyTurnResolving": "Tour ennemi…",
   "ui.combat.selectTargetHint": "Choisis une cible",
+
+  // UI — tutoriel de premier combat (Phase 8 lot 1)
+  "ui.tutorial.stepLabel": "Étape",
+  "ui.tutorial.skip": "Passer le tutoriel",
+  "ui.tutorial.next": "Suivant",
+  "ui.tutorial.finish": "C'est parti !",
+  "ui.tutorial.step1":
+    "Bienvenue dans le Potager ! Un ennemi te barre la route. Voici les bases du combat, en quelques secondes.",
+  "ui.tutorial.step2":
+    "Ta main de cartes est en bas de l'écran. Touche une carte jouable pour la jouer — certaines demandent ensuite de toucher une cible ennemie.",
+  "ui.tutorial.step3":
+    "Chaque carte coûte de l'Énergie (en haut à droite). Elle se réinitialise à chaque tour : impossible de tout jouer d'un coup, il faut choisir.",
+  "ui.tutorial.step4":
+    "Tes PV (points de vie) ne doivent jamais tomber à 0. Le Blocage absorbe les dégâts reçus ce tour-ci — pense à t'en servir avant un gros coup.",
+  "ui.tutorial.step5":
+    "Chaque ennemi affiche son intention pour ce tour (attaque, blocage, altération). Termine ton tour avec le bouton dédié une fois prêt.",
   "ui.outcome.victory": "Victoire !",
   "ui.outcome.defeat": "Défaite",
   "ui.outcome.replay": "Rejouer",

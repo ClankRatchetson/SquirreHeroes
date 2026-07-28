@@ -8,6 +8,7 @@ export const INITIAL_META_PROGRESSION: MetaProgression = {
   bossesDefeated: [],
   glandsDor: 0,
   unlockedTreeNodeIds: [],
+  tutorialCompleted: false,
 };
 
 /** Cf. justification du plan Phase 5 §2 — 5 Glands d'Or par nœud visité, indépendamment de l'issue de la run. */

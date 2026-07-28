@@ -99,4 +99,20 @@ describe("useMetaStore", () => {
     expect(saved.currentRun?.outcome).toBe("victoire");
     expect(saved.meta).toEqual(meta);
   });
+
+  it("completeTutorial marque tutorialCompleted et persiste", () => {
+    useMetaStore.getState().completeTutorial();
+    expect(useMetaStore.getState().meta.tutorialCompleted).toBe(true);
+    expect(fakeAdapter.save).toHaveBeenCalledTimes(1);
+    const saved = fakeAdapter.save.mock.calls[0]?.[0] as { meta: { tutorialCompleted: boolean } };
+    expect(saved.meta.tutorialCompleted).toBe(true);
+  });
+
+  it("completeTutorial est un no-op (aucune persistance) si déjà marqué", () => {
+    useMetaStore.setState({ meta: { ...INITIAL_META_PROGRESSION, tutorialCompleted: true } });
+    const before = useMetaStore.getState().meta;
+    useMetaStore.getState().completeTutorial();
+    expect(useMetaStore.getState().meta).toBe(before);
+    expect(fakeAdapter.save).not.toHaveBeenCalled();
+  });
 });

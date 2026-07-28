@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 import { CombatControllerContext, type CombatController } from "../combat-controller";
 import { useRunStore } from "../store/run-store";
+import { useMetaStore } from "../store/meta-store";
 import { CombatBattlefield } from "../components/combat/CombatBattlefield";
+import { TutorialOverlay } from "../components/feedback/TutorialOverlay";
 import { CASSE_NOIX, HERO_CATALOG } from "../../content/heroes";
 
 /**
@@ -21,6 +23,8 @@ export function RunCombatScreen() {
   const playCard = useRunStore((s) => s.playCard);
   const endTurn = useRunStore((s) => s.endTurn);
   const consumeEvent = useRunStore((s) => s.consumeEvent);
+  const tutorialCompleted = useMetaStore((s) => s.meta.tutorialCompleted);
+  const completeTutorial = useMetaStore((s) => s.completeTutorial);
 
   const controller = useMemo<CombatController>(
     () => ({
@@ -41,6 +45,7 @@ export function RunCombatScreen() {
   return (
     <CombatControllerContext.Provider value={controller}>
       <CombatBattlefield onReplay={() => {}} />
+      {!tutorialCompleted && <TutorialOverlay onFinish={completeTutorial} />}
     </CombatControllerContext.Provider>
   );
 }
