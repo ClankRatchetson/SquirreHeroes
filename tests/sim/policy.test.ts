@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { createRng } from "../../src/engine/rng";
 import { chooseCombatAction } from "../../src/sim/policy/combat-policy";
 import { chooseRunAction } from "../../src/sim/policy/run-policy";
-import { makeCard, makeRunNode, makeRunState, makeState } from "../engine/helpers";
-import type { Card, EventDefinition } from "../../src/engine/types";
+import { makeCard, makeEnemy, makeHero, makeRunNode, makeRunState, makeState } from "../engine/helpers";
+import type { Card, EnemyMoveDef, EventDefinition } from "../../src/engine/types";
 
 describe("chooseCombatAction", () => {
   const strike: Card = makeCard({ id: "strike", cost: 2, type: "attaque", effects: [{ kind: "damage", target: "enemy", amount: 5 }] });
@@ -27,6 +27,44 @@ describe("chooseCombatAction", () => {
   it("END_TURN si aucune carte n'est jouable (main vide)", () => {
     const combat = makeState({ hand: [], cardCatalog: CATALOG });
     expect(chooseCombatAction(combat, CATALOG)).toEqual({ type: "END_TURN" });
+  });
+
+  it("préfère la défense quand les dégâts entrants estimés dépassent le blocage courant", () => {
+    const threateningMove: EnemyMoveDef = {
+      id: "gros_coup",
+      nameKey: "test.enemy.gros_coup",
+      effects: [{ kind: "damage", target: "enemy", amount: 20 }],
+    };
+    const combat = makeState({
+      hero: makeHero({ block: 0 }),
+      enemies: [makeEnemy({ intent: threateningMove })],
+      hand: [
+        { instanceId: "i-block", cardId: "block", upgraded: false },
+        { instanceId: "i-strike", cardId: "strike", upgraded: false },
+      ],
+      cardCatalog: CATALOG,
+    });
+    const action = chooseCombatAction(combat, CATALOG);
+    expect(action).toEqual({ type: "PLAY_CARD", cardInstanceId: "i-block", targetEnemyId: "enemy-0" });
+  });
+
+  it("ne change rien quand le blocage courant couvre déjà les dégâts entrants estimés", () => {
+    const smallMove: EnemyMoveDef = {
+      id: "petit_coup",
+      nameKey: "test.enemy.petit_coup",
+      effects: [{ kind: "damage", target: "enemy", amount: 3 }],
+    };
+    const combat = makeState({
+      hero: makeHero({ block: 10 }),
+      enemies: [makeEnemy({ intent: smallMove })],
+      hand: [
+        { instanceId: "i-block", cardId: "block", upgraded: false },
+        { instanceId: "i-strike", cardId: "strike", upgraded: false },
+      ],
+      cardCatalog: CATALOG,
+    });
+    const action = chooseCombatAction(combat, CATALOG);
+    expect(action).toEqual({ type: "PLAY_CARD", cardInstanceId: "i-strike", targetEnemyId: "enemy-0" });
   });
 });
 

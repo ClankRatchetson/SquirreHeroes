@@ -4,6 +4,71 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.15.0] — Passe d'équilibrage via le harnais de simulation
+
+### Diagnostiqué
+- Le contenu de la Phase 7 étant complet (v0.14.0), retour au harnais
+  (§ garde-fou d'équilibrage) pour une vraie passe d'analyse. Premier
+  constat, déjà documenté à chaque lot précédent mais jamais creusé :
+  taux de victoire proche de 0 % sur toutes les combinaisons. Diagnostic
+  mené directement contre le code réel (Casse-Noix seul, 3000 runs) :
+  **0 victoire sur 3000**, et **52 % des défaites survenaient précisément
+  au dernier floor de la carte (le nœud boss)**. Approfondissement :
+  taux de victoire par combat hors-boss ≈ 90 %+, mais **seulement 7.2 %
+  des affrontements de boss étaient remportés**. Cause identifiée dans
+  `chooseCombatAction` (`src/sim/policy/combat-policy.ts`) : le tri
+  glouton plaçait toujours l'attaque avant la défense à coût égal, donc
+  le bot ne bloquait quasiment jamais — pas un problème de contenu.
+
+### Corrigé
+- `chooseCombatAction` gagne une estimation des dégâts entrants visibles
+  ce tour (somme des `damage`/`damageAll`/`multiHit` des intentions
+  ennemies) : si cette estimation dépasse le blocage déjà posé, la
+  défense passe devant l'attaque dans le tri, sinon le comportement
+  d'origine (inchangé depuis la Phase 6) reste identique. Toujours
+  gloutonne, déterministe, sans aléatoire — juste moins suicidaire.
+  Utilisé par `scripts/play-combat.ts`, `scripts/play-run.ts` et le
+  harnais de simulation (point d'entrée unique, `src/sim/policy/
+  combat-policy.ts`).
+- Nouveaux tests unitaires (`tests/sim/policy.test.ts`) : la défense est
+  choisie quand les dégâts entrants estimés dépassent le blocage courant,
+  et le comportement d'origine est confirmé inchangé quand ce n'est pas
+  le cas. 410 tests unitaires, 15 tests e2e (inchangés — le changement
+  est isolé à l'outillage `/src/sim`, jamais importé par `/src/ui`), tous
+  verts.
+
+### Constaté après correction (`npm run sim -- --runs=10000`)
+- Le taux "atteint Acte II" explose pour la plupart des combinaisons (ex.
+  Casse-Noix/Bourdon Bourru : 9.8 % → 35.9 %), "atteint Acte III" devient
+  partout non-nul (jusqu'à 4.2 %), et les premières vraies victoires
+  apparaissent (jusqu'à 0.6 % pour les meilleures combinaisons — contre
+  un plafond de mesure à 0.0 % partout auparavant).
+- **Signal désormais exploitable** : une fois un run réellement rendu à
+  l'Acte III, le taux de victoire local grimpe à ~8-9 % (ex. Casse-Noix/
+  Bourdon Bourru : 18 victoires sur 209 runs ayant atteint l'Acte III) —
+  cohérent avec un roguelike où l'attrition sur 2 actes est le vrai
+  obstacle, pas un boss cassé isolément (son taux de réussite mesuré
+  directement, ~7-9 %, est du même ordre que le taux de victoire global
+  une fois l'Acte III atteint).
+- Aucune carte sous-choisie, sur-choisie ou dominante détectée sur les 12
+  combinaisons — signal désormais fiable (contre un échantillon
+  quasi-nul avant la correction). Plafond +20 % du Canal B toujours
+  respecté partout.
+- Écarts déjà documentés lots précédents confirmés stables sous la
+  politique corrigée, donc bien attribuables au contenu/à l'archétype et
+  non à un bot qui ne bloquait pas : Captain Cabriole reste le héros le
+  moins performant (kit combo que le bot ne sait pas séquencer), Mésange
+  Radar reste le familier le moins performant (pioche en plus peu utile à
+  un bot qui dépense déjà toute son énergie). Décision inchangée : ne pas
+  compenser ces écarts par des ajustements numériques — ce sont des
+  limites connues du bot (séquencement de combo, choix de récompense/
+  nœud aléatoires par conception), pas un déséquilibre du contenu lui-même
+  ; les corriger reviendrait à durcir artificiellement le jeu pour de
+  vrais joueurs humains qui n'ont pas ces limites.
+- **Aucun changement de contenu (cartes/ennemis/événements) apporté dans
+  cette passe** : la seule correction nécessaire était l'instrument de
+  mesure lui-même (le bot), pas le contenu qu'il mesure.
+
 ## [0.14.0] — Phase 7 (lot 7) — Événements restants vers les 15 cibles
 
 ### Ajouté
