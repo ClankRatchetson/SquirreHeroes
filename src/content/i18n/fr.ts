@@ -461,7 +461,7 @@ export const fr = {
   "ui.run.campfire.heal": "Se reposer",
   "ui.run.campfire.upgradeSection": "Améliorer une carte",
   "ui.run.campfire.upgradeConfirm": "Améliorer",
-  "ui.run.outcome.victory": "Acte I terminé — Victoire !",
+  "ui.run.outcome.victory": "Victoire ! La Forêt est sauvée.",
   "ui.run.outcome.defeat": "Défaite — la run s'arrête ici",
   "ui.run.outcome.newRun": "Nouvelle run",
 

@@ -4,6 +4,74 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.18.0] — Phase 8 (lot 3) — Suite e2e complète et équilibrage global
+
+### Ajouté
+- **Suite e2e complète** : les 3 phases de run jamais couvertes (boutique,
+  feu de camp, événement) et les 2 issues de fin de run (victoire du
+  boss du DERNIER acte, défaite) ont chacune leur test dédié — 9 tests
+  e2e supplémentaires (19 → 28), tous verts sur 3 exécutions complètes
+  consécutives (pas de flake).
+  - `tests/e2e/shop.spec.ts` : acheter une carte, améliorer une carte du
+    deck, quitter la boutique.
+  - `tests/e2e/campfire.spec.ts` : se reposer (30 % des PV manquants),
+    améliorer une carte. Aucun des deux n'a d'indicateur visible DANS
+    l'écran du feu de camp lui-même — vérifiés respectivement via
+    `run-hero-hp` une fois revenu à la carte et via une relecture directe
+    d'IndexedDB (nouveau `readSavedCurrentRun`).
+  - `tests/e2e/event.spec.ts` : affichage titre/texte/choix, résolution
+    d'un choix et retour à la carte.
+  - `tests/e2e/run-outcome.spec.ts` : un `CombatState` réel (produit par
+    `createCombat`, capturé une fois pour ces tests) est seedé à un coup
+    de la fin sur le boss de l'Acte III (ennemi à 1 PV pour la victoire,
+    héros à PV critiques contre une intention mortelle pour la défaite) —
+    `outcome:"run_over"` n'étant jamais résumable depuis le menu
+    (`canResume` exige `"en_cours"`), la transition est déclenchée EN
+    DIRECT par de vraies actions UI après reprise, jamais via un
+    rechargement.
+  - Nouveau `tests/e2e/helpers/seed-save.ts` : `seedSaveFile`/
+    `readSavedCurrentRun` extraits de l'amorçage IndexedDB direct déjà
+    dupliqué dans `act-transition.spec.ts`/`hero-select.spec.ts`/
+    `meta-progression.spec.ts` — un 4ᵉ et 5ᵉ site d'appel réel rendaient
+    la duplication complète moins défendable qu'un partage. Les 3 fichiers
+    existants restent inchangés (hors sujet de ce lot).
+  - `ShopScreen.tsx`/`CampfireScreen.tsx` gagnent des `data-testid` sur
+    leurs boutons (texte concaténé nom+prix ou nom+montant, impossible à
+    cibler proprement par rôle+nom accessible) — pur outillage de test,
+    aucun changement de comportement.
+- **Corrigé en chemin** : `ui.run.outcome.victory` affichait "Acte I
+  terminé — Victoire !", un reliquat d'avant le support multi-actes
+  (Phase 7 lots 4-5) — ce texte s'affichait en réalité après le boss de
+  l'Acte III (fin réelle du jeu), pas de l'Acte I. Remplacé par "Victoire !
+  La Forêt est sauvée.", cohérent avec le thème (l'Acte III s'appelle
+  "La Forêt").
+
+### Équilibrage global (`npm run sim -- --runs=10000 --seed=1337`)
+- Nouvelle passe à grande échelle sur les 12 combinaisons héros×familier,
+  seed indépendant de la passe précédente (v0.15.0, seed 42) — aucun
+  contenu de jeu n'a changé depuis (seuls tutoriel et réglages, Phase 8
+  lots 1-2, non liés au gameplay), donc cette passe sert de vérification
+  de non-régression avant la v1.0.0, pas d'une nouvelle recherche à
+  l'aveugle.
+- **Confirmé stable, sous un tirage indépendant** : mêmes tendances
+  documentées en v0.15.0, aucune anomalie nouvelle.
+  - Casse-Noix/Bourdon Bourru reste la meilleure combinaison (35.6 %
+    atteint l'Acte II, 4.2 % l'Acte III — cohérent avec les 35.9 %/4.2 %
+    déjà mesurés).
+  - Captain Cabriole reste le héros le moins performant, Mésange Radar
+    le familier le moins performant, sur TOUTES les combinaisons — limites
+    connues du bot (séquencement de combo, pioche en plus peu utile à une
+    politique gloutonne), pas un déséquilibre de contenu. Décision
+    inchangée : ne pas compenser par des ajustements numériques qui
+    durciraient artificiellement le jeu pour de vrais joueurs humains.
+  - Plafond +20 % du Canal B (Glands d'Or) respecté sur les 12
+    combinaisons. Aucune carte sous-choisie, sur-choisie ou dominante.
+- **Aucun changement de contenu numérique (cartes/ennemis/événements)
+  apporté dans cette passe** — seule la stale string de victoire ci-dessus
+  a été touchée, et ce n'est pas un ajustement d'équilibrage.
+- 416 tests unitaires (inchangé), 28 tests e2e, tous verts. Couverture
+  maintenue à 96.82 % sur `/src/engine`.
+
 ## [0.17.0] — Phase 8 (lot 2) — Réglages et polish des écrans de menu
 
 ### Ajouté

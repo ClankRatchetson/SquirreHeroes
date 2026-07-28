@@ -21,6 +21,7 @@ export function CampfireScreen() {
       <h2 className="text-2xl font-bold">{t("ui.run.campfire.title")}</h2>
       <button
         type="button"
+        data-testid="campfire-heal"
         onClick={() => {
           dispatch({ type: "FEU_DE_CAMP_SOIGNER" });
         }}
@@ -36,6 +37,7 @@ export function CampfireScreen() {
             <button
               key={runCardId}
               type="button"
+              data-testid={`campfire-select-${runCardId}`}
               onClick={() => {
                 setSelectedRunCardId(runCardId);
               }}
@@ -49,6 +51,7 @@ export function CampfireScreen() {
         </div>
         <button
           type="button"
+          data-testid="campfire-upgrade-confirm"
           disabled={selectedRunCardId === null}
           onClick={() => {
             if (selectedRunCardId !== null) {
