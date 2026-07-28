@@ -2,9 +2,69 @@
 
 Chantier transverse « pipeline d'assets » (§6.3 des specs). Ce document ne
 contient **que des prompts texte** — pas de script d'appel API pour
-l'instant (décision actée : génération manuelle via Gemini/Copilot par
-l'auteur du jeu). Couvre les **51 cartes actuellement authored** (Phase 1,
-lots 1-3 de la Phase 7).
+l'instant (décision actée : génération manuelle via un outil gratuit, cf.
+ci-dessous). Couvre désormais **l'ensemble du jeu** : les 51 cartes
+authored (Phase 1, lots 1-3 de la Phase 7), les 3 héros, les 4 familiers,
+les 10 ennemis, les icônes de statut, les effets de combat, tous les
+écrans, et les animations de combat qu'ils permettent.
+
+## Outils gratuits recommandés
+
+**Google Gemini** (app ou AI Studio, modèle de génération/édition d'image
+« Nano Banana » / Gemini 2.5 Flash Image) — recommandé en priorité pour
+**tout ce qui doit rester le même personnage d'une image à l'autre**
+(les 3 poses d'un héros/ennemi, les 4 familiers, et toute carte où ce
+personnage réapparaît) :
+- Édition conversationnelle : on peut redonner un portrait déjà généré en
+  référence et demander « le même personnage, mais en pleine action » —
+  c'est exactement le problème central ici (cohérence d'un même
+  personnage à travers ses poses ET ses cartes).
+- Très bon suivi d'instructions complexes (plusieurs éléments à la fois :
+  pose, effet de statut, cadrage).
+- Gratuit avec un compte Google classique.
+- Limites : quota quotidien gratuit limité et fluctuant (généralement
+  quelques dizaines d'images/jour) — générer ~136 images prendra
+  plusieurs jours/sessions. Pas de seed numérique façon Stable Diffusion,
+  la reproductibilité vient de la conversation. Le cadrage carré 1:1
+  n'est pas garanti par défaut : toujours le redemander explicitement.
+
+**Microsoft Copilot** (Designer, moteur DALL·E 3) — bonne alternative,
+en particulier pour les assets **sans personnage récurrent à préserver**
+(fonds d'écran, icônes de statut, effets de combat, cartes neutres) ou
+quand le quota Gemini du jour est épuisé :
+- Gratuit avec un compte Microsoft, « boosts » quotidiens généreux pour
+  des générations rapides.
+- Bon rendu « peint numériquement » cartoon par défaut, proche du style
+  visé sans forcer beaucoup le prompt.
+- Limites : moins fiable pour « garde ce personnage exact, change juste
+  la pose » — chaque génération est plus indépendante, donc la
+  cohérence d'un même héros/ennemi à travers ses poses demande plus
+  d'allers-retours manuels. Les boosts rapides s'épuisent puis les
+  générations passent en file d'attente plus lente.
+
+Les prompts de ce document sont écrits pour fonctionner sur les deux
+(aucune syntaxe propriétaire) — possible de basculer de l'un à l'autre
+sans rien réécrire.
+
+## Vue d'ensemble du volume total
+
+| Catégorie | Quantité | Priorité suggérée |
+|---|---|---|
+| Cartes (51) | 51 images | déjà rédigé, à générer en 1er (pool le plus utilisé en jeu) |
+| Héros — 3 poses × 3 héros | 9 images | 2 — apporte enfin de l'illustration en combat (aujourd'hui : aucune) |
+| Ennemis — 3 poses × 10 ennemis | 30 images | 2 — idem, priorité égale aux héros |
+| Familiers — 2 poses × 4 familiers | 8 images | 3 |
+| Icônes de statut (8) | 8 images | 3 — petites, rapides, remplacent des ronds de couleur unis |
+| Effets de combat/overlays (7) | 7 images | 4 — c'est ce qui rend les coups/soins/blocages "sympas" à l'écran |
+| Écrans du jeu (17) | 17 images | 5 |
+| Icônes de nœuds de la carte de run (6) | 6 images | 5 |
+| **Total** | **136 images** | — |
+
+Rien de tout ça n'est bloquant pour le jeu : `Card.art` est déjà optionnel
+et rien d'autre n'a de champ `art` dans le moteur aujourd'hui — le câblage
+en code (afficher ces images, ajouter les champs `art` manquants sur
+`HeroDefinition`/`EnemyDefinition`/`FamiliarDefinition`) est un lot
+d'implémentation séparé, à traiter une fois les images en main.
 
 ## Comment utiliser ce document
 
@@ -14,21 +74,40 @@ lots 1-3 de la Phase 7).
    images resteront plus cohérentes entre elles (même esprit que le
    « seed et référence de style figés » des specs, juste sans seed
    numérique puisqu'on change d'outil).
-2. Génère toutes les cartes d'un même héros/familier à la suite, dans la
-   même conversation/session si l'outil le permet — c'est ce qui aide le
-   plus à garder une silhouette cohérente d'une carte à l'autre.
+2. Génère toutes les images d'un même personnage à la suite (ses 3 poses,
+   puis ses cartes), dans la même conversation/session si l'outil le
+   permet — c'est ce qui aide le plus à garder une silhouette cohérente
+   d'une image à l'autre. Pour Gemini en particulier : redonne le
+   **portrait déjà généré** en pièce jointe/référence avant de demander
+   la pose suivante du même personnage, plutôt que de repartir de zéro.
 3. **Revue systématique avant intégration** (§3.1, non négociable) :
    rejette toute image qui évoque un costume ou logo de super-héros
    existant (toile rouge et bleue, chauve-souris jaune, bouclier étoilé,
    couleurs/emblèmes trop proches d'une franchise identifiable). Si un
    doute existe, régénère plutôt que de trancher soi-même.
-4. Cible technique finale (à appliquer après génération, même en manuel) :
-   recadrage carré, export **512 × 512 px, WebP, < 150 Ko**. Les fichiers
-   `.webp` finaux vont dans `assets-pipeline/generated/<cardId>.webp` (à
-   créer) puis sont référencés depuis `Card.art` dans le JSON de la carte
-   correspondante.
+4. Cibles techniques finales (à appliquer après génération, même en
+   manuel) — trois gabarits selon la catégorie :
+   - **Cartes, portraits/poses de personnages, icônes de statut** :
+     recadrage carré, **512 × 512 px, WebP, < 150 Ko**.
+   - **Écrans (fonds)** : format portrait mobile (ratio ~9:16 ou 3:4 —
+     ces écrans remplissent tout le viewport vertical, un carré
+     laisserait des bandes vides), WebP, viser **< 250 Ko** vu la taille
+     d'affichage plus grande.
+   - **Icônes de nœud de carte de run et overlays d'effets de combat** :
+     petit format transparent (alpha), **256 × 256 px, WebP, < 50 Ko**
+     — assez petit pour rester net une fois réduit à l'affichage.
+   Les fichiers `.webp` finaux vont dans
+   `assets-pipeline/generated/<catégorie>/<id>.webp` (arborescence à
+   créer au fur et à mesure, ex. `generated/cards/noisette_explosive.webp`,
+   `generated/heroes/casse_noix-portrait.webp`,
+   `generated/enemies/baron_griffu-action.webp`,
+   `generated/status/force.webp`, `generated/screens/menu.webp`,
+   `generated/fx/impact-degats.webp`, `generated/nodes/boss.webp`).
 5. Aucune de ces images n'est requise pour que le jeu tourne — `Card.art`
-   est optionnel, le moteur et l'UI fonctionnent déjà sans elles.
+   est déjà optionnel, et rien d'autre n'a encore de champ `art` dans le
+   moteur (`HeroDefinition`/`EnemyDefinition`/`FamiliarDefinition`) : le
+   câblage en code est un lot d'implémentation séparé, à traiter une fois
+   les images en main.
 
 ## Bloc de style (à coller devant chaque prompt)
 
@@ -417,3 +496,392 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > terre, une carte à jouer et une étincelle d'énergie dorée flottant en
 > transparence juste au-dessus du trou. Ambiance furtive et malicieuse,
 > clin d'œil complice.
+
+---
+
+# Personnages en combat — portraits & poses
+
+Aujourd'hui, l'écran de combat n'affiche **aucune illustration** : le
+héros et les ennemis sont de simples panneaux texte/couleur. Cette
+section prépare de quoi changer ça, avec une mécanique d'animation
+volontairement légère (compatible 60 fps / APK < 60 Mo) : **3 images
+fixes par héros/ennemi**, permutées par du code (Framer Motion, déjà en
+place) selon les événements de combat déjà détectés par
+`diffCombatStates` — pas de sprite-sheet, pas de vidéo.
+
+## Recettes de pose (à combiner avec la silhouette de chaque personnage)
+
+**Pose « Portrait » (par défaut)** — le personnage est montré au repos,
+posture naturelle et caractéristique, vue trois quarts, regard face ou
+légèrement tourné vers le joueur, calme mais prêt. C'est l'image affichée
+en permanence ; les deux autres ne s'affichent que brièvement.
+
+**Pose « Action »** — le personnage en plein geste d'attaque ou dans son
+mouvement le plus caractéristique, légère inclinaison dynamique, un soupçon
+de flou de mouvement aux extrémités, même tenue/couleurs que le portrait
+pour rester reconnaissable. Même cadrage trois-quarts que le portrait —
+le fondu enchaîné entre les deux doit se lire comme "le même personnage qui
+bouge", pas comme un changement de personnage.
+
+**Pose « Touché / K.O. »** — deux usages dans le jeu : affichée brièvement
+en cas de gros coup encaissé (grimace, recul, petites étoiles d'impact) et
+maintenue quand les PV tombent à 0 (posture vaincue). Toujours cartoon et
+familial : yeux en spirale ou fermés, posture affalée, jamais une blessure
+réaliste ni une image sombre/effrayante. Même cadrage/tenue que les deux
+autres poses.
+
+Pour les 2 boss (Baronne Bec-de-Fer, Baron Griffu), traiter les 3 poses
+avec un surcroît d'ampleur/dramatisation (mêmes proportions que le
+traitement "légendaire" des cartes) — plus grands à l'écran, éclairage
+plus intense.
+
+## Héros (3 héros × 3 poses = 9 images)
+
+Silhouettes de référence : voir plus haut (section « Personnages de
+référence »). Ne pas les répéter ici — les réutiliser telles quelles.
+
+### Casse-Noix
+> **Portrait** : debout, bras croisés, plastron d'écorce bien visible,
+> regard bourru mais bienveillant.
+> **Action** : en pleine charge/coup de poing, plastron en avant, petits
+> éclats de terre et de feuilles soulevés par l'impact.
+> **Touché/K.O.** : assis à terre, étourdi, petites étoiles tournant
+> autour de la tête, moufles pendantes — comique, jamais dramatique.
+
+### Captain Cabriole
+> **Portrait** : posture acrobatique légère, cape courte flottant, masque
+> loup, sourire malicieux, en équilibre sur la pointe des bottes.
+> **Action** : en plein saut/pirouette, griffe tendue vers l'avant, cape
+> déployée, traînée de vitesse bleu pâle (Leste).
+> **Touché/K.O.** : à plat dos, masque légèrement de travers, cape
+> froissée sous lui, étoiles tournoyantes — ton léger et comique.
+
+### Docteur Bogue
+> **Portrait** : blouse de laborantin, lunettes rondes, bandoulière de
+> bogues de châtaigne, regard rusé et posé.
+> **Action** : en train de lancer une fiole, brume verte luminescente
+> (Sève empoisonnée) juste devant lui, blouse qui virevolte.
+> **Touché/K.O.** : lunettes de travers sur le bout du nez, assis contre
+> un tronc, fioles vides éparpillées — comique, pas alarmant.
+
+## Ennemis (10 ennemis × 3 poses = 30 images)
+
+Aucune silhouette n'existait encore pour les ennemis (les cartes ne les
+montrent jamais) — les descriptions ci-dessous sont nouvelles. Même
+contrainte de style/légalité que pour les héros (§3.1) : archétypes
+génériques, aucune référence à une franchise existante.
+
+### Le Mulot Masqué — `mulot_masque` (commun, 42 PV)
+> Silhouette : petit mulot des champs, simple masque de bandit noir sur
+> les yeux, posture furtive et un peu craintive.
+> **Portrait** : accroupi, prêt à détaler, regard en coin.
+> **Action** : bondissant griffes en avant (Griffade).
+> **Touché/K.O.** : masque de travers, sur le dos, pattes en l'air.
+
+### Le Campagnol Cagoulé — `campagnol_cagoule` (commun, 38 PV)
+> Silhouette : campagnol trapu, capuche/cagoule sommaire nouée sous le
+> menton, petites dents visibles.
+> **Portrait** : posture basse, prêt à mordre, cagoule remontée.
+> **Action** : mordant avec une lueur verte luminescente (Sève
+> empoisonnée) autour des crocs.
+> **Touché/K.O.** : cagoule tombée sur les yeux, allongé, groggy.
+
+### La Pie Kleptomane — `pie_kleptomane` (commun, 34 PV)
+> Silhouette : pie élégante, quelques babioles brillantes volées
+> accrochées aux plumes (boutons, bout de ruban), regard vif et malicieux.
+> **Portrait** : tête inclinée, œil brillant fixé sur un objet hors champ.
+> **Action** : bec en plein double coup rapide, plumes ébouriffées par le
+> mouvement (Bec vif).
+> **Touché/K.O.** : plumes en désordre, babioles volées éparpillées au
+> sol, étourdie.
+
+### Le Merle Mercenaire — `merle_mercenaire` (élite Acte I, 60 PV)
+> Silhouette : merle plus robuste que les communs, petit baudrier de
+> corde en bandoulière façon mercenaire, regard dur.
+> **Portrait** : posture campée, ailes légèrement écartées, prêt au
+> combat.
+> **Action** : piqué en plongée, bec en avant, vitesse marquée (Plongeon
+> vif).
+> **Touché/K.O.** : à terre, une aile repliée maladroitement, sonné mais
+> toujours un peu fier.
+
+### La Baronne Bec-de-Fer — `baronne_bec_de_fer` (boss Acte I, 100 PV)
+> Silhouette : grand rapace (buse/faucon), bec orné d'un renfort métallique
+> patiné évoquant une couronne de bec, collerette de plumes façon col de
+> cape déchiré, posture impériale et dominatrice. Traitement "boss" (plus
+> grande, plus dramatique) sur les 3 poses.
+> **Portrait** : perchée, ailes mi-déployées, regard perçant droit sur le
+> joueur.
+> **Action** : fondant en tornade de plumes, serres en avant, plumes
+> arrachées tourbillonnant autour d'elle (Tornade de plumes).
+> **Touché/K.O.** : ailes affaissées au sol, couronne de bec légèrement
+> ébréchée, posture vaincue mais toujours digne — jamais pathétique.
+
+### Le Griffeur de Gouttière — `griffeur_de_gouttiere` (commun Acte II, 40 PV)
+> Silhouette : chat de gouttière efflanqué, oreille déchirée, fourrure
+> ébouriffée façon chat errant, regard mauvais.
+> **Portrait** : accroupi, dos légèrement voûté, prêt à feuler.
+> **Action** : griffes lacérant l'air, petit nuage glacé (Feulement
+> glacial) s'échappant de sa gueule.
+> **Touché/K.O.** : assis, une patte sur le nez, fourrure encore plus en
+> bataille, l'air vexé plus qu'amoché.
+
+### La Fouine Fatale — `fouine_fatale` (commun Acte II, 44 PV)
+> Silhouette : fouine longiligne et élégante, regard mi-clos façon
+> "femme fatale", mouvements fluides et sûrs d'elle.
+> **Portrait** : posture nonchalante mais alerte, un sourcil relevé.
+> **Action** : enchaînant plusieurs morsures rapides en un éclair de
+> mouvement (Morsures rapides).
+> **Touché/K.O.** : allongée sur le flanc, toujours l'air blasé plutôt
+> que paniquée — garde son chic jusqu'au bout, avec humour.
+
+### Le Corvidé Masqué — `corvide_masque` (commun Acte II, 40 PV)
+> Silhouette : corbeau/corneille avec un petit masque ou capuchon sombre,
+> attitude moqueuse.
+> **Portrait** : tête penchée, regard narquois, une plume légèrement
+> ébouriffée.
+> **Action** : arrachant une plume adverse en plein vol (Vol de plumes),
+> petite lueur dorée de soin autour de lui.
+> **Touché/K.O.** : masque de travers, plumes en vrac, mais toujours un
+> petit sourire en coin moqueur.
+
+### La Belette Braqueuse — `belette_braqueuse` (élite Acte II, 68 PV)
+> Silhouette : belette svelte et nerveuse, petit foulard de braqueur noué
+> sur le museau, posture agressive et tendue.
+> **Portrait** : ramassée sur elle-même, prête à bondir, foulard flottant.
+> **Action** : rafale de griffes lancée en avant, traînées lumineuses
+> ambrées (Rafale de griffes).
+> **Touché/K.O.** : foulard tombé, à terre, toujours crispée et hargneuse
+> même vaincue.
+
+### Le Baron Griffu — `baron_griffu` (boss Acte II, 112 PV)
+> Silhouette : gros blaireau imposant, petite cape/collier d'autorité
+> élimé, énormes griffes de fouisseur mises en avant, posture de baron
+> autoritaire. Traitement "boss" (plus grand, plus dramatique) sur les 3
+> poses, à l'image de la Baronne Bec-de-Fer.
+> **Portrait** : campé sur ses pattes arrière, cape flottant légèrement,
+> regard dominateur droit sur le joueur.
+> **Action** : dans une tempête de griffes, terre et racines arrachées
+> volant autour de lui (Tempête de griffes).
+> **Touché/K.O.** : affalé sur le flanc, cape déchirée, toujours
+> l'air revêche plutôt que piteux — vaincu mais jamais grotesque.
+
+## Familiers (4 familiers × 2 poses = 8 images)
+
+Le familier n'est jamais une unité ciblable (§3.3) : pas de pose
+"touché/K.O.", seulement un portrait et une pose "activation" (le moment
+où son passif se déclenche).
+
+### Mésange Radar
+> **Portrait** : voir silhouette de référence plus haut, posture alerte.
+> **Activation** : tête soudain dressée, aigrette/serre-tête scintillant
+> comme un radar qui capte un signal, une carte à jouer flottant en
+> transparence (le tour où elle repère une carte en plus).
+
+### Hérisson Kevlar
+> **Portrait** : voir silhouette de référence plus haut, posture solide.
+> **Activation** : en train de se rouler en boule, piquants se
+> hérissant d'un coup, petite auréole bleu pâle (Leste/blocage) au moment
+> où le bonus de blocage du 1er tour s'active.
+
+### Bourdon Bourru
+> **Portrait** : voir silhouette de référence plus haut, expression
+> renfrognée.
+> **Activation** : en piqué furtif vers un ennemi flou à l'arrière-plan,
+> dard luisant d'une pointe d'énergie — le déclenchement de ses dégâts de
+> fin de tour.
+
+### Taupe Secrète
+> **Portrait** : voir silhouette de référence plus haut, posture furtive.
+> **Activation** : émergeant d'une petite galerie, étincelle dorée
+> d'énergie flottant devant elle — le tour où son bonus d'énergie
+> périodique se déclenche.
+
+---
+
+# Icônes de statut (8 images)
+
+Remplacent les ronds de couleur unis actuels (`StatusIcon.tsx`). Icône
+seule sur fond transparent, silhouette simple et bien lisible même très
+petite (affichée aujourd'hui dans un cercle de 24×24 px) — pas de scène,
+pas de détails fins qui disparaîtraient à cette taille. Garder la couleur
+dominante déjà utilisée en interface pour que l'icône s'intègre sans
+retoucher le code existant.
+
+- **Force** (`force`, dominante orange) : un petit poing serré entouré
+  d'une aura, style icône bold.
+- **Leste** (`leste`, dominante bleu ciel) : un petit éclair/chevron de
+  vitesse stylisé, comme une traînée de mouvement figée.
+- **Étourdi** (`etourdi`, dominante gris ardoise) : une petite spirale ou
+  3 étoiles tournoyantes.
+- **À découvert** (`a_decouvert`, dominante rouge) : une mire/reticule
+  simple avec une fissure lumineuse au centre.
+- **Coquille fêlée** (`coquille_fetee`, dominante ambre/brun) : une petite
+  coquille ou écorce fissurée, éclat qui se détache.
+- **Piquants** (`piquants`, dominante jaune) : une petite auréole de 3-4
+  piquants hérissés.
+- **Sève empoisonnée** (`seve_empoisonnee`, dominante vert émeraude) : une
+  goutte de liquide visqueux luminescent, forme simple.
+- **Repousse** (`repousse`, dominante rose) : une petite feuille/plume qui
+  repousse, entourée d'un léger halo de soin.
+
+---
+
+# Effets de combat — overlays d'animation (7 images)
+
+Petites images transparentes destinées à être superposées brièvement
+(Framer Motion) sur le personnage ciblé au moment de l'événement
+correspondant — c'est ce qui rendra les coups/blocages/soins "sympas" à
+l'écran sans sprite-animation lourde. Format transparent, contenu centré,
+lisible en médaillon.
+
+- **Impact de dégâts** : éclat/étoile d'impact blanc-rouge, lignes de
+  choc courtes autour.
+- **Étincelle de blocage** : petit éclair de bouclier bleu qui se déploie
+  puis s'efface.
+- **Étincelle de soin** : petites paillettes dorées/vertes montantes.
+- **Brume de poison** : petit nuage vert luminescent qui s'élève et se
+  dissipe (à réutiliser à chaque tick de Sève empoisonnée).
+- **Tourbillon d'étourdissement** : 3 étoiles/spirale jaune tournant
+  au-dessus de la tête.
+- **Pulsation de force** : anneau de pulsation orange qui s'étend depuis
+  le personnage.
+- **Traînée de vitesse** : filet de stries bleu pâle derrière le
+  personnage.
+
+---
+
+# Écrans du jeu (17 images)
+
+Format **portrait mobile** (~9:16 ou 3:4), pas carré — ces images
+remplissent le fond de tout l'écran vertical. Même palette/style que le
+bloc de style plus haut, mais composition plus large et surtout **jamais
+chargée au centre** : l'UI (texte, boutons, cartes) doit rester lisible
+par-dessus. Prévoir un espace visuel dégagé (ciel, sol flouté, feuillage
+en bordure) plutôt qu'un sujet complexe au centre.
+
+## Accueil / Menu (1)
+> Vue large du Potager au crépuscule doré, quelques silhouettes floues
+> d'écureuils héroïques au loin sur une branche, ambiance chaleureuse et
+> accueillante, ciel dégagé en haut de l'image pour le titre du jeu.
+
+## Sélection héros + familier (1)
+> Un établi/repaire douillet sous un tronc creux, lanternes à lucioles,
+> espace dégagé au centre et sur les côtés pour les fiches de
+> personnages, ambiance "coulisses avant la mission".
+
+## Carte de run — Acte I, Le Potager (1)
+> Vue en hauteur d'un potager stylisé (rangs de légumes, cabanes
+> d'outils, noisetiers), sentiers qui serpentent, palette chaude
+> vert/brun/ambre, espace dégagé pour superposer les nœuds de carte.
+
+## Carte de run — Acte II, Le Parc (1)
+> Vue en hauteur d'un parc urbain stylisé (bancs, kiosque, grilles
+> basses, arbres plus taillés que sauvages), palette plus fraîche
+> (vert émeraude, gris pierre, touches d'ambre), même esprit dégagé.
+
+## Carte de run — Acte III, La Forêt (1, contenu prévu v1.0 mais pas encore implémenté)
+> Vue en hauteur d'une forêt plus dense et sauvage, sous-bois profond,
+> rayons de lumière filtrant à travers la canopée, palette plus sombre
+> et mystérieuse mais toujours chaleureuse, jamais menaçante.
+
+## Combat — fond Acte I, Le Potager (1)
+> Scène de combat au sol dans le potager, rangs de légumes en
+> arrière-plan flou, lumière de fin d'après-midi, espace central dégagé
+> pour les personnages et l'UI de combat.
+
+## Combat — fond Acte II, Le Parc (1)
+> Scène de combat dans une allée de parc, bancs et grilles floutés en
+> arrière-plan, lumière plus fraîche, même dégagement central.
+
+## Combat — fond Acte III, La Forêt (1, contenu prévu v1.0 mais pas encore implémenté)
+> Scène de combat en sous-bois profond, troncs flous en arrière-plan,
+> rayons de lumière tombant du feuillage, même dégagement central.
+
+## Récompense (1)
+> Un petit tas de Noisettes dorées et de cartes à jouer stylisées
+> éparpillées sur un tapis de feuilles, lumière chaude et généreuse,
+> ambiance de petite victoire méritée.
+
+## Boutique (1)
+> Un étal de marchand ambulant improvisé (caisse en bois, auvent de
+> feuilles, quelques babioles et fioles exposées), marchand hors-champ
+> ou simplement suggéré, espace dégagé pour la liste d'articles.
+
+## Feu de camp (1)
+> Un petit feu de camp crépitant entouré de pierres, ambiance nocturne
+> douce et sûre (jamais inquiétante), quelques lucioles, espace dégagé
+> autour du feu pour l'UI.
+
+## Événement — Le Noyer Ancestral (1)
+> Un immense noyer noueux et vénérable, quelques noix dorées brillant
+> entre les branches, ambiance mystique mais bienveillante.
+
+## Événement — La Fontaine Moussue (1)
+> Une petite fontaine de pierre couverte de mousse, eau claire qui
+> scintille, ambiance calme et régénérante.
+
+## Événement — Le Marchand Ambulant Mystérieux (1)
+> Un chariot de marchand miniature couvert de fioles et de bibelots,
+> silhouette du marchand restant discrète/floutée (mystérieux, jamais
+> inquiétant), lanterne suspendue.
+
+## Fin de run — Victoire (1)
+> Une pluie douce de Glands d'Or et de feuilles dorées tombant sur une
+> scène de clairière ensoleillée, ambiance triomphante et chaleureuse,
+> espace dégagé au centre pour le texte "Victoire !".
+
+## Fin de run — Défaite (1)
+> Une clairière au crépuscule, ton mélancolique mais doux (jamais sombre
+> ni effrayant) — l'idée d'une pause avant de recommencer, pas d'un échec
+> cuisant. Une seule feuille qui tombe lentement, espace dégagé pour le
+> texte de fin de run.
+
+## Collection / méta-progression (1)
+> Un petit coffre en bois entrouvert débordant de Glands d'Or, entouré
+> d'insignes/emblèmes de jalons (silhouettes simples de gland, de
+> feuille, de patte), ambiance "salle des trophées" chaleureuse et
+> modeste.
+
+---
+
+# Icônes de nœuds de la carte de run (6 images)
+
+Petites icônes seules, fond transparent, même exigence de lisibilité à
+petite taille que les icônes de statut (aujourd'hui, chaque nœud de
+`RunMapScreen` est un simple bouton texte de ~80 px de large).
+
+- **Combat** (`combat`) : silhouette simple de deux griffures croisées.
+- **Élite** (`elite`) : une petite couronne posée sur une empreinte de
+  patte.
+- **Événement** (`evenement`) : une feuille stylisée avec un point
+  d'interrogation discret en son centre.
+- **Boutique** (`boutique`) : une petite pièce en forme de gland.
+- **Feu de camp** (`feu_de_camp`) : une flamme stylisée simple.
+- **Boss** (`boss`) : une couronne plus large et ouvragée que celle de
+  l'élite, posée sur une silhouette de crâne stylisé et non effrayant
+  (rond, cartoon).
+
+---
+
+# Prochaines étapes
+
+Une fois une catégorie générée et revue (§3.1), les fichiers `.webp`
+attendent dans `assets-pipeline/generated/<catégorie>/` qu'un lot
+d'implémentation séparé les câble :
+
+1. Ajouter un champ `art?: string` à `HeroDefinition`/`EnemyDefinition`/
+   `FamiliarDefinition` (aujourd'hui seul `Card.art` existe), + entrée
+   Zod correspondante.
+2. Remplacer les panneaux texte/couleur de `HeroPanel`/`EnemyCard` par
+   l'image de portrait, avec un composant qui bascule vers la pose
+   "action"/"touché" selon les événements déjà produits par
+   `diffCombatStates` (aucun nouveau calcul moteur requis — l'info existe
+   déjà, seule la présentation change).
+3. Remplacer les ronds unis de `StatusIcon`/`IntentIcon` par les icônes
+   correspondantes.
+4. Ajouter les fonds d'écran (composant de fond partagé par écran/acte).
+5. Ce document reste la source de vérité pour tout prompt futur — toute
+   nouvelle carte/ennemi/héros/écran ajouté au jeu doit y gagner son
+   prompt, au même titre que le manifeste JSON envisagé initialement au
+   §6.3.
