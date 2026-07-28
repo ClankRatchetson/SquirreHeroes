@@ -16,6 +16,7 @@ const NODE_TYPE_LABEL_KEY = {
 const ACT_LABEL_KEY: Readonly<Record<string, string>> = {
   acte_1: "ui.run.acts.acte_1.label",
   acte_2: "ui.run.acts.acte_2.label",
+  acte_3: "ui.run.acts.acte_3.label",
 };
 
 function groupByFloor(nodes: readonly RunNode[]): ReadonlyArray<readonly [number, readonly RunNode[]]> {

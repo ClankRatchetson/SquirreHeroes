@@ -22,5 +22,12 @@ export const ACT_II: RunActConfig = {
   bossEnemyIds: ["baron_griffu"],
 };
 
-/** Ordre littéral de la run — l'Acte III rejoindra cette liste dans un lot futur. */
-export const RUN_ACTS: readonly RunActConfig[] = [ACT_I, ACT_II];
+export const ACT_III: RunActConfig = {
+  actId: "acte_3",
+  commonEnemyIds: ["renardeau_chapardeur", "chouette_guetteuse", "putois_fourbe"],
+  eliteEnemyIds: ["lynx_solitaire"],
+  bossEnemyIds: ["grand_loup_hurleur"],
+};
+
+/** Ordre littéral de la run — les 3 actes de la v1.0 sont désormais tous présents. */
+export const RUN_ACTS: readonly RunActConfig[] = [ACT_I, ACT_II, ACT_III];

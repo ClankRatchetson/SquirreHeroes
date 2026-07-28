@@ -1,0 +1,42 @@
+{
+  "id": "grand_loup_hurleur",
+  "nameKey": "enemies.grand_loup_hurleur.name",
+  "maxHp": 128,
+  "moves": [
+    {
+      "id": "morsure_alpha",
+      "nameKey": "enemies.grand_loup_hurleur.moves.morsure_alpha.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 17 }]
+    },
+    {
+      "id": "tempete_de_crocs",
+      "nameKey": "enemies.grand_loup_hurleur.moves.tempete_de_crocs.name",
+      "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 4, "amountPerHit": 5 }]
+    },
+    {
+      "id": "hurlement_terrifiant",
+      "nameKey": "enemies.grand_loup_hurleur.moves.hurlement_terrifiant.name",
+      "effects": [
+        { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 1 },
+        { "kind": "block", "target": "self", "amount": 12 }
+      ]
+    },
+    {
+      "id": "chatiment_de_la_meute",
+      "nameKey": "enemies.grand_loup_hurleur.moves.chatiment_de_la_meute.name",
+      "effects": [
+        {
+          "kind": "conditional",
+          "target": "enemy",
+          "status": "etourdi",
+          "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 27 }],
+          "whenFalse": [
+            { "kind": "damage", "target": "enemy", "amount": 17 },
+            { "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 1 }
+          ]
+        }
+      ]
+    }
+  ],
+  "pattern": ["morsure_alpha", "tempete_de_crocs", "hurlement_terrifiant", "chatiment_de_la_meute"]
+}

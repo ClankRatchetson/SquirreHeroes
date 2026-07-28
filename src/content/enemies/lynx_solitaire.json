@@ -1,0 +1,26 @@
+{
+  "id": "lynx_solitaire",
+  "nameKey": "enemies.lynx_solitaire.name",
+  "maxHp": 78,
+  "moves": [
+    {
+      "id": "bond_feroce",
+      "nameKey": "enemies.lynx_solitaire.moves.bond_feroce.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 14 }]
+    },
+    {
+      "id": "rafale_de_crocs",
+      "nameKey": "enemies.lynx_solitaire.moves.rafale_de_crocs.name",
+      "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 3, "amountPerHit": 6 }]
+    },
+    {
+      "id": "posture_de_predateur",
+      "nameKey": "enemies.lynx_solitaire.moves.posture_de_predateur.name",
+      "effects": [
+        { "kind": "block", "target": "self", "amount": 10 },
+        { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }
+      ]
+    }
+  ],
+  "pattern": ["bond_feroce", "rafale_de_crocs", "posture_de_predateur"]
+}

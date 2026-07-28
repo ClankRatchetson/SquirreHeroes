@@ -1,0 +1,21 @@
+{
+  "id": "chouette_guetteuse",
+  "nameKey": "enemies.chouette_guetteuse.name",
+  "maxHp": 44,
+  "moves": [
+    {
+      "id": "piquee_silencieuse",
+      "nameKey": "enemies.chouette_guetteuse.moves.piquee_silencieuse.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 9 }]
+    },
+    {
+      "id": "regard_percant",
+      "nameKey": "enemies.chouette_guetteuse.moves.regard_percant.name",
+      "effects": [
+        { "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 1 },
+        { "kind": "block", "target": "self", "amount": 5 }
+      ]
+    }
+  ],
+  "pattern": ["piquee_silencieuse", "regard_percant", "piquee_silencieuse"]
+}

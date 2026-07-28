@@ -85,14 +85,17 @@ interface ComboRow {
   readonly withinCap: boolean;
   /** Part des runs (lot "sans bonus") ayant atteint l'Acte II ou plus loin. */
   readonly reachedAct2Rate: number;
+  /** Part des runs (lot "sans bonus") ayant atteint l'Acte III. */
+  readonly reachedAct3Rate: number;
 }
 
-function reachedAct2Rate(byActReached: BalanceReport["baseline"]["byActReached"]): number {
+/** Part des runs ayant atteint AU MOINS `minActIndex` (0-based) — généralisé pour couvrir un nombre d'actes arbitraire. */
+function reachedActRate(byActReached: BalanceReport["baseline"]["byActReached"], minActIndex: number): number {
   const total = byActReached.reduce((sum, a) => sum + a.runsPlayed, 0);
   if (total === 0) {
     return 0;
   }
-  const reached = byActReached.filter((a) => a.actIndex >= 1).reduce((sum, a) => sum + a.runsPlayed, 0);
+  const reached = byActReached.filter((a) => a.actIndex >= minActIndex).reduce((sum, a) => sum + a.runsPlayed, 0);
   return reached / total;
 }
 
@@ -111,7 +114,8 @@ for (const hero of heroes) {
       baselineWinRate: report.baseline.winRate,
       fullyUpgradedWinRate: report.fullyUpgraded.winRate,
       withinCap: report.glandsDorCapCheck.withinCap,
-      reachedAct2Rate: reachedAct2Rate(report.baseline.byActReached),
+      reachedAct2Rate: reachedActRate(report.baseline.byActReached, 1),
+      reachedAct3Rate: reachedActRate(report.baseline.byActReached, 2),
     });
     for (const c of report.baseline.flags.underPicked) allUnderPicked.add(c);
     for (const c of report.baseline.flags.overPicked) allOverPicked.add(c);
@@ -128,13 +132,19 @@ for (const hero of heroes) {
   }
 }
 
-console.log("\nhéros              | familier          | sans bonus | arbre complet | atteint Acte II | plafond +20%");
-console.log("--------------------|-------------------|------------|----------------|-----------------|-------------");
+console.log(
+  "\nhéros              | familier          | sans bonus | arbre complet | atteint Acte II | atteint Acte III | plafond +20%",
+);
+console.log(
+  "--------------------|-------------------|------------|----------------|-----------------|-------------------|-------------",
+);
 for (const row of rows) {
   console.log(
     `${row.heroId.padEnd(19)} | ${row.familiarId.padEnd(17)} | ${pct(row.baselineWinRate).padStart(10)} | ${pct(
       row.fullyUpgradedWinRate,
-    ).padStart(14)} | ${pct(row.reachedAct2Rate).padStart(15)} | ${row.withinCap ? "OK" : "DÉPASSÉ"}`,
+    ).padStart(14)} | ${pct(row.reachedAct2Rate).padStart(15)} | ${pct(row.reachedAct3Rate).padStart(17)} | ${
+      row.withinCap ? "OK" : "DÉPASSÉ"
+    }`,
   );
 }
 

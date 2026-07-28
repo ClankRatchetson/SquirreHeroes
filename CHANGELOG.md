@@ -4,6 +4,41 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.12.0] — Phase 7 (lot 5) — Acte III « La Forêt »
+
+### Ajouté
+- **Acte III « La Forêt »** (§3.4) : 3 communs (**Le Renardeau
+  Chapardeur**, **La Chouette Guetteuse**, **Le Putois Fourbe**), 1 élite
+  (**Le Lynx Solitaire**) et 1 boss (**Le Grand Loup Hurleur**), un cran
+  au-dessus du gabarit de l'Acte II (PV et dégâts en hausse d'environ
+  10-15 %) — le boss reprend le même patron de move `conditional` que la
+  Baronne Bec-de-Fer/le Baron Griffu (dégâts doublés si la cible est déjà
+  Étourdie, sinon dégâts + Étourdi appliqué). Aucune primitive d'effet ni
+  statut nouveau : les 13 primitives et 8 statuts existants suffisent.
+- **Cible « 12 ennemis + 3 boss » de la v1.0 désormais atteinte** : 15
+  ennemis au total (3 actes × (3 communs + 1 élite + 1 boss)).
+- `content/acts.ts` : `ACT_III` + `RUN_ACTS` passe à 3 actes — pur ajout
+  de contenu, la mécanique de transition multi-actes (lot 4) est déjà
+  générique sur le nombre d'actes, aucun changement moteur requis.
+- `RunMapScreen` affiche l'étiquette « Acte III — La Forêt » une fois la
+  transition atteinte.
+- Harnais de simulation : la colonne « atteint Acte II » du tableau
+  récapitulatif est complétée d'une colonne « atteint Acte III »
+  (généralisation de `reachedAct2Rate` en `reachedActRate(byActReached,
+  minActIndex)`).
+- 407 tests unitaires, 15 tests e2e, tous verts. Couverture maintenue à
+  96.82 % sur `/src/engine`.
+
+### Constaté (à surveiller)
+- `npm run sim -- --runs=2000` : le taux « atteint Acte III » est à 0.0 %
+  sur les 12 combinaisons — attendu, pas un signal de déséquilibre du
+  contenu de l'Acte III : le bot de simulation glouton à choix aléatoire
+  atteignait déjà rarement l'Acte II (0.4 % à 6.5 % selon la combinaison,
+  cf. « Constaté » v0.11.0) et ne le termine quasiment jamais sous cette
+  politique. Rien à corriger côté contenu (calé sur le même gabarit que
+  les 2 actes précédents) ; le plafond +20 % du Canal B reste respecté
+  sur toutes les combinaisons.
+
 ## [0.11.0] — Phase 7 (lot 4) — Acte II « Le Parc » + transition multi-actes
 
 ### Ajouté

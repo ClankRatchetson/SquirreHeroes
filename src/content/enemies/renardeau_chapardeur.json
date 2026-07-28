@@ -1,0 +1,18 @@
+{
+  "id": "renardeau_chapardeur",
+  "nameKey": "enemies.renardeau_chapardeur.name",
+  "maxHp": 46,
+  "moves": [
+    {
+      "id": "croc_vif",
+      "nameKey": "enemies.renardeau_chapardeur.moves.croc_vif.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 10 }]
+    },
+    {
+      "id": "feinte_du_renardeau",
+      "nameKey": "enemies.renardeau_chapardeur.moves.feinte_du_renardeau.name",
+      "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "etourdi", "stacks": 1 }]
+    }
+  ],
+  "pattern": ["croc_vif", "feinte_du_renardeau", "croc_vif"]
+}

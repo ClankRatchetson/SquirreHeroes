@@ -1,0 +1,18 @@
+{
+  "id": "putois_fourbe",
+  "nameKey": "enemies.putois_fourbe.name",
+  "maxHp": 48,
+  "moves": [
+    {
+      "id": "jet_piquant",
+      "nameKey": "enemies.putois_fourbe.moves.jet_piquant.name",
+      "effects": [{ "kind": "damage", "target": "enemy", "amount": 7 }]
+    },
+    {
+      "id": "aspersion_corrosive",
+      "nameKey": "enemies.putois_fourbe.moves.aspersion_corrosive.name",
+      "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "coquille_fetee", "stacks": 2 }]
+    }
+  ],
+  "pattern": ["jet_piquant", "aspersion_corrosive", "jet_piquant"]
+}
