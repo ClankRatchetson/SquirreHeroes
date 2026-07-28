@@ -4,9 +4,25 @@ import { CARD_CATALOG } from "../../src/content/cards";
 import { eventDefinitionSchema } from "../../src/content/schemas";
 
 describe("catalogue d'événements", () => {
-  it("contient les 3 événements d'exemple", () => {
+  it("contient les 15 événements cibles de la v1.0", () => {
     expect(Object.keys(EVENT_CATALOG).sort()).toEqual(
-      ["noyer_ancestral", "fontaine_moussue", "marchand_ambulant"].sort(),
+      [
+        "noyer_ancestral",
+        "fontaine_moussue",
+        "marchand_ambulant",
+        "ruisseau_gele",
+        "cachette_de_provisions",
+        "etabli_abandonne",
+        "vieux_blaireau_sage",
+        "ruche_abandonnee",
+        "concours_de_glands",
+        "cabane_a_outils",
+        "nid_abandonne",
+        "guerisseuse_itinerante",
+        "vieux_piege_rouille",
+        "clairiere_silencieuse",
+        "terrier_encombre",
+      ].sort(),
     );
   });
 

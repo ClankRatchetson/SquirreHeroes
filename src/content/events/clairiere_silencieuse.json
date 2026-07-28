@@ -1,0 +1,17 @@
+{
+  "id": "clairiere_silencieuse",
+  "titleKey": "events.clairiere_silencieuse.title",
+  "textKey": "events.clairiere_silencieuse.text",
+  "choices": [
+    {
+      "id": "se_reposer_longuement",
+      "labelKey": "events.clairiere_silencieuse.choices.se_reposer_longuement.label",
+      "effects": [{ "kind": "heal", "amount": 18 }]
+    },
+    {
+      "id": "mediter_et_progresser",
+      "labelKey": "events.clairiere_silencieuse.choices.mediter_et_progresser.label",
+      "effects": [{ "kind": "addCardToDeck", "cardId": "posture_defensive" }]
+    }
+  ]
+}

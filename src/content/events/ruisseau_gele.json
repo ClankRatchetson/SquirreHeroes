@@ -1,0 +1,25 @@
+{
+  "id": "ruisseau_gele",
+  "titleKey": "events.ruisseau_gele.title",
+  "textKey": "events.ruisseau_gele.text",
+  "choices": [
+    {
+      "id": "glisser_prudemment",
+      "labelKey": "events.ruisseau_gele.choices.glisser_prudemment.label",
+      "effects": [{ "kind": "gainNoisettes", "amount": 12 }]
+    },
+    {
+      "id": "briser_la_glace",
+      "labelKey": "events.ruisseau_gele.choices.briser_la_glace.label",
+      "effects": [
+        { "kind": "gainNoisettes", "amount": 22 },
+        { "kind": "damage", "amount": 6 }
+      ]
+    },
+    {
+      "id": "faire_demi_tour",
+      "labelKey": "events.ruisseau_gele.choices.faire_demi_tour.label",
+      "effects": []
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "guerisseuse_itinerante",
+  "titleKey": "events.guerisseuse_itinerante.title",
+  "textKey": "events.guerisseuse_itinerante.text",
+  "choices": [
+    {
+      "id": "payer_un_soin_complet",
+      "labelKey": "events.guerisseuse_itinerante.choices.payer_un_soin_complet.label",
+      "effects": [
+        { "kind": "loseNoisettes", "amount": 15 },
+        { "kind": "heal", "amount": 20 }
+      ]
+    },
+    {
+      "id": "se_debrouiller_seul",
+      "labelKey": "events.guerisseuse_itinerante.choices.se_debrouiller_seul.label",
+      "effects": [{ "kind": "heal", "amount": 5 }]
+    }
+  ]
+}

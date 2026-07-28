@@ -1,0 +1,17 @@
+{
+  "id": "cachette_de_provisions",
+  "titleKey": "events.cachette_de_provisions.title",
+  "textKey": "events.cachette_de_provisions.text",
+  "choices": [
+    {
+      "id": "grignoter_sur_place",
+      "labelKey": "events.cachette_de_provisions.choices.grignoter_sur_place.label",
+      "effects": [{ "kind": "heal", "amount": 12 }]
+    },
+    {
+      "id": "tout_emporter",
+      "labelKey": "events.cachette_de_provisions.choices.tout_emporter.label",
+      "effects": [{ "kind": "gainNoisettes", "amount": 18 }]
+    }
+  ]
+}

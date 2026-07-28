@@ -1,0 +1,20 @@
+{
+  "id": "nid_abandonne",
+  "titleKey": "events.nid_abandonne.title",
+  "textKey": "events.nid_abandonne.text",
+  "choices": [
+    {
+      "id": "fouiller_le_nid",
+      "labelKey": "events.nid_abandonne.choices.fouiller_le_nid.label",
+      "effects": [
+        { "kind": "gainNoisettes", "amount": 16 },
+        { "kind": "damage", "amount": 4 }
+      ]
+    },
+    {
+      "id": "laisser_les_oisillons",
+      "labelKey": "events.nid_abandonne.choices.laisser_les_oisillons.label",
+      "effects": []
+    }
+  ]
+}

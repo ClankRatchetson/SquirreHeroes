@@ -1,0 +1,20 @@
+{
+  "id": "ruche_abandonnee",
+  "titleKey": "events.ruche_abandonnee.title",
+  "textKey": "events.ruche_abandonnee.text",
+  "choices": [
+    {
+      "id": "recolter_le_miel",
+      "labelKey": "events.ruche_abandonnee.choices.recolter_le_miel.label",
+      "effects": [
+        { "kind": "heal", "amount": 16 },
+        { "kind": "damage", "amount": 5 }
+      ]
+    },
+    {
+      "id": "laisser_tranquille",
+      "labelKey": "events.ruche_abandonnee.choices.laisser_tranquille.label",
+      "effects": []
+    }
+  ]
+}

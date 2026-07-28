@@ -1,0 +1,22 @@
+{
+  "id": "vieux_blaireau_sage",
+  "titleKey": "events.vieux_blaireau_sage.title",
+  "textKey": "events.vieux_blaireau_sage.text",
+  "choices": [
+    {
+      "id": "mediter",
+      "labelKey": "events.vieux_blaireau_sage.choices.mediter.label",
+      "effects": [{ "kind": "heal", "amount": 6 }]
+    },
+    {
+      "id": "ecouter_ses_conseils",
+      "labelKey": "events.vieux_blaireau_sage.choices.ecouter_ses_conseils.label",
+      "effects": [{ "kind": "addCardToDeck", "cardId": "instinct_de_survie" }]
+    },
+    {
+      "id": "l_ignorer",
+      "labelKey": "events.vieux_blaireau_sage.choices.l_ignorer.label",
+      "effects": []
+    }
+  ]
+}

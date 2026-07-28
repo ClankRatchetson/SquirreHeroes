@@ -1,0 +1,20 @@
+{
+  "id": "terrier_encombre",
+  "titleKey": "events.terrier_encombre.title",
+  "textKey": "events.terrier_encombre.text",
+  "choices": [
+    {
+      "id": "fouiller",
+      "labelKey": "events.terrier_encombre.choices.fouiller.label",
+      "effects": [
+        { "kind": "gainNoisettes", "amount": 20 },
+        { "kind": "damage", "amount": 7 }
+      ]
+    },
+    {
+      "id": "ranger_et_se_reposer",
+      "labelKey": "events.terrier_encombre.choices.ranger_et_se_reposer.label",
+      "effects": [{ "kind": "heal", "amount": 8 }]
+    }
+  ]
+}

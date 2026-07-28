@@ -1,0 +1,20 @@
+{
+  "id": "etabli_abandonne",
+  "titleKey": "events.etabli_abandonne.title",
+  "textKey": "events.etabli_abandonne.text",
+  "choices": [
+    {
+      "id": "retaper_une_carte",
+      "labelKey": "events.etabli_abandonne.choices.retaper_une_carte.label",
+      "effects": [
+        { "kind": "loseNoisettes", "amount": 12 },
+        { "kind": "addCardToDeck", "cardId": "pas_assure" }
+      ]
+    },
+    {
+      "id": "repartir",
+      "labelKey": "events.etabli_abandonne.choices.repartir.label",
+      "effects": []
+    }
+  ]
+}

@@ -355,6 +355,71 @@ export const fr = {
     "Une silhouette encapuchonnée déballe un étal de fortune. \"Une carte contre quelques Noisettes, l'ami ?\"",
   "events.marchand_ambulant.choices.echanger.label": "Échanger",
   "events.marchand_ambulant.choices.refuser.label": "Refuser",
+  "events.ruisseau_gele.title": "Le Ruisseau Gelé",
+  "events.ruisseau_gele.text":
+    "Une fine couche de glace recouvre le ruisseau. En dessous, quelque chose brille — mais la glace a l'air fragile.",
+  "events.ruisseau_gele.choices.glisser_prudemment.label": "Glisser prudemment",
+  "events.ruisseau_gele.choices.briser_la_glace.label": "Briser la glace",
+  "events.ruisseau_gele.choices.faire_demi_tour.label": "Faire demi-tour",
+  "events.cachette_de_provisions.title": "La Cachette de Provisions",
+  "events.cachette_de_provisions.text":
+    "Une réserve secrète, oubliée par son propriétaire, déborde de bonnes choses.",
+  "events.cachette_de_provisions.choices.grignoter_sur_place.label": "Grignoter sur place",
+  "events.cachette_de_provisions.choices.tout_emporter.label": "Tout emporter",
+  "events.etabli_abandonne.title": "L'Établi Abandonné",
+  "events.etabli_abandonne.text":
+    "Un établi poussiéreux, encore couvert d'outils. De quoi retaper une vieille carte, moyennant quelques Noisettes.",
+  "events.etabli_abandonne.choices.retaper_une_carte.label": "Retaper une carte",
+  "events.etabli_abandonne.choices.repartir.label": "Repartir",
+  "events.vieux_blaireau_sage.title": "Le Vieux Blaireau Sage",
+  "events.vieux_blaireau_sage.text":
+    "Assis devant son terrier, un vieux blaireau observe le monde passer. Il a peut-être un conseil à donner.",
+  "events.vieux_blaireau_sage.choices.mediter.label": "Méditer un instant",
+  "events.vieux_blaireau_sage.choices.ecouter_ses_conseils.label": "Écouter ses conseils",
+  "events.vieux_blaireau_sage.choices.l_ignorer.label": "L'ignorer poliment",
+  "events.ruche_abandonnee.title": "La Ruche Abandonnée",
+  "events.ruche_abandonnee.text":
+    "Une ruche silencieuse, dégoulinante de miel doré. Silencieuse... pour l'instant.",
+  "events.ruche_abandonnee.choices.recolter_le_miel.label": "Récolter le miel",
+  "events.ruche_abandonnee.choices.laisser_tranquille.label": "Laisser tranquille",
+  "events.concours_de_glands.title": "Le Concours de Glands",
+  "events.concours_de_glands.text":
+    "Une foule d'écureuils s'est réunie autour d'un concours de lancer de glands. Les paris vont bon train.",
+  "events.concours_de_glands.choices.jouer_prudemment.label": "Jouer prudemment",
+  "events.concours_de_glands.choices.jouer_gros.label": "Jouer gros",
+  "events.concours_de_glands.choices.ne_pas_participer.label": "Ne pas participer",
+  "events.cabane_a_outils.title": "La Cabane à Outils",
+  "events.cabane_a_outils.text":
+    "Une petite cabane bricolée déborde d'outils en tout genre. De quoi s'équiper, se reposer, ou juste faire du tri.",
+  "events.cabane_a_outils.choices.emprunter_un_outil.label": "Emprunter un outil",
+  "events.cabane_a_outils.choices.vendre_de_vieux_outils.label": "Vendre de vieux outils",
+  "events.cabane_a_outils.choices.se_reposer.label": "Se reposer à l'intérieur",
+  "events.cabane_a_outils.choices.repartir.label": "Repartir",
+  "events.nid_abandonne.title": "Le Nid Abandonné",
+  "events.nid_abandonne.text":
+    "Un nid haut perché semble avoir été délaissé. Des Noisettes y ont été cachées — mais grimper reste risqué.",
+  "events.nid_abandonne.choices.fouiller_le_nid.label": "Fouiller le nid",
+  "events.nid_abandonne.choices.laisser_les_oisillons.label": "Laisser les lieux tranquilles",
+  "events.guerisseuse_itinerante.title": "La Guérisseuse Itinérante",
+  "events.guerisseuse_itinerante.text":
+    "Une vieille musaraigne propose ses services de guérisseuse, contre quelques Noisettes bien senties.",
+  "events.guerisseuse_itinerante.choices.payer_un_soin_complet.label": "Payer pour un soin complet",
+  "events.guerisseuse_itinerante.choices.se_debrouiller_seul.label": "Se débrouiller seul",
+  "events.vieux_piege_rouille.title": "Le Vieux Piège Rouillé",
+  "events.vieux_piege_rouille.text":
+    "Un vieux piège de chasseur rouille dans les fourrés. Ses ressorts pourraient encore servir à quelque chose.",
+  "events.vieux_piege_rouille.choices.desamorcer_prudemment.label": "Désamorcer prudemment",
+  "events.vieux_piege_rouille.choices.eviter_largement.label": "L'éviter largement",
+  "events.clairiere_silencieuse.title": "La Clairière Silencieuse",
+  "events.clairiere_silencieuse.text":
+    "Un rayon de lumière traverse la canopée jusqu'à cette clairière paisible. Un bon endroit pour souffler.",
+  "events.clairiere_silencieuse.choices.se_reposer_longuement.label": "Se reposer longuement",
+  "events.clairiere_silencieuse.choices.mediter_et_progresser.label": "Méditer et progresser",
+  "events.terrier_encombre.title": "Le Terrier Encombré",
+  "events.terrier_encombre.text":
+    "Un vieux terrier abandonné déborde d'objets entassés en vrac. Fouiller prend du temps, et de l'énergie.",
+  "events.terrier_encombre.choices.fouiller.label": "Fouiller",
+  "events.terrier_encombre.choices.ranger_et_se_reposer.label": "Ranger et se reposer",
 
   // UI — structure de run (Phase 3)
   "ui.menu.newRun": "Nouvelle run",

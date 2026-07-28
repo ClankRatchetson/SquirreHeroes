@@ -1,0 +1,17 @@
+{
+  "id": "vieux_piege_rouille",
+  "titleKey": "events.vieux_piege_rouille.title",
+  "textKey": "events.vieux_piege_rouille.text",
+  "choices": [
+    {
+      "id": "desamorcer_prudemment",
+      "labelKey": "events.vieux_piege_rouille.choices.desamorcer_prudemment.label",
+      "effects": [{ "kind": "addCardToDeck", "cardId": "griffure_hesitante" }]
+    },
+    {
+      "id": "eviter_largement",
+      "labelKey": "events.vieux_piege_rouille.choices.eviter_largement.label",
+      "effects": []
+    }
+  ]
+}

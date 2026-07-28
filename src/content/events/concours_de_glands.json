@@ -1,0 +1,25 @@
+{
+  "id": "concours_de_glands",
+  "titleKey": "events.concours_de_glands.title",
+  "textKey": "events.concours_de_glands.text",
+  "choices": [
+    {
+      "id": "jouer_prudemment",
+      "labelKey": "events.concours_de_glands.choices.jouer_prudemment.label",
+      "effects": [{ "kind": "gainNoisettes", "amount": 10 }]
+    },
+    {
+      "id": "jouer_gros",
+      "labelKey": "events.concours_de_glands.choices.jouer_gros.label",
+      "effects": [
+        { "kind": "gainNoisettes", "amount": 25 },
+        { "kind": "damage", "amount": 10 }
+      ]
+    },
+    {
+      "id": "ne_pas_participer",
+      "labelKey": "events.concours_de_glands.choices.ne_pas_participer.label",
+      "effects": []
+    }
+  ]
+}

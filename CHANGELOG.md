@@ -4,6 +4,40 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.14.0] — Phase 7 (lot 7) — Événements restants vers les 15 cibles
+
+### Ajouté
+- **12 nouveaux événements**, portant le total de 3 à 15 (cible v1.0) :
+  Le Ruisseau Gelé, La Cachette de Provisions, L'Établi Abandonné, Le
+  Vieux Blaireau Sage, La Ruche Abandonnée, Le Concours de Glands, La
+  Cabane à Outils (1er événement à 4 choix — les 3 précédents plafonnaient
+  à 3), Le Nid Abandonné, La Guérisseuse Itinérante, Le Vieux Piège
+  Rouillé, La Clairière Silencieuse, Le Terrier Encombré. Aucune primitive
+  `RunEffectSpec` nouvelle : les 5 existantes (`damage`/`heal`/
+  `gainNoisettes`/`loseNoisettes`/`addCardToDeck`) suffisent à toutes les
+  variantes (petit gain sûr / gain plus gros contre des PV / soin contre
+  Noisettes / carte contre Noisettes / petit soin gratuit / choix sans
+  contrepartie). Pur ajout de contenu JSON + i18n, aucun changement
+  moteur ni de schéma.
+- Avec ce lot, **le contenu de la Phase 7 est complet au regard des
+  cibles v1.0 posées par CLAUDE.md** : 3 héros × 16 cartes signature, 4
+  familiers, 3 actes × (3 communs + 1 élite + 1 boss) = 15 ennemis, 70
+  cartes (48 signature + 18 neutres + 4 familier), 15 événements. Reste
+  la Phase 8 (polish & v1.0.0) pour clore le planning.
+- 408 tests unitaires (inchangé — contenu de run pur, pas de nouvelle
+  branche de code testable en dehors de la validation Zod déjà générique),
+  15 tests e2e, tous verts. Couverture maintenue à 96.82 % sur
+  `/src/engine`.
+
+### Constaté (à surveiller)
+- `npm run sim -- --runs=2000` : résultats stables par rapport au lot
+  précédent (taux de victoire toujours proches de 0 %, aucune carte
+  sous/sur-choisie ou dominante), plafond +20 % du Canal B toujours
+  respecté. `npm run cli:run` (seed 42) confirme que le nœud événement
+  déjà rencontré dans les lots précédents résout désormais à un événement
+  différent — preuve directe que le pool élargi est bien tiré au sort par
+  le moteur, pas seulement chargé.
+
 ## [0.13.0] — Phase 7 (lot 6) — Cartes restantes vers les 70 cibles
 
 ### Ajouté

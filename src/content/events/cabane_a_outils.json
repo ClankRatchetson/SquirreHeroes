@@ -1,0 +1,27 @@
+{
+  "id": "cabane_a_outils",
+  "titleKey": "events.cabane_a_outils.title",
+  "textKey": "events.cabane_a_outils.text",
+  "choices": [
+    {
+      "id": "emprunter_un_outil",
+      "labelKey": "events.cabane_a_outils.choices.emprunter_un_outil.label",
+      "effects": [{ "kind": "addCardToDeck", "cardId": "sprint" }]
+    },
+    {
+      "id": "vendre_de_vieux_outils",
+      "labelKey": "events.cabane_a_outils.choices.vendre_de_vieux_outils.label",
+      "effects": [{ "kind": "gainNoisettes", "amount": 14 }]
+    },
+    {
+      "id": "se_reposer",
+      "labelKey": "events.cabane_a_outils.choices.se_reposer.label",
+      "effects": [{ "kind": "heal", "amount": 10 }]
+    },
+    {
+      "id": "repartir",
+      "labelKey": "events.cabane_a_outils.choices.repartir.label",
+      "effects": []
+    }
+  ]
+}
