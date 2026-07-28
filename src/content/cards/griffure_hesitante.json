@@ -1,0 +1,30 @@
+{
+  "id": "griffure_hesitante",
+  "nameKey": "cards.griffure_hesitante.name",
+  "hero": "neutre",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    {
+      "kind": "conditional",
+      "target": "enemy",
+      "status": "etourdi",
+      "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 12 }],
+      "whenFalse": [{ "kind": "damage", "target": "enemy", "amount": 7 }]
+    }
+  ],
+  "upgraded": {
+    "nameKey": "cards.griffure_hesitante.nameUpgraded",
+    "effects": [
+      {
+        "kind": "conditional",
+        "target": "enemy",
+        "status": "etourdi",
+        "whenTrue": [{ "kind": "damage", "target": "enemy", "amount": 15 }],
+        "whenFalse": [{ "kind": "damage", "target": "enemy", "amount": 9 }]
+      }
+    ]
+  },
+  "flavorKey": "cards.griffure_hesitante.flavor"
+}

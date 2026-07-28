@@ -1,0 +1,14 @@
+{
+  "id": "doubles_griffes",
+  "nameKey": "cards.doubles_griffes.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 2, "amountPerHit": 5 }],
+  "upgraded": {
+    "nameKey": "cards.doubles_griffes.nameUpgraded",
+    "effects": [{ "kind": "multiHit", "target": "enemy", "hits": 2, "amountPerHit": 6 }]
+  },
+  "flavorKey": "cards.doubles_griffes.flavor"
+}

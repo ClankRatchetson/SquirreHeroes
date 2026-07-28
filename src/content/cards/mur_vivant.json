@@ -1,0 +1,20 @@
+{
+  "id": "mur_vivant",
+  "nameKey": "cards.mur_vivant.name",
+  "hero": "casse_noix",
+  "type": "defense",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [
+    { "kind": "block", "target": "self", "amount": 14 },
+    { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 3 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.mur_vivant.nameUpgraded",
+    "effects": [
+      { "kind": "block", "target": "self", "amount": 18 },
+      { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 3 }
+    ]
+  },
+  "flavorKey": "cards.mur_vivant.flavor"
+}

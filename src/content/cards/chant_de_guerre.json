@@ -1,0 +1,14 @@
+{
+  "id": "chant_de_guerre",
+  "nameKey": "cards.chant_de_guerre.name",
+  "hero": "neutre",
+  "type": "competence",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "all_enemies", "status": "etourdi", "stacks": 1 }],
+  "upgraded": {
+    "nameKey": "cards.chant_de_guerre.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "all_enemies", "status": "etourdi", "stacks": 2 }]
+  },
+  "flavorKey": "cards.chant_de_guerre.flavor"
+}

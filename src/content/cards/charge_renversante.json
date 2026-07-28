@@ -1,0 +1,20 @@
+{
+  "id": "charge_renversante",
+  "nameKey": "cards.charge_renversante.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 2,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 14 },
+    { "kind": "block", "target": "self", "amount": 5 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.charge_renversante.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 18 },
+      { "kind": "block", "target": "self", "amount": 7 }
+    ]
+  },
+  "flavorKey": "cards.charge_renversante.flavor"
+}

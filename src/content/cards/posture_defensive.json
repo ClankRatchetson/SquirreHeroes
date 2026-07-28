@@ -1,0 +1,14 @@
+{
+  "id": "posture_defensive",
+  "nameKey": "cards.posture_defensive.name",
+  "hero": "neutre",
+  "type": "pouvoir",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }],
+  "upgraded": {
+    "nameKey": "cards.posture_defensive.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 3 }]
+  },
+  "flavorKey": "cards.posture_defensive.flavor"
+}

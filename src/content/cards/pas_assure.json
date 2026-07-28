@@ -1,0 +1,14 @@
+{
+  "id": "pas_assure",
+  "nameKey": "cards.pas_assure.name",
+  "hero": "neutre",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "block", "target": "self", "amount": 7 }],
+  "upgraded": {
+    "nameKey": "cards.pas_assure.nameUpgraded",
+    "effects": [{ "kind": "block", "target": "self", "amount": 10 }]
+  },
+  "flavorKey": "cards.pas_assure.flavor"
+}

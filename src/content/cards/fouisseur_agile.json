@@ -1,0 +1,20 @@
+{
+  "id": "fouisseur_agile",
+  "nameKey": "cards.fouisseur_agile.name",
+  "hero": "neutre",
+  "type": "defense",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [
+    { "kind": "block", "target": "self", "amount": 8 },
+    { "kind": "draw", "amount": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.fouisseur_agile.nameUpgraded",
+    "effects": [
+      { "kind": "block", "target": "self", "amount": 11 },
+      { "kind": "draw", "amount": 1 }
+    ]
+  },
+  "flavorKey": "cards.fouisseur_agile.flavor"
+}

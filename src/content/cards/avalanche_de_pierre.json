@@ -1,0 +1,22 @@
+{
+  "id": "avalanche_de_pierre",
+  "nameKey": "cards.avalanche_de_pierre.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "legendaire",
+  "cost": 3,
+  "effects": [
+    { "kind": "damageAll", "amount": 12 },
+    { "kind": "block", "target": "self", "amount": 8 },
+    { "kind": "exhaust" }
+  ],
+  "upgraded": {
+    "nameKey": "cards.avalanche_de_pierre.nameUpgraded",
+    "effects": [
+      { "kind": "damageAll", "amount": 16 },
+      { "kind": "block", "target": "self", "amount": 10 },
+      { "kind": "exhaust" }
+    ]
+  },
+  "flavorKey": "cards.avalanche_de_pierre.flavor"
+}

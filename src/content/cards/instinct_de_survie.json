@@ -1,0 +1,14 @@
+{
+  "id": "instinct_de_survie",
+  "nameKey": "cards.instinct_de_survie.name",
+  "hero": "neutre",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "heal", "target": "self", "amount": 5 }],
+  "upgraded": {
+    "nameKey": "cards.instinct_de_survie.nameUpgraded",
+    "effects": [{ "kind": "heal", "target": "self", "amount": 8 }]
+  },
+  "flavorKey": "cards.instinct_de_survie.flavor"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "griffade_simple",
+  "nameKey": "cards.griffade_simple.name",
+  "hero": "neutre",
+  "type": "attaque",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "damage", "target": "enemy", "amount": 7 }],
+  "upgraded": {
+    "nameKey": "cards.griffade_simple.nameUpgraded",
+    "effects": [{ "kind": "damage", "target": "enemy", "amount": 10 }]
+  },
+  "flavorKey": "cards.griffade_simple.flavor"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "frappe_tellurique",
+  "nameKey": "cards.frappe_tellurique.name",
+  "hero": "casse_noix",
+  "type": "attaque",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [{ "kind": "damageAll", "amount": 7 }],
+  "upgraded": {
+    "nameKey": "cards.frappe_tellurique.nameUpgraded",
+    "effects": [{ "kind": "damageAll", "amount": 10 }]
+  },
+  "flavorKey": "cards.frappe_tellurique.flavor"
+}

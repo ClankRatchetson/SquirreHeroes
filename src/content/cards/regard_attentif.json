@@ -1,0 +1,14 @@
+{
+  "id": "regard_attentif",
+  "nameKey": "cards.regard_attentif.name",
+  "hero": "neutre",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 1 }],
+  "upgraded": {
+    "nameKey": "cards.regard_attentif.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "enemy", "status": "a_decouvert", "stacks": 2 }]
+  },
+  "flavorKey": "cards.regard_attentif.flavor"
+}

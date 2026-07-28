@@ -3,8 +3,8 @@ import { CARD_CATALOG } from "../../src/content/cards";
 import { cardSchema } from "../../src/content/schemas";
 
 describe("catalogue de cartes", () => {
-  it("contient exactement les 51 cartes (15 tranche verticale + 16 Cabriole + 16 Bogue + 4 familiers)", () => {
-    expect(Object.keys(CARD_CATALOG)).toHaveLength(51);
+  it("contient exactement les 70 cartes cibles de la v1.0 (48 signature + 18 neutres + 4 familiers)", () => {
+    expect(Object.keys(CARD_CATALOG)).toHaveLength(70);
   });
 
   it("chaque carte passe la validation Zod", () => {
@@ -41,14 +41,30 @@ describe("catalogue de cartes", () => {
     }
   });
 
-  it("exactement 16 cartes signature Captain Cabriole", () => {
-    const cabrioleCards = Object.values(CARD_CATALOG).filter((c) => c.hero === "captain_cabriole");
-    expect(cabrioleCards).toHaveLength(16);
+  it("exactement 16 cartes signature par héros (Casse-Noix, Captain Cabriole, Docteur Bogue)", () => {
+    const heroIds = ["casse_noix", "captain_cabriole", "docteur_bogue"];
+    for (const heroId of heroIds) {
+      const heroCards = Object.values(CARD_CATALOG).filter((c) => c.hero === heroId);
+      expect(heroCards).toHaveLength(16);
+    }
   });
 
-  it("exactement 16 cartes signature Docteur Bogue", () => {
-    const bogueCards = Object.values(CARD_CATALOG).filter((c) => c.hero === "docteur_bogue");
-    expect(bogueCards).toHaveLength(16);
+  it("chaque héros a la répartition de rareté cible 9 commune / 5 rare / 2 légendaire", () => {
+    const heroIds = ["casse_noix", "captain_cabriole", "docteur_bogue"];
+    for (const heroId of heroIds) {
+      const heroCards = Object.values(CARD_CATALOG).filter((c) => c.hero === heroId);
+      expect(heroCards.filter((c) => c.rarity === "commune")).toHaveLength(9);
+      expect(heroCards.filter((c) => c.rarity === "rare")).toHaveLength(5);
+      expect(heroCards.filter((c) => c.rarity === "legendaire")).toHaveLength(2);
+    }
+  });
+
+  it("exactement 18 cartes neutres, réparties 10 commune / 6 rare / 2 légendaire", () => {
+    const neutralCards = Object.values(CARD_CATALOG).filter((c) => c.hero === "neutre");
+    expect(neutralCards).toHaveLength(18);
+    expect(neutralCards.filter((c) => c.rarity === "commune")).toHaveLength(10);
+    expect(neutralCards.filter((c) => c.rarity === "rare")).toHaveLength(6);
+    expect(neutralCards.filter((c) => c.rarity === "legendaire")).toHaveLength(2);
   });
 
   it("exactement 1 carte signature par familier (4 au total)", () => {

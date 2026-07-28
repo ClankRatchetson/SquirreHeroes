@@ -1,0 +1,20 @@
+{
+  "id": "derobade",
+  "nameKey": "cards.derobade.name",
+  "hero": "neutre",
+  "type": "attaque",
+  "rarity": "rare",
+  "cost": 1,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 6 },
+    { "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 1 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.derobade.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 9 },
+      { "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 1 }
+    ]
+  },
+  "flavorKey": "cards.derobade.flavor"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "reniflement",
+  "nameKey": "cards.reniflement.name",
+  "hero": "casse_noix",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 0,
+  "effects": [{ "kind": "applyStatus", "target": "self", "status": "force", "stacks": 1 }],
+  "upgraded": {
+    "nameKey": "cards.reniflement.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "self", "status": "force", "stacks": 2 }]
+  },
+  "flavorKey": "cards.reniflement.flavor"
+}

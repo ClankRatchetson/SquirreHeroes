@@ -1,0 +1,14 @@
+{
+  "id": "sprint",
+  "nameKey": "cards.sprint.name",
+  "hero": "neutre",
+  "type": "competence",
+  "rarity": "commune",
+  "cost": 0,
+  "effects": [{ "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 1 }],
+  "upgraded": {
+    "nameKey": "cards.sprint.nameUpgraded",
+    "effects": [{ "kind": "applyStatus", "target": "self", "status": "leste", "stacks": 2 }]
+  },
+  "flavorKey": "cards.sprint.flavor"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "soin_profond",
+  "nameKey": "cards.soin_profond.name",
+  "hero": "neutre",
+  "type": "competence",
+  "rarity": "rare",
+  "cost": 2,
+  "effects": [{ "kind": "heal", "target": "self", "amount": 14 }],
+  "upgraded": {
+    "nameKey": "cards.soin_profond.nameUpgraded",
+    "effects": [{ "kind": "heal", "target": "self", "amount": 18 }]
+  },
+  "flavorKey": "cards.soin_profond.flavor"
+}

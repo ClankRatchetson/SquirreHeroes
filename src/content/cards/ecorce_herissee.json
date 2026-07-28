@@ -1,0 +1,20 @@
+{
+  "id": "ecorce_herissee",
+  "nameKey": "cards.ecorce_herissee.name",
+  "hero": "casse_noix",
+  "type": "defense",
+  "rarity": "commune",
+  "cost": 1,
+  "effects": [
+    { "kind": "block", "target": "self", "amount": 6 },
+    { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }
+  ],
+  "upgraded": {
+    "nameKey": "cards.ecorce_herissee.nameUpgraded",
+    "effects": [
+      { "kind": "block", "target": "self", "amount": 9 },
+      { "kind": "applyStatus", "target": "self", "status": "piquants", "stacks": 2 }
+    ]
+  },
+  "flavorKey": "cards.ecorce_herissee.flavor"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "rugissement_de_la_foret",
+  "nameKey": "cards.rugissement_de_la_foret.name",
+  "hero": "neutre",
+  "type": "attaque",
+  "rarity": "legendaire",
+  "cost": 2,
+  "effects": [
+    { "kind": "damage", "target": "enemy", "amount": 16 },
+    { "kind": "applyStatus", "target": "self", "status": "force", "stacks": 2 },
+    { "kind": "exhaust" }
+  ],
+  "upgraded": {
+    "nameKey": "cards.rugissement_de_la_foret.nameUpgraded",
+    "effects": [
+      { "kind": "damage", "target": "enemy", "amount": 20 },
+      { "kind": "applyStatus", "target": "self", "status": "force", "stacks": 3 },
+      { "kind": "exhaust" }
+    ]
+  },
+  "flavorKey": "cards.rugissement_de_la_foret.flavor"
+}

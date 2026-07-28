@@ -49,6 +49,25 @@ import radarVisuel from "./radar_visuel.json";
 import bouleDefensive from "./boule_defensive.json";
 import piqueFurieux from "./pique_furieux.json";
 import galerieSouterraine from "./galerie_souterraine.json";
+import doublesGriffes from "./doubles_griffes.json";
+import ecorceHerissee from "./ecorce_herissee.json";
+import reniflement from "./reniflement.json";
+import chargeRenversante from "./charge_renversante.json";
+import murVivant from "./mur_vivant.json";
+import frappeTellurique from "./frappe_tellurique.json";
+import avalancheDePierre from "./avalanche_de_pierre.json";
+import griffadeSimple from "./griffade_simple.json";
+import pasAssure from "./pas_assure.json";
+import instinctDeSurvie from "./instinct_de_survie.json";
+import sprint from "./sprint.json";
+import griffureHesitante from "./griffure_hesitante.json";
+import regardAttentif from "./regard_attentif.json";
+import postureDefensive from "./posture_defensive.json";
+import derobade from "./derobade.json";
+import chantDeGuerre from "./chant_de_guerre.json";
+import soinProfond from "./soin_profond.json";
+import fouisseurAgile from "./fouisseur_agile.json";
+import rugissementDeLaForet from "./rugissement_de_la_foret.json";
 import type { Card } from "../../engine/types";
 import { cardSchema } from "../schemas";
 import { loadCatalog } from "../schemas";
@@ -105,6 +124,25 @@ const RAW_CARDS: readonly unknown[] = [
   bouleDefensive,
   piqueFurieux,
   galerieSouterraine,
+  doublesGriffes,
+  ecorceHerissee,
+  reniflement,
+  chargeRenversante,
+  murVivant,
+  frappeTellurique,
+  avalancheDePierre,
+  griffadeSimple,
+  pasAssure,
+  instinctDeSurvie,
+  sprint,
+  griffureHesitante,
+  regardAttentif,
+  postureDefensive,
+  derobade,
+  chantDeGuerre,
+  soinProfond,
+  fouisseurAgile,
+  rugissementDeLaForet,
 ];
 
 export const CARD_CATALOG: Readonly<Record<string, Card>> = loadCatalog(RAW_CARDS, cardSchema);

@@ -4,6 +4,42 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.13.0] — Phase 7 (lot 6) — Cartes restantes vers les 70 cibles
+
+### Ajouté
+- **Casse-Noix passe de 9 à 16 cartes signature** (comme Captain Cabriole
+  et Docteur Bogue) : 7 nouvelles cartes complétant la répartition cible
+  9 commune / 5 rare / 2 légendaire — `doubles_griffes`, `ecorce_herissee`,
+  `reniflement` (1er coût-0 du héros, symétrie avec `pied_leger`/
+  `analyse_clinique`), `charge_renversante` (commune) ; `mur_vivant`,
+  `frappe_tellurique` (rare) ; `avalanche_de_pierre` (légendaire, finisher
+  de zone qui complète `ecrasement_sismique` en single-target).
+- **Le pool neutre passe de 6 à 18 cartes**, réparti 10 commune / 6 rare /
+  2 légendaire : `griffade_simple`, `pas_assure`, `instinct_de_survie`,
+  `sprint` (1er coût-0 du pool neutre), `griffure_hesitante`,
+  `regard_attentif` (commune) ; `posture_defensive`, `derobade`,
+  `chant_de_guerre`, `soin_profond`, `fouisseur_agile` (rare) ;
+  `rugissement_de_la_foret` (légendaire).
+- **Cible « 70 cartes » de la v1.0 désormais atteinte** : 48 signature
+  (16 × 3 héros) + 18 neutres + 4 familier = 70. Aucune primitive d'effet
+  ni statut nouveau (les 13 primitives et 8 statuts existants suffisent),
+  aucun changement moteur — pur ajout de contenu JSON + i18n.
+- 408 tests unitaires, 15 tests e2e, tous verts. Couverture maintenue à
+  96.82 % sur `/src/engine`.
+
+### Constaté (à surveiller)
+- `npm run sim -- --runs=2000` : les taux "atteint Acte II" progressent
+  légèrement par rapport au lot précédent pour plusieurs combinaisons
+  (ex. Casse-Noix/Bourdon Bourru : 6.5 % → 9.2 %) et quelques runs
+  atteignent même l'Acte III pour la première fois (0.1-0.2 % selon la
+  combinaison) — plausible avec un pool de récompenses plus large (plus
+  de chances de piocher une carte utile par combat), pas un signal
+  d'alerte. Aucune carte sous-choisie, sur-choisie ou dominante détectée
+  parmi les 19 nouvelles, mais les taux de victoire globaux restant
+  proches de 0 %, l'échantillon par carte reste trop mince pour un
+  verdict définitif — à réévaluer une fois le bot ou son échantillon
+  amélioré. Plafond +20 % du Canal B toujours respecté.
+
 ## [0.12.0] — Phase 7 (lot 5) — Acte III « La Forêt »
 
 ### Ajouté
