@@ -9,8 +9,9 @@ import { CombatScreen } from "./ui/screens/CombatScreen";
 import { RunScreen } from "./ui/screens/RunScreen";
 import { HeroSelectScreen } from "./ui/screens/HeroSelectScreen";
 import { CollectionScreen } from "./ui/screens/CollectionScreen";
+import { SettingsScreen } from "./ui/screens/SettingsScreen";
 
-type Screen = "loading" | "menu" | "hero-select" | "combat" | "run" | "collection";
+type Screen = "loading" | "menu" | "hero-select" | "combat" | "run" | "collection" | "settings";
 
 function App() {
   const [screen, setScreen] = useState<Screen>("loading");
@@ -64,6 +65,9 @@ function App() {
           onOpenCollection={() => {
             setScreen("collection");
           }}
+          onOpenSettings={() => {
+            setScreen("settings");
+          }}
         />
       );
     case "hero-select":
@@ -81,6 +85,18 @@ function App() {
       return (
         <CollectionScreen
           onBack={() => {
+            setScreen("menu");
+          }}
+        />
+      );
+    case "settings":
+      return (
+        <SettingsScreen
+          onBack={() => {
+            setScreen("menu");
+          }}
+          onProgressionReset={() => {
+            setSavedRun(null);
             setScreen("menu");
           }}
         />

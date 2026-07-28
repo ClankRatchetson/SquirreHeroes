@@ -165,6 +165,22 @@ describe("useRunStore", () => {
     expect(after.isResolvingEnemyTurn).toBe(false);
   });
 
+  it("resetRun efface runState et réinitialise l'état UI éphémère (Réglages, sans toucher au stockage)", () => {
+    useRunStore.setState({
+      targeting: { selectedCardInstanceId: "x", hoveredEnemyInstanceId: "y" },
+      pendingEvents: [{ id: "e1", kind: "damage", targetId: "hero", amount: 5 }],
+      isResolvingEnemyTurn: true,
+    });
+
+    useRunStore.getState().resetRun();
+
+    const after = useRunStore.getState();
+    expect(after.runState).toBeNull();
+    expect(after.targeting).toEqual(EMPTY_TARGETING);
+    expect(after.pendingEvents).toEqual([]);
+    expect(after.isResolvingEnemyTurn).toBe(false);
+  });
+
   it("startNewRun(seed, bonuses) applique les bonus de l'arbre de Glands d'Or à la run créée", () => {
     useRunStore.getState().startNewRun(2, {
       bonusMaxHp: 5,

@@ -475,6 +475,7 @@ export const fr = {
 
   // UI — méta-progression (Phase 5)
   "ui.menu.collection": "Collection",
+  "ui.menu.settings": "Réglages",
   "ui.menu.back": "Retour",
   "ui.heroSelect.title": "Choisis ton héros",
   "ui.heroSelect.locked": "Verrouillé",
@@ -505,4 +506,21 @@ export const fr = {
   "meta.tree.noisettes_bonus_1.description": "+1 Noisette après chaque combat/élite remporté.",
   "meta.tree.noisettes_bonus_2.name": "Noisette bonus par combat II",
   "meta.tree.noisettes_bonus_2.description": "+1 Noisette supplémentaire (total +2).",
+
+  // UI — écran de réglages (Phase 8 lot 2)
+  "ui.settings.title": "Réglages",
+  "ui.settings.tutorial.title": "Tutoriel",
+  "ui.settings.tutorial.description": "Réaffiche le tutoriel de premier combat au prochain combat de ta prochaine run.",
+  "ui.settings.tutorial.button": "Revoir le tutoriel",
+  "ui.settings.tutorial.confirmation": "Le tutoriel réapparaîtra à ton prochain combat.",
+  "ui.settings.reset.title": "Réinitialiser la progression",
+  "ui.settings.reset.description":
+    "Efface définitivement la run en cours, les jalons, les Glands d'Or et l'arbre débloqué. Irréversible.",
+  "ui.settings.reset.button": "Réinitialiser la progression",
+  "ui.settings.reset.confirmTitle": "Tout effacer ?",
+  "ui.settings.reset.confirmBody":
+    "Cette action efface définitivement la run en cours et toute la méta-progression (jalons, Glands d'Or, arbre débloqué). Impossible à annuler.",
+  "ui.settings.reset.confirmConfirm": "Tout effacer",
+  "ui.settings.reset.confirmCancel": "Annuler",
+  "ui.settings.version": "Version",
 } as const;

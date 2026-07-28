@@ -20,6 +20,9 @@ test("le tutoriel s'affiche au premier combat et ne réapparaît jamais après l
   await expect(page.getByTestId("tutorial-overlay")).not.toBeVisible();
 
   // Persisté : après rechargement + reprise, le tutoriel ne réapparaît pas, même en combat.
+  // Petite marge avant reload — l'autosave (Dexie, best-effort) est fire-and-forget, cf.
+  // `persistCurrentSaveFile` ; sous forte charge parallèle un reload immédiat peut le devancer.
+  await page.waitForTimeout(300);
   await page.reload();
   await page.getByRole("button", { name: "Reprendre la run" }).click();
   await expect(page.getByTestId("hero-panel")).toBeVisible();
@@ -42,6 +45,8 @@ test("terminer les 5 étapes du tutoriel le passe aussi définitivement", async 
   await page.getByRole("button", { name: "C'est parti !" }).click();
   await expect(page.getByTestId("tutorial-overlay")).not.toBeVisible();
 
+  // Cf. commentaire du test précédent — même marge avant reload pour laisser l'autosave flusher.
+  await page.waitForTimeout(300);
   await page.reload();
   await page.getByRole("button", { name: "Reprendre la run" }).click();
   await expect(page.getByTestId("tutorial-overlay")).not.toBeVisible();

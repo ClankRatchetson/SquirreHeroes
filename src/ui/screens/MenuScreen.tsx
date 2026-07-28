@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { t } from "../../content/i18n/t";
 import { useCombatStore } from "../store/combat-store";
-import { ConfirmOverwriteDialog } from "../components/feedback/ConfirmOverwriteDialog";
+import { ConfirmDialog } from "../components/feedback/ConfirmDialog";
 
 export interface MenuScreenProps {
   readonly onStartCombat: () => void;
@@ -9,11 +9,19 @@ export interface MenuScreenProps {
   readonly onStartHeroSelect: () => void;
   readonly onResumeRun: () => void;
   readonly onOpenCollection: () => void;
+  readonly onOpenSettings: () => void;
   /** Une run en cours (non terminée) existe en base — cf. décision Phase 4 : gate aussi la confirmation d'écrasement. */
   readonly canResume: boolean;
 }
 
-export function MenuScreen({ onStartCombat, onStartHeroSelect, onResumeRun, onOpenCollection, canResume }: MenuScreenProps) {
+export function MenuScreen({
+  onStartCombat,
+  onStartHeroSelect,
+  onResumeRun,
+  onOpenCollection,
+  onOpenSettings,
+  canResume,
+}: MenuScreenProps) {
   const startNewCombat = useCombatStore((s) => s.startNewCombat);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -66,10 +74,27 @@ export function MenuScreen({ onStartCombat, onStartHeroSelect, onResumeRun, onOp
         >
           {t("ui.menu.collection")}
         </button>
+        <button
+          type="button"
+          data-testid="menu-open-settings"
+          onClick={onOpenSettings}
+          className="rounded-md bg-stone-700 px-6 py-3 font-semibold text-stone-100"
+        >
+          {t("ui.menu.settings")}
+        </button>
       </div>
 
+      <p className="mt-2 text-xs text-stone-600">
+        {t("ui.settings.version")} {__APP_VERSION__}
+      </p>
+
       {showConfirm && (
-        <ConfirmOverwriteDialog
+        <ConfirmDialog
+          testId="confirm-overwrite"
+          title={t("ui.menu.confirmOverwrite.title")}
+          body={t("ui.menu.confirmOverwrite.body")}
+          confirmLabel={t("ui.menu.confirmOverwrite.confirm")}
+          cancelLabel={t("ui.menu.confirmOverwrite.cancel")}
           onConfirm={() => {
             setShowConfirm(false);
             onStartHeroSelect();

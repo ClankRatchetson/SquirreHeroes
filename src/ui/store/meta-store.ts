@@ -53,4 +53,14 @@ export const useMetaStore = create<MetaStoreState>((set, get) => ({
     set({ meta: nextMeta });
     persistCurrentSaveFile(useRunStore.getState().runState, nextMeta);
   },
+
+  resetTutorial: () => {
+    const prevMeta = get().meta;
+    if (!prevMeta.tutorialCompleted) {
+      return;
+    }
+    const nextMeta = { ...prevMeta, tutorialCompleted: false };
+    set({ meta: nextMeta });
+    persistCurrentSaveFile(useRunStore.getState().runState, nextMeta);
+  },
 }));

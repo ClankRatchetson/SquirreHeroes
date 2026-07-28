@@ -14,4 +14,6 @@ export interface MetaStoreState {
   readonly recordRunCompletion: (finishedRun: RunState) => void;
   /** Marque le tutoriel de premier combat comme vu (terminé OU passé) — ne se réaffiche plus jamais après. */
   readonly completeTutorial: () => void;
+  /** Réglages : "Revoir le tutoriel" — le réaffiche au prochain combat de run entré. */
+  readonly resetTutorial: () => void;
 }

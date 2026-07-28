@@ -83,6 +83,10 @@ export const useRunStore = create<RunStoreState>((set, get) => ({
     set({ runState, targeting: EMPTY_TARGETING, pendingEvents: [], isResolvingEnemyTurn: false });
   },
 
+  resetRun: () => {
+    set({ runState: null, targeting: EMPTY_TARGETING, pendingEvents: [], isResolvingEnemyTurn: false });
+  },
+
   dispatch: (action) => {
     const prevRun = get().runState;
     if (!prevRun) {

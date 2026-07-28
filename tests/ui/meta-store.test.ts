@@ -115,4 +115,20 @@ describe("useMetaStore", () => {
     expect(useMetaStore.getState().meta).toBe(before);
     expect(fakeAdapter.save).not.toHaveBeenCalled();
   });
+
+  it("resetTutorial démarque tutorialCompleted et persiste", () => {
+    useMetaStore.setState({ meta: { ...INITIAL_META_PROGRESSION, tutorialCompleted: true } });
+    useMetaStore.getState().resetTutorial();
+    expect(useMetaStore.getState().meta.tutorialCompleted).toBe(false);
+    expect(fakeAdapter.save).toHaveBeenCalledTimes(1);
+    const saved = fakeAdapter.save.mock.calls[0]?.[0] as { meta: { tutorialCompleted: boolean } };
+    expect(saved.meta.tutorialCompleted).toBe(false);
+  });
+
+  it("resetTutorial est un no-op (aucune persistance) si déjà à false", () => {
+    const before = useMetaStore.getState().meta;
+    useMetaStore.getState().resetTutorial();
+    expect(useMetaStore.getState().meta).toBe(before);
+    expect(fakeAdapter.save).not.toHaveBeenCalled();
+  });
 });

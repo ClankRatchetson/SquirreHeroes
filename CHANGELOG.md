@@ -4,6 +4,41 @@ Toutes les modifications notables de ce projet sont documentées ici.
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 versionnement [SemVer](https://semver.org/lang/fr/) (`0.x.y` jusqu'à la v1.0.0).
 
+## [0.17.0] — Phase 8 (lot 2) — Réglages et polish des écrans de menu
+
+### Ajouté
+- **Écran de Réglages** (`SettingsScreen.tsx`, accessible depuis le menu
+  principal) :
+  - "Revoir le tutoriel" — réaffiche le tutoriel de premier combat (lot 1)
+    au prochain combat de la run reprise, via une nouvelle action
+    `useMetaStore.resetTutorial()` (mêmes garanties de persistance que
+    `completeTutorial`).
+  - "Réinitialiser la progression" — efface définitivement la run en
+    cours et toute la méta-progression (jalons, Glands d'Or, arbre
+    débloqué), derrière une confirmation explicite. Vide réellement le
+    stockage (`clearSaveFile`), pas seulement l'état React en mémoire —
+    vérifié par rechargement dans `tests/e2e/settings.spec.ts`.
+  - Numéro de version affiché en pied d'écran, injecté à la compilation
+    depuis `package.json` (`__APP_VERSION__` via `vite.config.ts`
+    `define` — aucun appel réseau, une simple constante remplacée au
+    build).
+- **Polish du menu principal** : bouton "Réglages" et numéro de version
+  ajoutés à `MenuScreen.tsx`.
+- `ConfirmDialog.tsx` : généralisation de l'ex-`ConfirmOverwriteDialog`
+  (même gabarit, textes/labels désormais fournis par l'appelant) — un 2ᵉ
+  site d'appel réel (réinitialisation de la progression) rendait la
+  duplication complète du composant moins défendable qu'un partage.
+- `useRunStore.resetRun()` : nouvelle action pour effacer l'état de run en
+  mémoire depuis les Réglages, sans toucher au stockage (`clearSaveFile`
+  s'en charge séparément).
+- Nouveau `tests/e2e/settings.spec.ts` (2 tests) ; `tests/e2e/tutorial.spec.ts`
+  reçoit une petite marge avant `reload()` (l'autosave est fire-and-forget
+  par conception, cf. `persistCurrentSaveFile` — un flake est apparu sous
+  forte charge parallèle une fois la suite e2e élargie, corrigé sans
+  changer le comportement de l'app). 416 tests unitaires, 19 tests e2e,
+  tous verts (suite complète rejouée 3× sans flake). Couverture maintenue
+  à 96.82 % sur `/src/engine`.
+
 ## [0.16.0] — Phase 8 (lot 1) — Tutoriel de premier combat
 
 ### Ajouté
