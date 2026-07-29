@@ -33,6 +33,7 @@ export function ShopScreen() {
             <button
               key={slot.cardId}
               type="button"
+              data-testid={`shop-buy-${slot.cardId}`}
               disabled={disabled}
               onClick={() => {
                 dispatch({ type: "ACHETER_CARTE", cardId: slot.cardId });
@@ -58,6 +59,7 @@ export function ShopScreen() {
             <div className="flex gap-1">
               <button
                 type="button"
+                data-testid={`shop-upgrade-${runCardId}`}
                 disabled={upgraded || !card.upgraded || runState.noisettes < upgradePrice}
                 onClick={() => {
                   dispatch({ type: "ACHETER_AMELIORATION", runCardId });
@@ -68,6 +70,7 @@ export function ShopScreen() {
               </button>
               <button
                 type="button"
+                data-testid={`shop-remove-${runCardId}`}
                 disabled={runState.noisettes < removePrice}
                 onClick={() => {
                   dispatch({ type: "ACHETER_SUPPRESSION", runCardId });
@@ -83,6 +86,7 @@ export function ShopScreen() {
 
       <button
         type="button"
+        data-testid="shop-leave"
         onClick={() => {
           dispatch({ type: "QUITTER_BOUTIQUE" });
         }}
