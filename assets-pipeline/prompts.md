@@ -115,7 +115,7 @@ d'implémentation séparé, à traiter une fois les images en main.
 Illustration de carte à collectionner, style semi-cartoon peint
 numériquement, cel-shading doux, contours nets mais pas de contour noir
 épais façon comics. Cadrage carré 1:1, sujet centré, lisible même en très
-petite taille (miniature de carte à jouer). Éclairage doux en contre-jour
+petite taille (miniature de carte à jouer). Le sujet est toujours positionné à gauche de l'image avec un regard vers la droite. Éclairage doux en contre-jour
 (rim light) chaud, palette automnale de forêt : vert mousse, brun
 écorce, ambre doré, orange rouille, quelques touches de vert émeraude ou
 bleu nuit selon l'effet. Fond simplement suggéré ou légèrement flouté
@@ -186,12 +186,16 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 
 ## Cartes neutres (6)
 
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Bouclier réflexe — `bouclier_reflexe` (défense, commune, coût 1)
 > Un écureuil générique (silhouette neutre, sans identité de héros
 > précise) se recroqueville derrière un petit bouclier d'écorce
 > improvisé hérissé de petites épines dorées (effet Piquants) — l'air de
 > dire "qui s'y frotte s'y pique". Pose défensive ramassée, calme et sûre
 > d'elle.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Coup de semonce — `coup_de_semonce` (attaque, légendaire, coût 2)
 > Un écureuil neutre frappe le sol ou lève les deux pattes en même temps,
@@ -200,11 +204,15 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > Étourdi). Composition large et dramatique, lumière éclatante, digne
 > d'une carte légendaire.
 
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Flair du fourré — `flair_du_fourre` (compétence, commune, coût 1)
 > Un écureuil neutre, museau levé, reniflant l'air avec attention ; deux
 > petites cartes à jouer stylisées flottent en transparence devant lui
 > comme des pistes qu'il vient de repérer. Ambiance calme, sous-bois
 > feuillu en arrière-plan flouté.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Griffure croisée — `griffure_croisee` (attaque, rare, coût 2)
 > Un écureuil neutre exécute un triple coup de griffes croisées en plein
@@ -212,17 +220,81 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > Dynamique, légèrement plus intense qu'une carte commune, sans être
 > aussi spectaculaire qu'une légendaire.
 
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Second souffle — `second_souffle` (compétence, commune, coût 1)
 > Un écureuil neutre inspire profondément, poitrine gonflée, une légère
 > aura dorée d'énergie fraîche l'entourant ; une carte à jouer flotte en
 > transparence à côté de lui. Ton apaisant, reprise de souffle après
 > l'effort.
 
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Toilettage — `toilettage` (compétence, commune, coût 1)
 > Un écureuil neutre se toilette calmement la fourrure d'une patte,
 > quelques particules dorées (soin léger) flottant autour de lui ; une
 > fissure rougeoyante (À découvert) qui s'efface doucement de son pelage.
 > Scène tranquille, presque domestique.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Chant de guerre - `chant_de_guerre` (compétence, rare, coût 1)
+> Un écureuil neutre se fait des marques de guerre sur le visage avec les doigts à la manière d'un guerrier iroquois.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Dérobade - `derobade` (attaque, rare, coût 1)
+> Un écureuil neutre est caché derrière un buisson, dague en main prêt à attaquer. Seule la tête et les pattes de l'écureuil dépassent du buisson.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Fouisseur agile - `fouisseur_agile` (defense, rare, coût 1)
+> Un écureuil neutre est sous terre et creuse comme une taupe dans un tunnel.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Griffure simple - `griffure_simple` (attaque, commune, coût 1)
+> Un écureuil neutre donne un coup de griffe en avant.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Griffure hésitante - `griffure_hesitante` (attaque, commune, coût 1)
+> Un écureuil neutre donne un coup de griffe en avant, mais son attitude montre qu'il hésiste sur son attaque : il a une position de recul, un oeil fermé et l'autre à moitié ouvert comme s'il ne voulait pas voir ce qui se passe.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Instinct de survie - `instinct_de_survie` (compétence, commune, coût 1)
+> Un écureuil neutre enterre des noisettes.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Pas assuré - `pas_assure` (defense, commune, coût 1)
+> Un écureuil neutre marche d'un pas assuré avec confiance au milieu d'une forêt menaçante.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Posture défensive - `posture_defensive` (defense, commune, coût 1)
+> Un écureuil neutre adopte une posture défensive comme un boxer en garde. Il est toutes griffes dehors.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Regard attentif - `regard_attentif` (competence, commune, coût 1)
+> Un écureuil neutre plisse les yeux et met la main sur son front pour regarder au loin très attentivement.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Rugissement de la forêt - `rugissement_foret` (attaque, légendaire, coût 2)
+> Un écureuil neutre pousse un rugissement féroce ce qui appelle tous ses amis à sortir du bois et l'accompagner dans son combat.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Soin profond - `soin_profond` (compétence, rare, coût 2)
+> Un écureuil neutre a des bandages, des pansements, un platre à la patte avant gauche. Il est entourée d'une discrète aura dorée et 4 petites croix-rouge magiques de soin flottent au dessus de lui.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Sprint - `sprint` (compétence, commune, coût 0)
+> Un écureuil pique un sprint, ses pattes arrières font comme les personnages de cartoon type le coyote et moulinent pour symboliser la vitesse de course.
 
 ---
 
@@ -280,6 +352,43 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > du kit — carte légendaire, sensation d'apothéose finale (la carte
 > s'épuise après usage).
 
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Avalanche de pierre - `avalanche_de_pierre` (attaque, légendaire, coût 3)
+> Casse-noix frappe de toutes ses forces au sol à deux pattes ce qui déclenche 
+> une avalanche de pierre vers ses adversaires. L'avalanche de pierre a une aura 
+> rouge-orangé - carte légendaire, sensation d'apothéose finale (la carte s'épuise après usage)
+> 
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Charge renversante - `charge_renversante` (attaque, commune, coût 2)
+> Casse-noix bouscule en courant ses adversaires (flous) comme dans un jeu de quilles. Son plastron a une aura bleutée magique.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Double griffe - `double_griffe` (attaque, commune, coût 1)
+> Casse-noix a ses gants autour du cou comme un boxer après un match. Il attaque avec les griffes de ses deux pattes. Un arc lumineux style métallique devant lui.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Ecorce hérissée - `ecorce_herissee` (defense, commune, coût 1)
+> Casse-noix se protège derrière un énorme bouclier fait d'un épais morceau d'écorce hérissée de piquants.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Frappe tellurique - `frappe_tellurique` (defense, commune, coût 1)
+> Casse-noix frappe violemment le sol du pied gauche, le sol se fissure devant lui.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Mur vivant - `mur_vivant` (defense, rare, coût 2)
+> Casse-noix appelle à la rescousse des centaines de petits écureuils qui forment une muraille vivante devant lui en se mélangeant.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
+### Reniflement - `reniflement` (compétence, commune, coût 0)
+> Casse-noix renifle toutes les odeurs aux alentours. Les odeurs sont représentées par une lueure rouge-orangée (force).
 ---
 
 ## Cartes signature Captain Cabriole (16)
@@ -385,10 +494,14 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > déjà autour du point d'impact. Geste précis et clinique, calme
 > assurance.
 
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Blouse renforcée — `blouse_renforcee` (défense, commune, coût 1)
 > Docteur Bogue resserre sa blouse de laborantin renforcée, bras croisés
 > devant lui en position défensive, lunettes rondes reflétant une lueur
 > calme. Posture posée, presque professorale.
+
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Diagnostic — `diagnostic` (compétence, commune, coût 1)
 > Docteur Bogue examine un adversaire flou à travers ses lunettes rondes,
@@ -396,36 +509,50 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > regard se pose, une carte flottant en transparence (pioche). Attitude
 > analytique et froide, jamais menaçante.
 
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Fiole corrosive — `fiole_corrosive` (attaque, commune, coût 1)
 > Docteur Bogue lance une petite fiole qui se brise au sol devant un
 > adversaire flou, libérant une brume verte luminescente (Sève
 > empoisonnée) qui l'enveloppe. Aucune trajectoire de dégât direct, juste
 > le nuage toxique qui s'étend.
 
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Poudre irritante — `poudre_irritante` (compétence, commune, coût 1)
 > Docteur Bogue projette une pincée de poudre jaunâtre dans les airs,
 > un adversaire flou toussant, cerné de petites étoiles jaunes tournoyantes
 > (Étourdi). Geste vif du poignet, nuage léger et volatil.
+
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Griffe empoisonnée — `griffe_empoisonnee` (attaque, commune, coût 1)
 > Docteur Bogue griffe légèrement un adversaire flou, une simple goutte
 > de liquide vert luminescent (Sève empoisonnée) perlant sur l'égratignure.
 > Geste minimal, presque anodin en apparence.
 
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Bogue piquante — `bogue_piquante` (défense, commune, coût 1)
 > Docteur Bogue brandit une bogue de châtaigne hérissée devant lui comme
 > un petit bouclier improvisé, quelques piquants dorés (Piquants)
 > scintillant à sa surface. Posture défensive mais espiègle.
+
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Remède de fortune — `remede_de_fortune` (compétence, commune, coût 1)
 > Docteur Bogue prépare un remède de fortune dans une petite fiole
 > bricolée, une douce lueur dorée de soin l'enveloppant lui-même en la
 > buvant. Ambiance chaleureuse malgré le décor de laboratoire de fortune.
 
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Analyse clinique — `analyse_clinique` (compétence, commune, coût 0)
 > Docteur Bogue jette un rapide coup d'œil par-dessus ses lunettes, une
 > carte à jouer flottant en transparence à côté de lui (pioche). Geste
 > minimal et instantané, à l'image du coût nul de la carte.
+
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Esprit calculateur — `esprit_calculateur` (pouvoir, rare, coût 1)
 > Docteur Bogue, l'air pensif, entouré d'une aura rouge-orangé (Force)
@@ -433,11 +560,15 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > était déjà calculée. Pose de pouvoir permanent, posée et réfléchie,
 > un peu plus travaillée qu'une carte commune.
 
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Poison concentré — `poison_concentre` (compétence, rare, coût 1)
 > Docteur Bogue verse une fiole dans une autre, la brume verte
 > luminescente (Sève empoisonnée) qui enveloppait déjà un adversaire flou
 > redoublant d'intensité (effet "doubleStatus"). Plus intense visuellement
 > qu'une carte commune.
+
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Dérivatif — `derivatif` (compétence, rare, coût 1)
 > Docteur Bogue détourne l'attention d'un geste de la patte pendant
@@ -446,16 +577,22 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > ne regarde pas dans la bonne direction. Composition en deux temps
 > suggérée dans une seule image.
 
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Piège à bogues — `piege_a_bogues` (compétence, rare, coût 1)
 > Docteur Bogue referme un piège fait de bogues de châtaigne autour d'un
 > adversaire flou, étoiles jaunes tournoyantes (Étourdi) et brume verte
 > luminescente (Sève empoisonnée) l'enveloppant tous les deux à la fois.
 > Plus élaboré qu'une carte commune, sans être une légendaire.
 
+Maintenant on génère les illustrations pour les cartes du jeu. A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Bogue explosive — `bogue_explosive` (attaque, rare, coût 2)
 > Docteur Bogue lance une bogue de châtaigne qui explose au contact d'un
 > adversaire flou, éclat net entouré d'une brume verte luminescente
 > dense (Sève empoisonnée). Impact plus marqué qu'une attaque commune.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Overdose — `overdose` (attaque, légendaire, coût 2)
 > Docteur Bogue injecte une dose finale à un adversaire flou déjà
@@ -464,6 +601,8 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 > laisser tomber la fiole vide (la carte s'épuise après usage). Ambiance
 > plus dramatique et saturée de vert qu'une carte commune ou rare —
 > carte légendaire.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir de l'image de Docteur Bogue, le personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Chimie du chaos — `chimie_du_chaos` (attaque, légendaire, coût 2)
 > Docteur Bogue renverse un chaudron de fortune, une vague de brume verte
@@ -475,21 +614,29 @@ petites lunettes de fouisseur, posture de creusement/filature, un œil
 
 ## Cartes signature des familiers (4)
 
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir du personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Radar de mésange — `radar_visuel` (Mésange Radar, compétence, commune, coût 1)
 > Mésange Radar, tête inclinée et attentive, une carte à jouer flottant
 > en transparence juste devant son bec comme si elle venait de la
 > repérer avant tout le monde. Petite scène vive et alerte, échelle
 > "commune".
 
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir du personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Boule défensive — `boule_defensive` (Hérisson Kevlar, défense, commune, coût 1)
 > Hérisson Kevlar roulé en boule compacte, piquants renforcés hérissés
 > vers l'extérieur, gilet matelassé rapiécé à peine visible entre les
 > piquants. Posture immobile et solide, rien ne passe.
 
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir du personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
+
 ### Piqué furieux — `pique_furieux` (Bourdon Bourru, attaque, commune, coût 1)
 > Bourdon Bourru fond en piqué sur un adversaire flou, dard arrière
 > luisant d'une pointe d'énergie au moment de l'impact, expression
 > renfrognée et concentrée. Un seul coup net, pas de fioritures.
+
+Maintenant on génère les illustrations pour les cartes du jeu. Toujours un Cadrage carré 1:1, sujet centré, lisible même en très petite taille (miniature de carte à jouer). A partir du personnage ci-joint. Dans l'image générée, le personnage sera à gauche de l'image et regarde vers la droite. Adapte la posture du personnage pour répondre parfaitement au prompt. Génère uniquement l'illustration de la carte, pas de cadre.
 
 ### Galerie souterraine — `galerie_souterraine` (Taupe Secrète, compétence, commune, coût 1)
 > Taupe Secrète émerge à moitié d'une petite galerie creusée dans la
